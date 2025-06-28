@@ -12,6 +12,8 @@
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
+publish/
+desktop.ini
 
 # Mono auto generated files
 mono_crash.*
@@ -32,7 +34,6 @@ bld/
 [Oo]ut/
 [Ll]og/
 [Ll]ogs/
-publish/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
