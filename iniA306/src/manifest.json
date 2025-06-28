@@ -57,7 +57,7 @@
 		{
 			"Key": "Generic.Option.Aircraft.RefuelStair",
 			"Type": 1,
-			"DefaultValue": true
+			"DefaultValue": false
 		},
 		{
 			"Key": "Generic.Var.Engine1.Name",
