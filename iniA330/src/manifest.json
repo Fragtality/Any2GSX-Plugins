@@ -1,0 +1,187 @@
+{
+	"Id": "INI.A330",
+	"Type": 1,
+	"StartMode": 1,
+	"Filename": "INI.A330.lua",
+	"ChannelFile": "INI.A330.json",
+	"AircraftProfileEntries": [
+		"microsoft-a330"
+	],
+	"Aircraft": "Microsoft/iniBuilds A330 (All Variants)",
+	"Author": "Fragtality",
+	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
+	"VersionPlugin": "0.1.0",
+	"VersionApp": "0.1.0",
+	"Capabilities": {
+		"HasFobSaveRestore": true,
+		"FuelSync": 8,
+		"CanSetPayload": true,
+		"PayloadSync": 8,
+		"DoorHandling": 12,
+		"GroundEquipmentHandling": 2,
+		"HasSmartButton": true,
+		"VolumeControl": true
+	},
+	"Settings": [
+		{
+			"Key": "INI.330.Option.Chocks.RemoveStartup",
+			"Type": 1,
+			"DefaultValue": true,
+			"Description": "Remove Chocks on Session Start before Walkaround Skip"
+		},
+		{
+			"Key": "INI.330.Option.Chocks.RemovePush",
+			"Type": 1,
+			"DefaultValue": false,
+			"Description": "Remove Chocks during Pushback (toggles Walkaround Mode!)"
+		},
+		{
+			"Key": "INI.330.Option.Chocks.PlaceArrival",
+			"Type": 1,
+			"DefaultValue": false,
+			"Description": "Place Chocks on Arrival (toggles Walkaround Mode!)"
+		},
+		{
+			"Key": "Generic.Option.Aircraft.RefuelStair",
+			"Type": 1,
+			"DefaultValue": true
+		},
+		{
+			"Key": "Generic.Var.Engine1.Name",
+			"Type": 4,
+			"DefaultValue": "ENG COMBUSTION:1"
+		},
+		{
+			"Key": "Generic.Var.Engine1.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.Engine2.Name",
+			"Type": 4,
+			"DefaultValue": "ENG COMBUSTION:2"
+		},
+		{
+			"Key": "Generic.Var.Engine2.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.PowerAvionic.Name",
+			"Type": 4,
+			"DefaultValue": "ELECTRICAL MAIN BUS VOLTAGE"
+		},
+		{
+			"Key": "Generic.Var.PowerAvionic.Unit",
+			"Type": 4,
+			"DefaultValue": "volts"
+		},
+		{
+			"Key": "Generic.Var.ExtConn.Name",
+			"Type": 4,
+			"DefaultValue": "EXTERNAL POWER ON"
+		},
+		{
+			"Key": "Generic.Var.ExtConn.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.ApuRunning.Name",
+			"Type": 4,
+			"DefaultValue": "APU GENERATOR ACTIVE:1"
+		},
+		{
+			"Key": "Generic.Var.ApuRunning.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.ApuBleedOn.Name",
+			"Type": 4,
+			"DefaultValue": "BLEED AIR APU"
+		},
+		{
+			"Key": "Generic.Var.ApuBleedOn.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.LightBeacon.Name",
+			"Type": 4,
+			"DefaultValue": "LIGHT BEACON ON"
+		},
+		{
+			"Key": "Generic.Var.LightBeacon.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.LightNav.Name",
+			"Type": 4,
+			"DefaultValue": "LIGHT NAV ON"
+		},
+		{
+			"Key": "Generic.Var.LightNav.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.ParkBrake.Name",
+			"Type": 4,
+			"DefaultValue": "BRAKE PARKING POSITION"
+		},
+		{
+			"Key": "Generic.Var.ParkBrake.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		}
+	],
+		"HideGenericSettings": [
+		"Generic.Option.Aircraft.IsCargo",
+		"Generic.Var.ExtAvail.Name",
+		"Generic.Var.ExtAvail.Unit",
+		"Generic.Var.DepartTrigger.Name",
+		"Generic.Var.DepartTrigger.Unit",
+		"Generic.Var.DepartTrigger.Comp",
+		"Generic.Var.DepartTrigger.Value"
+	],
+	"InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Show MSFS Fuel and Cargo during Refueling' checked!\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing (Init Request) the Flightplan into the MCDU\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request\r\n• Chocks and Engine/Pitot Covers will automatically be removed on Session Start, but are not further handled per Default\r\n• Chocks can also be configured to be removed/placed during Pushback and Arrival, but that requires an automatic Switch to the Walkaround Mode (requires default Binding)",
+	"PluginDefaultProfile": {
+		"PluginId": "INI.A330",
+		"ChannelFileId": "INI.A330",
+		"MatchType": 4,
+		"MatchString": "microsoft-a330",
+		"RunAutomationService": true,
+		"RunAudioService": true,
+		"DelayCallRefuelAfterStair": 35,
+		"AudioMappings": [
+			{
+			"Channel": "CPT.VHF1",
+			"Device": "",
+			"Binary": "vPilot",
+			"UseLatch": false
+			},
+			{
+			"Channel": "CPT.INT",
+			"Device": "",
+			"Binary": "Couatl64_MSFS2024",
+			"UseLatch": true
+			},
+			{
+			"Channel": "CPT.INT",
+			"Device": "",
+			"Binary": "Couatl64_MSFS",
+			"UseLatch": true
+			}
+      	],
+		"AudioStartupVolumes": {
+			"CPT.VHF1": 100,
+			"CPT.INT": 100
+		},
+		"AudioStartupUnmute": {
+			"CPT.VHF1": true,
+			"CPT.INT": true
+		}
+	}
+}

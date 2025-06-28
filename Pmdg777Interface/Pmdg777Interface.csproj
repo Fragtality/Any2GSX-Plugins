@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>annotations</Nullable>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CFIT.AppFramework" Version="2025.179.23.2831" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.FlightSimulator.SimConnect">
+      <HintPath>Microsoft.FlightSimulator.SimConnect.dll</HintPath>
+    </Reference>
+    <Reference Include="PluginInterface">
+      <HintPath>..\dist\sdk\PluginInterface.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="manifest.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="pwsh -ExecutionPolicy Unrestricted -file &quot;$(ProjectDir)CopyToApp.ps1&quot; $(Configuration) $(SolutionDir) $(ProjectDir) &quot;Any2GSX&quot;&#xD;&#xA;pwsh -ExecutionPolicy Unrestricted -file &quot;$(ProjectDir)CopyOutput.ps1&quot; $(Configuration) $(SolutionDir) $(ProjectDir) &quot;Any2GSX&quot;&#xD;&#xA;pwsh -ExecutionPolicy Unrestricted -file &quot;$(SolutionDir)PackagePluginToDist.ps1&quot; $(Configuration) $(SolutionDir) $(ProjectDir) &quot;PMDG.B777&quot;" />
+  </Target>
+
+</Project>

@@ -1,0 +1,138 @@
+{
+	"Id": "INI.A350",
+	"Type": 1,
+	"StartMode": 1,
+	"Filename": "INI.A350.lua",
+	"ChannelFile": "INI.A350.json",
+	"AircraftProfileEntries": [
+		"a350",
+		"inibuilds-aircraft-a350-900"
+	],
+	"Aircraft": "iniBuilds A350 (All Variants)",
+	"Author": "Fragtality",
+	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
+	"VersionPlugin": "0.1.0",
+	"VersionApp": "0.1.0",
+	"Capabilities": {
+		"HasFobSaveRestore": true,
+		"FuelSync": 8,
+		"CanSetPayload": true,
+		"PayloadSync": 8,
+		"DoorHandling": 12,
+		"GroundEquipmentHandling": 54,
+		"HasSmartButton": true,
+		"VolumeControl": true
+	},
+	"Settings": [
+		{
+			"Key": "INI.350.Option.Covers.RemoveStartup",
+			"Type": 1,
+			"DefaultValue": true,
+			"Description": "Remove Covers on Session Start before Walkaround Skip"
+		},
+		{
+			"Key": "Generic.Var.Engine1.Name",
+			"Type": 4,
+			"DefaultValue": "ENG COMBUSTION:1"
+		},
+		{
+			"Key": "Generic.Var.Engine1.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.Engine2.Name",
+			"Type": 4,
+			"DefaultValue": "ENG COMBUSTION:2"
+		},
+		{
+			"Key": "Generic.Var.Engine2.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.LightBeacon.Name",
+			"Type": 4,
+			"DefaultValue": "LIGHT BEACON ON"
+		},
+		{
+			"Key": "Generic.Var.LightBeacon.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.LightNav.Name",
+			"Type": 4,
+			"DefaultValue": "LIGHT NAV ON"
+		},
+		{
+			"Key": "Generic.Var.LightNav.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.ParkBrake.Name",
+			"Type": 4,
+			"DefaultValue": "BRAKE PARKING POSITION"
+		},
+		{
+			"Key": "Generic.Var.ParkBrake.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		}
+	],
+		"HideGenericSettings": [
+		"Generic.Option.Aircraft.IsCargo",
+		"Generic.Var.PowerAvionic.Name",
+		"Generic.Var.PowerAvionic.Unit",
+		"Generic.Var.ExtAvail.Name",
+		"Generic.Var.ExtAvail.Unit",
+		"Generic.Var.ExtConn.Name",
+		"Generic.Var.ExtConn.Unit",
+		"Generic.Var.ApuRunning.Name",
+		"Generic.Var.ApuRunning.Unit",
+		"Generic.Var.ApuBleedOn.Name",
+		"Generic.Var.ApuBleedOn.Unit",
+		"Generic.Var.DepartTrigger.Name",
+		"Generic.Var.DepartTrigger.Unit",
+		"Generic.Var.DepartTrigger.Comp",
+		"Generic.Var.DepartTrigger.Value"
+	],
+	"InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Show MSFS Fuel and Cargo during Refueling' checked!\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing (FPLAN REQUEST) the Flightplan into the MCDU\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
+	"PluginDefaultProfile": {
+		"PluginId": "INI.A350",
+		"ChannelFileId": "INI.A350",
+		"MatchType": 4,
+		"MatchString": "a350",
+		"RunAutomationService": true,
+		"RunAudioService": true,
+		"AudioMappings": [
+			{
+			"Channel": "CPT.VHF1",
+			"Device": "",
+			"Binary": "vPilot",
+			"UseLatch": false
+			},
+			{
+			"Channel": "CPT.INT",
+			"Device": "",
+			"Binary": "Couatl64_MSFS2024",
+			"UseLatch": true
+			},
+			{
+			"Channel": "CPT.INT",
+			"Device": "",
+			"Binary": "Couatl64_MSFS",
+			"UseLatch": true
+			}
+      	],
+		"AudioStartupVolumes": {
+			"CPT.VHF1": 100,
+			"CPT.INT": 100
+		},
+		"AudioStartupUnmute": {
+			"CPT.VHF1": true,
+			"CPT.INT": true
+		}
+	}
+}

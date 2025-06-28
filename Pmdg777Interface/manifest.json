@@ -1,0 +1,96 @@
+{
+	"Id": "PMDG.B777",
+	"Type": 0,
+	"StartMode": 0,
+	"Filename": "Pmdg777Interface.dll",
+	"Aircraft": "PMDG B777 (All Variants)",
+	"Author": "Fragtality",
+	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
+	"VersionPlugin": "0.1.0",
+	"VersionApp": "0.1.0",
+	"Capabilities": {
+		"HasFobSaveRestore": true,
+		"FuelSync": 8,
+		"CanSetPayload": true,
+		"PayloadSync": 8,
+		"DoorHandling": 10,
+		"GroundEquipmentHandling": 38,
+		"HasSmartButton": true,
+		"VolumeControl": false
+	},
+	"Settings": [
+		{
+			"Key": "PMDG.777.Option.ClearVehicles",
+			"Type": 1,
+			"DefaultValue": true,
+			"Description": "Automatically remove all PMDG Vehicles as they appear"
+		},
+		{
+			"Key": "PMDG.777.Option.ChangePowerType",
+			"Type": 1,
+			"DefaultValue": true,
+			"Description": "Automatically change Power Plug Type between GPU and Jetway"
+		},
+		{
+			"Key": "PMDG.777.Option.CargoLights",
+			"Type": 1,
+			"DefaultValue": true,
+			"Description": "Automatically toggle the Cargo Lights on the 777F"
+		},
+		{
+			"Key": "Generic.Option.Aircraft.RefuelStair",
+			"Type": 1,
+			"DefaultValue": true
+		},
+		{
+			"Key": "Generic.Var.Engine1.Name",
+			"Type": 4,
+			"DefaultValue": "ENG COMBUSTION:1"
+		},
+		{
+			"Key": "Generic.Var.Engine1.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.Engine2.Name",
+			"Type": 4,
+			"DefaultValue": "ENG COMBUSTION:2"
+		},
+		{
+			"Key": "Generic.Var.Engine2.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		}
+	],
+	"HideGenericSettings": [
+		"Generic.Option.Aircraft.IsCargo",
+		"Generic.Var.PowerAvionic.Name",
+		"Generic.Var.PowerAvionic.Unit",
+		"Generic.Var.ExtAvail.Name",
+		"Generic.Var.ExtAvail.Unit",
+		"Generic.Var.ExtConn.Name",
+		"Generic.Var.ExtConn.Unit",
+		"Generic.Var.ApuRunning.Name",
+		"Generic.Var.ApuRunning.Unit",
+		"Generic.Var.ApuBleedOn.Name",
+		"Generic.Var.ApuBleedOn.Unit",
+		"Generic.Var.LightNav.Name",
+		"Generic.Var.LightNav.Unit",
+		"Generic.Var.LightBeacon.Name",
+		"Generic.Var.LightBeacon.Unit",
+		"Generic.Var.ParkBrake.Name",
+		"Generic.Var.ParkBrake.Unit",
+		"Generic.Var.DepartTrigger.Name",
+		"Generic.Var.DepartTrigger.Unit",
+		"Generic.Var.DepartTrigger.Comp",
+		"Generic.Var.DepartTrigger.Value"
+	],
+	"InstallUsageNotes": "IMPORTANT: DataBroadcast needs to be enabled in the 777_Options.ini File (for each Variant and Simulator)!\r\nConsult the PMDG_777_MSFS_SDK Manual in the Aircraft's Documentation\\SDK Folder.\r\n\r\nRECOMMENDED: The internal/GSX provided Aircraft Profiles can be more accurate than the PMDG provided Profiles.\r\nYou eventually need to delete the gsx.cfg File in the SimObjects\\Airplanes\\PMDG 777... Folder.\r\n\r\nNOTAMs:\r\n• The Departure Services will start when the Flightplan is imported in the UFT\r\n• The SmartButton is mapped to the MIC/INT Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
+	"PluginDefaultProfile": {
+		"PluginId": "PMDG.B777",
+		"MatchType": 4,
+		"MatchString": "PMDG 777",
+		"RunAutomationService": true
+	}
+}

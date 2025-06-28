@@ -1,0 +1,184 @@
+{
+	"Id": "INI.A306",
+	"Type": 1,
+	"StartMode": 0,
+	"Filename": "INI.A306.lua",
+	"ChannelFile": "INI.A306.json",
+	"AircraftProfileEntries": [
+		"a300-600",
+		"inibuilds-aircraft-a306f",
+		"inibuilds-aircraft-a306f-pw",
+		"inibuilds-aircraft-a306r",
+		"inibuilds-aircraft-a306r-pw"
+	],
+	"Aircraft": "iniBuilds A300-600 (All Variants)",
+	"Author": "Fragtality",
+	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
+	"VersionPlugin": "0.1.0",
+	"VersionApp": "0.1.0",
+	"Capabilities": {
+		"HasFobSaveRestore": true,
+		"FuelSync": 8,
+		"CanSetPayload": true,
+		"PayloadSync": 8,
+		"DoorHandling": 12,
+		"GroundEquipmentHandling": 22,
+		"HasSmartButton": true,
+		"VolumeControl": true
+	},
+	"Settings": [
+		{
+			"Key": "INI.306.Option.CargoModel",
+			"Type": 5,
+			"DefaultValue": 0,
+			"EnumValues": {
+				"-1": "Nothing",
+				"0": "Normal",
+				"1": "Postal",
+				"2": "Humanitarian",
+				"3": "Aeroparts",
+				"4": "Racing",
+				"5": "Horses"
+			},
+			"Description": "The visual Cargo/Freight Model to set on the Freighter"
+		},
+		{
+			"Key": "INI.306.Option.CargoSetValue",
+			"Type": 2,
+			"DefaultValue": 50,
+			"Description": "The Cargo Percentage at which the Model gets set at Boarding"
+		},
+		{
+			"Key": "INI.306.Option.CargoUnsetValue",
+			"Type": 2,
+			"DefaultValue": 50,
+			"Description": "The Cargo Percentage at which the Model gets unset at Deboarding"
+		},
+		{
+			"Key": "Generic.Option.Aircraft.RefuelStair",
+			"Type": 1,
+			"DefaultValue": true
+		},
+		{
+			"Key": "Generic.Var.Engine1.Name",
+			"Type": 4,
+			"DefaultValue": "ENG COMBUSTION:1"
+		},
+		{
+			"Key": "Generic.Var.Engine1.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.Engine2.Name",
+			"Type": 4,
+			"DefaultValue": "ENG COMBUSTION:2"
+		},
+		{
+			"Key": "Generic.Var.Engine2.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.ApuRunning.Name",
+			"Type": 4,
+			"DefaultValue": "APU GENERATOR ACTIVE:1"
+		},
+		{
+			"Key": "Generic.Var.ApuRunning.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.ApuBleedOn.Name",
+			"Type": 4,
+			"DefaultValue": "BLEED AIR APU"
+		},
+		{
+			"Key": "Generic.Var.ApuBleedOn.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.LightBeacon.Name",
+			"Type": 4,
+			"DefaultValue": "LIGHT BEACON ON"
+		},
+		{
+			"Key": "Generic.Var.LightBeacon.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.LightNav.Name",
+			"Type": 4,
+			"DefaultValue": "LIGHT NAV ON"
+		},
+		{
+			"Key": "Generic.Var.LightNav.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.ParkBrake.Name",
+			"Type": 4,
+			"DefaultValue": "BRAKE PARKING POSITION"
+		},
+		{
+			"Key": "Generic.Var.ParkBrake.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		}
+	],
+	"HideGenericSettings": [
+		"Generic.Option.Aircraft.IsCargo",
+		"Generic.Var.PowerAvionic.Name",
+		"Generic.Var.PowerAvionic.Unit",
+		"Generic.Var.ExtAvail.Name",
+		"Generic.Var.ExtAvail.Unit",
+		"Generic.Var.ExtConn.Name",
+		"Generic.Var.ExtConn.Unit",
+		"Generic.Var.DepartTrigger.Name",
+		"Generic.Var.DepartTrigger.Unit",
+		"Generic.Var.DepartTrigger.Comp",
+		"Generic.Var.DepartTrigger.Value"
+	],
+	"InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Show MSFS Fuel and Cargo during Refueling' checked!\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing the Flightplan into the MCDU via ACARS\r\n• The SmartButton is mapped to the Voice Ident Switch on the ACP (Captain and FO) - move to Ident Position to trigger a Request",
+	"PluginDefaultProfile": {
+		"PluginId": "INI.A306",
+		"ChannelFileId": "INI.A306",
+		"MatchType": 4,
+		"MatchString": "inibuilds-aircraft-a306|A300-600",
+		"RunAutomationService": true,
+		"RunAudioService": true,
+		"ClearGroundEquipOnBeacon": false,
+		"AudioMappings": [
+			{
+			"Channel": "CPT.VHF1",
+			"Device": "",
+			"Binary": "vPilot",
+			"UseLatch": false
+			},
+			{
+			"Channel": "CPT.INT",
+			"Device": "",
+			"Binary": "Couatl64_MSFS2024",
+			"UseLatch": true
+			},
+			{
+			"Channel": "CPT.INT",
+			"Device": "",
+			"Binary": "Couatl64_MSFS",
+			"UseLatch": true
+			}
+      	],
+		"AudioStartupVolumes": {
+			"CPT.VHF1": 100,
+			"CPT.INT": 100
+		},
+		"AudioStartupUnmute": {
+			"CPT.VHF1": true,
+			"CPT.INT": true
+		}
+	}
+}
