@@ -82,22 +82,22 @@
 		{
 			"Key": "Generic.Var.ApuRunning.Name",
 			"Type": 4,
-			"DefaultValue": "APU GENERATOR ACTIVE:1"
+			"DefaultValue": "L:INI_apu_available"
 		},
 		{
 			"Key": "Generic.Var.ApuRunning.Unit",
 			"Type": 4,
-			"DefaultValue": "Bool"
+			"DefaultValue": "Number"
 		},
 		{
 			"Key": "Generic.Var.ApuBleedOn.Name",
 			"Type": 4,
-			"DefaultValue": "BLEED AIR APU"
+			"DefaultValue": "L:INI_apu_bleed"
 		},
 		{
 			"Key": "Generic.Var.ApuBleedOn.Unit",
 			"Type": 4,
-			"DefaultValue": "Bool"
+			"DefaultValue": "Number"
 		},
 		{
 			"Key": "Generic.Var.LightBeacon.Name",

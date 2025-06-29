@@ -6,7 +6,9 @@
 	"ChannelFile": "INI.A350.json",
 	"AircraftProfileEntries": [
 		"a350",
-		"inibuilds-aircraft-a350-900"
+		"inibuilds-aircraft-a350-900",
+		"inibuilds-aircraft-a350-900-ulr",
+		"inibuilds-aircraft-a350-1000"
 	],
 	"Aircraft": "iniBuilds A350 (All Variants)",
 	"Author": "Fragtality",
@@ -81,7 +83,7 @@
 			"DefaultValue": "Bool"
 		}
 	],
-		"HideGenericSettings": [
+	"HideGenericSettings": [
 		"Generic.Option.Aircraft.IsCargo",
 		"Generic.Var.PowerAvionic.Name",
 		"Generic.Var.PowerAvionic.Unit",
@@ -98,7 +100,7 @@
 		"Generic.Var.DepartTrigger.Comp",
 		"Generic.Var.DepartTrigger.Value"
 	],
-	"InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Show MSFS Fuel and Cargo during Refueling' checked!\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing (FPLAN REQUEST) the Flightplan into the MCDU\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
+	"InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Show MSFS Fuel and Cargo during Refueling' checked!\r\nThe L2 Door either needs to be set as Standard Door #3 or as No Door\r\nThe L4 Door needs to be set as Custom Door with the following Check: '(A:INTERACTIVE POINT OPEN:9,percent over 100) 0.5 >'\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing (FPLAN REQUEST) the Flightplan into the MCDU\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
 	"PluginDefaultProfile": {
 		"PluginId": "INI.A350",
 		"ChannelFileId": "INI.A350",
