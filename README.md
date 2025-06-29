@@ -1,7 +1,7 @@
 # Any2GSX-Plugins
 
 Plugin Repository for [Any2GSX](https://github.com/Fragtality/Any2GSX) containing Aircraft Plugins, Channel Files and preconfigured Profiles.
-
+<br/><br/>
 
 ## 1 - Installing Plugins / Channels / Profiles
 
