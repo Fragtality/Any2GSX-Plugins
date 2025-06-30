@@ -422,7 +422,7 @@ namespace Pmdg777Interface
 
         protected override Task<bool> GetAvionicPowered()
         {
-            return Task.FromResult(SimStore[PmdgConstants.VarAircraftPowered]?.GetNumber() > 0);
+            return Task.FromResult<bool>((bool)(SimStore[PmdgConstants.VarAircraftPowered]?.GetNumber() > 0 || GetApuRunning().Result));
         }
 
         protected override Task<bool> GetExternalPowerAvailable()
