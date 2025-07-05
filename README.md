@@ -40,7 +40,7 @@ Use the Plugin View ('Available from GitHub') of the Any2GSX App to install Stuf
 | Fenix A320 Native | Fragtality | Profile to enhance Fenix native Integration (so use the EFB to load via GSX!) and Volume Control without Fenix2GSX |
 | Fenix A320 PilotsDeck | Fragtality | Profile only enabling PilotsDeck Integration - to be used together with Fenix2GSX |
 | FlyByWire A32NX | Fragtality | Profile enabling GSX Automation & Volume Control for the A320. Fuel, Payload and Equipment is perfectly handled by the Aircraft itself! (All other Aircraft Developers: Do *THAT* first, then build the Automation on Top) |
-| FlyByWire A380X | Fragtality | Profile enabling GSX Automation & Volume Control for the A320. Fuel, Payload and Equipment is perfectly handled by the Aircraft itself! (All other Aircraft Developers: Do *THAT* first, then build the Automation on Top) |
+| FlyByWire A380X | Fragtality | Profile enabling GSX Automation & Volume Control for the A380. Fuel, Payload and Equipment is perfectly handled by the Aircraft itself! (All other Aircraft Developers: Do *THAT* first, then build the Automation on Top) |
 
 <br/><br/>
 
