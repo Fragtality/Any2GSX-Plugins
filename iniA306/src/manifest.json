@@ -14,8 +14,8 @@
 	"Aircraft": "iniBuilds A300-600 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.1.0",
-	"VersionApp": "0.1.0",
+	"VersionPlugin": "0.1.1",
+	"VersionApp": "0.1.1",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
 		"FuelSync": 8,
@@ -147,8 +147,13 @@
 	"PluginDefaultProfile": {
 		"PluginId": "INI.A306",
 		"ChannelFileId": "INI.A306",
-		"MatchType": 4,
-		"MatchString": "inibuilds-aircraft-a306|A300-600",
+        "ProfileMatches": [
+			{
+			"MatchData": 4,
+			"MatchOperation": 3,
+			"MatchString": "inibuilds-aircraft-a306|A300-600"
+			}
+		],
 		"RunAutomationService": true,
 		"RunAudioService": true,
 		"ClearGroundEquipOnBeacon": false,

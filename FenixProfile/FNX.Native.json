@@ -1,18 +1,27 @@
 {
 	"Name": "Fenix Native",
 	"PluginId": "generic",
-	"MatchType": 4,
-	"MatchString": "FNX_3",
+	"ChannelFileId": "FNX.A320",
+	"IsReadOnly": false,
+	"ProfileMatches": [
+		{
+			"MatchData": 4,
+			"MatchOperation": 3,
+			"MatchString": "FNX_3"
+		}
+	],
 	"PilotsDeckIntegration": false,
 	"FuelRoundUp100": false,
 	"RandomizePax": false,
 	"RandomizePaxMaxDiff": 5,
+	"DelayTurnAroundSeconds": 90,
+	"DelayTurnRecheckSeconds": 30,
 	"PluginSettings": {
 		"Generic.Var.SmartButton.Name": "L:S_ASP_INTRAD",
 		"Generic.Var.SmartButton.Unit": "number",
 		"Generic.Var.SmartButton.Comp": 4,
 		"Generic.Var.SmartButton.Value": 0,
-		"Generic.Var.SmartButton.Reset": "1 (\u003EL:S_ASP_INTRAD)",
+		"Generic.Var.SmartButton.Reset": "1 (>L:S_ASP_INTRAD)",
 		"Generic.Var.DepartTrigger.Name": "",
 		"Generic.Var.DepartTrigger.Unit": "number",
 		"Generic.Var.DepartTrigger.Comp": 5,
@@ -66,6 +75,7 @@
 	"RemoveJetwayStairsOnFinal": false,
 	"FuelSaveLoadFob": false,
 	"RefuelResetDeltaKg": 2500,
+	"FuelResetBaseKg": 2500,
 	"RefuelRateKgSec": 28,
 	"RefuelFinishOnHose": false,
 	"UseRefuelTimeTarget": false,
@@ -122,7 +132,6 @@
 		}
 	},
 	"RunAudioService": true,
-	"ChannelFileId": "FNX.A320",
 	"AudioMappings": [
 		{
 			"Channel": "CPT.INT",

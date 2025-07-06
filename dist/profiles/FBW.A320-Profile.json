@@ -1,8 +1,14 @@
 {
 	"Name": "FBW.A320",
 	"PluginId": "generic",
-	"MatchType": 4,
-	"MatchString": "flybywire_a320",
+	"IsReadOnly": false,
+	"ProfileMatches": [
+		{
+		  "MatchData": 4,
+		  "MatchOperation": 3,
+		  "MatchString": "flybywire_a320"
+		}
+	],
 	"PilotsDeckIntegration": false,
 	"FuelRoundUp100": true,
 	"RandomizePax": false,
