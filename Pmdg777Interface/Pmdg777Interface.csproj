@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CFIT.AppFramework" Version="2025.201.17.1752" />
+    <PackageReference Include="CFIT.AppFramework" Version="2025.207.19.1189" />
   </ItemGroup>
 
   <ItemGroup>
