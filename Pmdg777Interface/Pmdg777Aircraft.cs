@@ -118,51 +118,27 @@ namespace Pmdg777Interface
             await CommBus.UnregisterCommBus("PlaneToTablet", BroadcastFlag.JS, EfbManager.OnCommBusEvent);
         }
 
+        protected virtual async Task SetGsxAutomationVar(ISimResourceSubscription variable, int value = 0)
+        {
+            Logger.Debug($"Disabling GSX Automation ({variable.Name})");
+            await variable.WriteValue(value);
+        }
+
         public override async Task OnCouatlStarted()
         {
-            var variable = SimStore[PmdgConstants.VarGsxAutoEquip];
-            if (variable.GetNumber() != 0)
-            {
-                Logger.Debug($"Disabling GSX Automation ({variable.Name})");
-                await variable.WriteValue(0);
-            }
+            await SetGsxAutomationVar(SimStore[PmdgConstants.VarGsxAutoEquip]);
 
-            variable = SimStore[PmdgConstants.VarGsxAutoDoors];
-            if (variable.GetNumber() != 0)
-            {
-                Logger.Debug($"Disabling GSX Automation ({variable.Name})");
-                await variable.WriteValue(0);
-            }
+            await SetGsxAutomationVar(SimStore[PmdgConstants.VarGsxAutoDoors]);
 
             if (HasEfbWeightBalance())
             {
-                variable = SimStore[PmdgConstants.VarGsxAutoFuel];
-                if (variable.GetNumber() != 0)
-                {
-                    Logger.Debug($"Disabling GSX Automation ({variable.Name})");
-                    await variable.WriteValue(0);
-                }
+                await SetGsxAutomationVar(SimStore[PmdgConstants.VarGsxAutoFuel]);
 
-                variable = SimStore[PmdgConstants.VarGsxAutoPayload];
-                if (variable.GetNumber() != 0)
-                {
-                    Logger.Debug($"Disabling GSX Automation ({variable.Name})");
-                    await variable.WriteValue(0);
-                }
+                await SetGsxAutomationVar(SimStore[PmdgConstants.VarGsxAutoPayload]);
 
-                variable = SimStore[PmdgConstants.VarGsxReadProgFuel];
-                if (variable.GetNumber() > 0)
-                {
-                    Logger.Debug($"Resetting GSX Setting {PmdgConstants.VarGsxSetProgFuel}");
-                    await SimStore[PmdgConstants.VarGsxSetProgFuel].WriteValue(-1);
-                }
+                await SetGsxAutomationVar(SimStore[PmdgConstants.VarGsxSetProgFuel], -1);
 
-                variable = SimStore[PmdgConstants.VarGsxReadCustFuel];
-                if (variable.GetNumber() > 0)
-                {
-                    Logger.Debug($"Resetting GSX Setting {PmdgConstants.VarGsxSetCustFuel}");
-                    await SimStore[PmdgConstants.VarGsxSetCustFuel].WriteValue(-1);
-                }
+                await SetGsxAutomationVar(SimStore[PmdgConstants.VarGsxSetCustFuel], -1);
             }
         }
 
@@ -302,6 +278,7 @@ namespace Pmdg777Interface
             }
             if (state == AutomationState.Departure || state == AutomationState.Arrival)
             {
+                await OnCouatlStarted();
                 ApplyCrewToCargo = false;
                 await DoorDisarmAll();
             }
