@@ -11,12 +11,26 @@ Use the Plugin View ('Available from GitHub') of the Any2GSX App to install Stuf
 
 ## 2 - Available Aircraft Plugins
 
+### 2.1 - Plugins
+
 | Aircraft | Author | Description |
 | :-------------- | :---------: | :----------- |
 | iniBuilds A300-600 | Fragtality | Complete & progressive Fuel, Payload and Equipment Sync. Can control the Main Cargo Door & Lights and the visual Cargo Model on the Freighter. |
 | iniBuilds A330 | Fragtality | Complete & progressive Fuel & Payload Sync. Limited Equipment Sync. Door-Sync fixing L1/L2 and L4 randomly opening for no Reason. |
 | iniBuilds A350 | Fragtality | Complete & progressive Fuel, Payload and Equipment Sync (overriding iniBuilds' Integration). Door-Sync for L4. |
 | PMDG B777 | Fragtality | Complete & progressive Fuel, Payload and Equipment Sync. Full Door-Sync trying to workaround PMDG's Integration - also controls Cargo Bay Lights on the Freigher. |
+
+<br/><br/>
+
+### 2.2 - NOTAMs (Known Issues)
+
+#### PMDG.B777
+
+PMDG has broke their UFT with **.116 and later** (without anything in the Changelog regarding UFT or W&B ...) so the progressive Payload-Sync on the 777**F** currently loads to much Cargo/Freight.<br/>
+Users need to correct the Payload manually via CDU after Loading/Boarding.<br/><br/>
+
+Some Doors (e.g. Service-Doors for Catering) might open again after being closed. They will be closed automatically by the Plugin but that Effect cannot be worked around.<br/>
+The Situation should hopefully improves when PMDG has finally removed their GSX Compatibility as announced.
 
 <br/><br/>
 
