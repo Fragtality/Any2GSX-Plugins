@@ -69,6 +69,7 @@ namespace Pmdg777Interface
                 DoorMapping[GsxDoor.ServiceDoor2] = PmdgDoorIndex.Pax4R;
                 Doors[PmdgDoorIndex.Pax4R].Monitoring = DoorMonitorAction.Monitored;
                 Doors[PmdgDoorIndex.Pax5R].Monitoring = DoorMonitorAction.KeepClosed;
+                DoorMapping[GsxDoor.PaxDoor4] = PmdgDoorIndex.Pax4L;
             }
 
             if (!Aircraft.IsCargo)
@@ -167,7 +168,7 @@ namespace Pmdg777Interface
             {
                 SyncDoorToService(Doors[PmdgDoorIndex.Pax2L], GsxController.GetService(GsxServiceType.Jetway));
                 if (!IsCargo)
-                    SyncDoorToService(Doors[PmdgDoorIndex.Pax5L], GsxController.GetService(GsxServiceType.Stairs));
+                    SyncDoorToService(Doors[DoorMapping[GsxDoor.PaxDoor4]], GsxController.GetService(GsxServiceType.Stairs));
             }
             else
             {
@@ -175,7 +176,7 @@ namespace Pmdg777Interface
                 if (!IsCargo)
                 {                    
                     SyncDoorToService(Doors[PmdgDoorIndex.Pax2L], GsxController.GetService(GsxServiceType.Stairs));
-                    SyncDoorToService(Doors[PmdgDoorIndex.Pax5L], GsxController.GetService(GsxServiceType.Stairs));
+                    SyncDoorToService(Doors[DoorMapping[GsxDoor.PaxDoor4]], GsxController.GetService(GsxServiceType.Stairs));
                 }
             }
         }
