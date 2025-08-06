@@ -1,7 +1,9 @@
 ﻿using CFIT.AppLogger;
+using CFIT.AppTools;
 using CFIT.SimConnectLib.SimResources;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace Pmdg777Interface
@@ -63,6 +65,7 @@ namespace Pmdg777Interface
 
         public virtual async Task SendNumber(string number)
         {
+            Logger.Debug($"Sending Number '{number}'");
             foreach (char chr in number)
             {
                 string num = chr.ToString();
@@ -102,7 +105,7 @@ namespace Pmdg777Interface
                 }
                 await SendButton("R6");
                 await SendButton("L1");
-                await SendNumber(fuel.ToString());
+                await SendNumber(((int)fuel).ToString());
                 await SendButton("L1");
                 if (menu)
                     await SendButton("MENU");
@@ -132,6 +135,41 @@ namespace Pmdg777Interface
                 await SendButton("L2");
                 await SendButton("L5");
                 await SendButton("R5");
+                await SendButton("MENU");
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                if (ex is not TaskCanceledException)
+                    Logger.LogException(ex);
+            }
+            SequenceRunning = false;
+            return result;
+        }
+
+        public virtual async Task<bool> FixPayloadFreighter(double cargoPercent)
+        {
+
+            bool result = false;
+            try
+            {
+                if (cargoPercent < 0.0 || cargoPercent > 100.0)
+                {
+                    Logger.Warning($"Invalid Cargo Percentage: {cargoPercent}");
+                    return false;
+                }
+
+                await WaitForSequence();
+                SequenceRunning = true;
+
+                await SendButton("MENU");
+                await Task.Delay(ButtonDelay * 2);
+                await SendButton("R6");
+                await SendButton("L2");
+                await SendButton("L5");
+                await SendButton("L2");
+                await SendNumber(cargoPercent.ToString("F1", CultureInfo.InvariantCulture));
+                await SendButton("R3");
                 await SendButton("MENU");
                 result = true;
             }

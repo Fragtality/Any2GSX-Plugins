@@ -47,7 +47,8 @@
 		"Generic.Var.LightBeacon.Name": "L:S_OH_EXT_LT_BEACON",
 		"Generic.Var.LightBeacon.Unit": "Number",
 		"Generic.Var.ParkBrake.Name": "L:S_MIP_PARKING_BRAKE",
-		"Generic.Var.ParkBrake.Unit": "Number"
+		"Generic.Var.ParkBrake.Unit": "Number",
+		"Generic.Option.Aircraft.InitDelay": 4200
 	},
 	"SkipWalkAround": true,
 	"RunAutomationService": true,

@@ -6,8 +6,8 @@
 	"Aircraft": "PMDG B777 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.1.9",
-	"VersionApp": "0.1.6",
+	"VersionPlugin": "0.1.10",
+	"VersionApp": "0.1.7",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
 		"FuelSync": 8,
@@ -41,6 +41,18 @@
 			"Key": "Generic.Option.Aircraft.RefuelStair",
 			"Type": 1,
 			"DefaultValue": true
+		},
+		{
+			"Key": "PMDG.777.Option.FreighterFix",
+			"Type": 1,
+			"DefaultValue": true,
+			"Description": "Apply Workaround for UFT Payload Bug on the 777F"
+		},
+		{
+			"Key": "PMDG.777.Option.FreighterMax",
+			"Type": 2,
+			"DefaultValue": 103564,
+			"Description": "Maximum Cargo Load in kg of the Freighter (for Workaround)"
 		},
 		{
 			"Key": "Generic.Var.Engine1.Name",
