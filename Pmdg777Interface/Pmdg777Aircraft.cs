@@ -320,7 +320,10 @@ namespace Pmdg777Interface
         protected virtual void OnMicIntSwitch(ISimResourceSubscription sub, object data)
         {
             if (sub.GetNumber() == 100)
+            {
+                Logger.Debug($"Received MicInt Trigger");
                 MicIntSwitchTriggered = true;
+            }
         }
 
         public override Task<bool> GetSmartButtonRequest()
