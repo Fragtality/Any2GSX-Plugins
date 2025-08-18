@@ -41,6 +41,7 @@ The Situation should hopefully improves when PMDG has finally removed their GSX 
 | Fenix A320 | Fragtality | CPT and FO ACP from VHF1 to PA |
 | FlyByWire A32NX | Fragtality | CPT and FO ACP with VHF, VOR and MKR |
 | FlyByWire A380X | Fragtality | CPT and FO ACP from VHF1 over TEL to PA |
+| iFly 737 | FatGingerHead | CPT and FO ACP from VHF1 to PA |
 | iniBuilds A300-600 | Fragtality | CPT and FO ACP from VHF1 to PA |
 | iniBuilds A330 | Fragtality | CPT and FO ACP from VHF1 to PA |
 | iniBuilds A350 | Fragtality | CPT and FO ACP from VHF1 over TEL to CAB |

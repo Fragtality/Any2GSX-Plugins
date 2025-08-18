@@ -1,0 +1,185 @@
+{
+  "Id": "IFLY.737",
+  "Aircraft": "iFly.737MAX8",
+  "Author": "FatGingerHead",
+  "VersionChannel": "0.1.0",
+  "VersionApp": "0.1.0",
+  "ChannelDefinitions": [
+    {
+      "Name": "CPT.VHF1",
+      "VolumeVariable": "L:VC_ACP_1_RVC_01_VOL_SW_VAL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 60,
+      "MuteVariable": "L:VC_ACP_1_RVC_01_SW_VAL",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 10
+    },
+    {
+      "Name": "CPT.VHF2",
+      "VolumeVariable": "L:VC_ACP_1_RVC_02_VOL_SW_VAL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 60,
+      "MuteVariable": "L:VC_ACP_1_RVC_02_SW_VAL",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 10
+    },
+    {
+      "Name": "CPT.VHF3",
+      "VolumeVariable": "L:VC_ACP_1_RVC_03_VOL_SW_VAL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 60,
+      "MuteVariable": "L:VC_ACP_1_RVC_03_SW_VAL",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 10
+    },
+    {
+      "Name": "CPT.HF1",
+      "VolumeVariable": "L:VC_ACP_1_RVC_04_VOL_SW_VAL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 60,
+      "MuteVariable": "L:VC_ACP_1_RVC_04_SW_VAL",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 10
+    },
+    {
+      "Name": "CPT.HF2",
+      "VolumeVariable": "L:VC_ACP_1_RVC_05_VOL_SW_VAL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 60,
+      "MuteVariable": "L:VC_ACP_1_RVC_05_SW_VAL",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 10
+    },
+    {
+      "Name": "CPT.INT",
+      "VolumeVariable": "L:VC_ACP_1_RVC_06_VOL_SW_VAL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 60,
+      "MuteVariable": "L:VC_ACP_1_RVC_06_SW_VAL",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 10
+    },
+    {
+      "Name": "CPT.CAB",
+      "VolumeVariable": "L:VC_ACP_1_RVC_07_VOL_SW_VAL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 60,
+      "MuteVariable": "L:VC_ACP_1_RVC_07_SW_VAL",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 10
+    },
+    {
+      "Name": "CPT.PA",
+      "VolumeVariable": "L:VC_ACP_1_RVC_08_VOL_SW_VAL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 60,
+      "MuteVariable": "L:VC_ACP_1_RVC_08_SW_VAL",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 10
+    },
+    {
+      "Name": "FO.VHF1",
+      "VolumeVariable": "L:VC_ACP_2_RVC_01_VOL_SW_VAL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 60,
+      "MuteVariable": "L:VC_ACP_2_RVC_01_SW_VAL",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 10
+    },
+    {
+      "Name": "FO.VHF2",
+      "VolumeVariable": "L:VC_ACP_2_RVC_02_VOL_SW_VAL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 60,
+      "MuteVariable": "L:VC_ACP_2_RVC_02_SW_VAL",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 10
+    },
+    {
+      "Name": "FO.VHF3",
+      "VolumeVariable": "L:VC_ACP_2_RVC_03_VOL_SW_VAL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 60,
+      "MuteVariable": "L:VC_ACP_2_RVC_03_SW_VAL",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 10
+    },
+    {
+      "Name": "FO.HF1",
+      "VolumeVariable": "L:VC_ACP_2_RVC_04_VOL_SW_VAL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 60,
+      "MuteVariable": "L:VC_ACP_2_RVC_04_SW_VAL",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 10
+    },
+    {
+      "Name": "FO.HF2",
+      "VolumeVariable": "L:VC_ACP_2_RVC_05_VOL_SW_VAL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 60,
+      "MuteVariable": "L:VC_ACP_2_RVC_05_SW_VAL",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 10
+    },
+    {
+      "Name": "FO.INT",
+      "VolumeVariable": "L:VC_ACP_2_RVC_06_VOL_SW_VAL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 60,
+      "MuteVariable": "L:VC_ACP_2_RVC_06_SW_VAL",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 10
+    },
+    {
+      "Name": "FO.CAB",
+      "VolumeVariable": "L:VC_ACP_2_RVC_07_VOL_SW_VAL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 60,
+      "MuteVariable": "L:VC_ACP_2_RVC_07_SW_VAL",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 10
+    },
+    {
+      "Name": "FO.PA",
+      "VolumeVariable": "L:VC_ACP_2_RVC_08_VOL_SW_VAL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 60,
+      "MuteVariable": "L:VC_ACP_2_RVC_08_SW_VAL",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 10
+    }
+  ]
+}
