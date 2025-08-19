@@ -56,7 +56,7 @@ The Situation should hopefully improves when PMDG has finally removed their GSX 
 | Fenix A320 PilotsDeck | Fragtality | Profile only enabling PilotsDeck Integration - to be used together with Fenix2GSX |
 | FlyByWire A32NX | Fragtality | Profile enabling GSX Automation & Volume Control for the A320. Fuel, Payload and Equipment is perfectly handled by the Aircraft itself! (All other Aircraft Developers: Do *THAT* first, then build the Automation on Top) |
 | FlyByWire A380X | Fragtality | Profile enabling GSX Automation & Volume Control for the A380. Fuel, Payload and Equipment is perfectly handled by the Aircraft itself! (All other Aircraft Developers: Do *THAT* first, then build the Automation on Top) |
-| iFly 737 | FatGingerHead | Profile for Automation and Volume-Control for the iFLY B737. |
+| iFly 737 | FatGingerHead | Profile for Automation and Volume-Control for the iFLY B737. It has 0 Integration, Fuel and Payload need to be set manually and separately (!!) when the GSX Services run. |
 
 <br/><br/>
 

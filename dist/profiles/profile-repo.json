@@ -35,7 +35,7 @@
                                   "Author":  "FatGingerHead",
                                   "Name":  "iFLY 737",
                                   "Aircraft":  "iFLY 737 MAX8",
-                                  "Description":  "Profile for Automation and Volume-Control for the iFLY B737.\\r\\nIMPORTANT: Set a lower than planned Fuel Amount before starting the Departure Services, else the Fuel Service isn\u0027t called with iFly\u0027s default of 50% FOB.\\r\\nThe SmartButton is mapped to the INT/RAD Switch on the Captain\u0027s ACP.",
+                                  "Description":  "Profile for Automation and Volume-Control for the iFLY B737.\\r\\nIMPORTANT: Set a lower than planned Fuel Amount before starting the Departure Services, else the Fuel Service isn\u0027t called with iFly\u0027s default of 50% FOB.\\r\\nNOTE: You need to set Fuel and Payload manually and separately! (Fuel when the Hose is connected, Payload when Boarding is running).\\r\\nThe SmartButton is mapped to the INT/RAD Switch on the Captain\u0027s ACP.",
                                   "VersionApp":  "0.1.9",
                                   "VersionProfile":  "0.1.0"
                               }
