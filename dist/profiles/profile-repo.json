@@ -20,7 +20,7 @@
                                 "Name":  "Fenix - PilotsDeck only",
                                 "Aircraft":  "Fenix A320 (all Variants)",
                                 "Description":  "Profile enabling only PilotsDeck Support (to be used together with Fenix2GSX)",
-                                "VersionApp":  "0.1.1",
+                                "VersionApp":  "0.1.9",
                                 "VersionProfile":  "0.1.3"
                             },
     "FNX.Native.json":  {
@@ -28,7 +28,7 @@
                             "Name":  "Fenix - Native",
                             "Aircraft":  "Fenix A320 (all Variants)",
                             "Description":  "Profile enhancing Fenix\u0027 native GSX Integration with Automation and Volume Control",
-                            "VersionApp":  "0.1.1",
+                            "VersionApp":  "0.1.9",
                             "VersionProfile":  "0.1.3"
                         }
 }
