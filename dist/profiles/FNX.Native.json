@@ -16,6 +16,8 @@
 	"RandomizePaxMaxDiff": 5,
 	"DelayTurnAroundSeconds": 90,
 	"DelayTurnRecheckSeconds": 30,
+	"RefreshGsxOnDeparture": false,
+	"RefreshGsxOnTurn": false,
 	"PluginSettings": {
 		"Generic.Var.SmartButton.Name": "L:S_ASP_INTRAD",
 		"Generic.Var.SmartButton.Unit": "number",
@@ -64,6 +66,7 @@
 	"CallPushbackOnBeacon": false,
 	"CallPushbackWhenTugAttached": 0,
 	"ClearGroundEquipOnBeacon": false,
+	"GradualGroundEquipRemoval": false,
 	"CallDeboardOnArrival": false,
 	"ChockDelayMin": 10,
 	"ChockDelayMax": 20,
@@ -91,6 +94,7 @@
 	"SkipCrewBoardQuestion": true,
 	"SkipCrewDeboardQuestion": true,
 	"DefaultPilotTarget": 2,
+	"DefaultCrewTarget": 4,
 	"AnswerCrewBoardQuestion": 1,
 	"AnswerCrewDeboardQuestion": 1,
 	"SkipFollowMe": true,
@@ -138,19 +142,22 @@
 			"Channel": "CPT.INT",
 			"Device": "",
 			"Binary": "Couatl64_MSFS2024",
-			"UseLatch": true
+			"UseLatch": true,
+			"OnlyActive": true
 		},
 		{
 			"Channel": "CPT.INT",
 			"Device": "",
 			"Binary": "Couatl64_MSFS",
-			"UseLatch": true
+			"UseLatch": true,
+			"OnlyActive": true
 		},
 		{
 			"Channel": "CPT.VHF1",
 			"Device": "",
 			"Binary": "vPilot",
-			"UseLatch": false
+			"UseLatch": false,
+			"OnlyActive": true
 		}
 	],
 	"AudioStartupVolumes": {
