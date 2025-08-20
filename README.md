@@ -27,7 +27,7 @@ Use the Plugin View ('Available from GitHub') of the Any2GSX App to install Stuf
 #### PMDG.B777
 
 PMDG has broke their UFT with **.116 and later** (without anything in the Changelog regarding UFT or W&B ...) so the progressive Payload-Sync on the 777**F** currently loads to much Cargo/Freight.<br/>
-Users need to correct the Payload manually via CDU after Loading/Boarding.<br/><br/>
+The Plugin tries to correct that after Boarding via the CDU - but a manual Check you got the right Weights won't hurt.<br/><br/>
 
 Some Doors (e.g. Service-Doors for Catering) might open again after being closed. They will be closed automatically by the Plugin but that Effect cannot be worked around.<br/>
 The Situation should hopefully improves when PMDG has finally removed their GSX Compatibility as announced.
