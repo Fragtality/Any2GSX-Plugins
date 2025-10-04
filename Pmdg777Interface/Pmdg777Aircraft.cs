@@ -276,10 +276,12 @@ namespace Pmdg777Interface
             {
                 await DoorDisarmAll();
             }
+
             if (state == AutomationState.Departure || state == AutomationState.Arrival)
             {
                 await OnCouatlStarted();
                 ApplyCrewToCargo = false;
+                ResetPayloadDone = true;
                 await DoorDisarmAll();
             }
             else if (state == AutomationState.TaxiOut)
@@ -291,7 +293,8 @@ namespace Pmdg777Interface
                 DoorManager.SetAll(PmdgDoorState.ClosedArmed);
                 ApplyCrewToCargo = false;
             }
-            else if (state == AutomationState.Arrival || state == AutomationState.TurnAround)
+
+            if (state == AutomationState.Arrival || state == AutomationState.TurnAround)
             {
                 EfbManager.ResetState();
                 ApplyCrewToCargo = false;

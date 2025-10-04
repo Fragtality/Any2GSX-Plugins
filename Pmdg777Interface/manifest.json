@@ -6,7 +6,7 @@
 	"Aircraft": "PMDG B777 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.1.20",
+	"VersionPlugin": "0.1.21",
 	"VersionApp": "0.1.20",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
