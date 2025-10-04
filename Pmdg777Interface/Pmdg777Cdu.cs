@@ -1,5 +1,4 @@
 ﻿using CFIT.AppLogger;
-using CFIT.AppTools;
 using CFIT.SimConnectLib.SimResources;
 using System;
 using System.Collections.Generic;

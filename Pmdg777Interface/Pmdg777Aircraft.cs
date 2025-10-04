@@ -4,7 +4,6 @@ using CFIT.AppLogger;
 using CFIT.SimConnectLib.SimResources;
 using System;
 using System.Threading.Tasks;
-using Windows.Devices.Usb;
 
 namespace Pmdg777Interface
 {
@@ -233,12 +232,6 @@ namespace Pmdg777Interface
             await base.BoardCompleted(paxTarget, weightPerPaxKg, cargoTargetKg);
             await BoardChangePax(paxTarget, weightPerPaxKg);
             await BoardChangeCargo(100, cargoTargetKg);
-            if (IsCargo && AppResources.ISettingProfile.HasSetting<bool>(PmdgSettings.OptionFreighterFix, out bool freighterFix) && freighterFix)
-            {
-                Logger.Debug($"PMDG Bug Workaround - set Cargo in CDU");
-                double maxCargo = AppResources.ISettingProfile.HasSetting<int>(PmdgSettings.OptionFreighterMax, out int setting) ? setting : 103564;
-                await CDU.FixPayloadFreighter((cargoTargetKg / maxCargo) * 100.0);
-            }
         }
 
         public override async Task DeboardCompleted()
@@ -298,7 +291,7 @@ namespace Pmdg777Interface
                 DoorManager.SetAll(PmdgDoorState.ClosedArmed);
                 ApplyCrewToCargo = false;
             }
-            else if (state == AutomationState.TurnAround)
+            else if (state == AutomationState.Arrival || state == AutomationState.TurnAround)
             {
                 EfbManager.ResetState();
                 ApplyCrewToCargo = false;
