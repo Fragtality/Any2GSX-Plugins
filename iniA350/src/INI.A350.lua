@@ -230,6 +230,13 @@ end
 local boardWasOverriden = false
 
 function BoardActive(paxTarget, cargoTargetKg)
+    if not GetSetting("INI.350.Option.Override.Board") then
+        Log("Using native Board Payload Synch")
+        return
+    else
+        Log("Using Any2GSX Payload Synch on Boarding")
+    end
+
     if boardWasOverriden then
         return
     end
@@ -244,27 +251,45 @@ function BoardActive(paxTarget, cargoTargetKg)
 end
 
 function BoardChangePax(paxOnBoard, weightPerPaxKg)
+    if not GetSetting("INI.350.Option.Override.Board") then
+        return
+    end
+
     payloadPaxKg = paxOnBoard * weightPerPaxKg
     SetPayloadStations()
 end
 
 function BoardChangeCargo(progressLoad, cargoOnBoardKg)
+    if not GetSetting("INI.350.Option.Override.Board") then
+        return
+    end
+
     payloadCargoKg = cargoOnBoardKg
     SetPayloadStations()
 end
 
 function BoardCompleted(paxTarget, weightPerPaxKg, cargoTargetKg)
+    if not GetSetting("INI.350.Option.Override.Board") then
+        return
+    end
+
     payloadPaxKg = paxTarget * weightPerPaxKg
     payloadCargoKg = cargoTargetKg
     SetPayloadStations()
 end
 
 function DeboardChangePax(paxOnBoard, gsxTotal, weightPerPaxKg)
+    if not GetSetting("INI.350.Option.Override.Deboard") then
+        return
+    end
     payloadPaxKg = paxOnBoard * weightPerPaxKg
     SetPayloadStations()
 end
 
 function DeboardChangeCargo(progressUnload, cargoOnBoardKg)
+    if not GetSetting("INI.350.Option.Override.Deboard") then
+        return
+    end
     payloadCargoKg = cargoOnBoardKg
     SetPayloadStations()
 end
@@ -272,6 +297,13 @@ end
 local deboardWasOverriden = false
 
 function DeboardActive()
+    if not GetSetting("INI.350.Option.Override.Deboard") then
+        Log("Using native Deboard Payload Synch")
+        return
+    else
+        Log("Using Any2GSX Payload Synch on Deboarding")
+    end
+
     if deboardWasOverriden then
         return
     end
@@ -282,6 +314,10 @@ function DeboardActive()
 end
 
 function DeboardCompleted()
+    if not GetSetting("INI.350.Option.Override.Deboard") then
+        return
+    end
+
     payloadPaxKg = 0
     payloadCargoKg = 0
     SetPayloadStations()
