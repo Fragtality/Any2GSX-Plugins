@@ -213,6 +213,7 @@ end
 
 function SetFuelDoor(target)
     WriteVar("L:INI_EFB_IS_REFUELING", target)
+    SendInput("common_a350_refuel_door_a350_refuel_door", 1)
 end
 
 function RefuelStop(fuelTargetKg, setTarget)
