@@ -62,6 +62,14 @@ The Situation should hopefully improves when PMDG has finally removed their GSX 
 
 ## 4 - What about ... ?
 
+### Better Door Handling on PMDG B777
+
+PMDG has no Rush in doing anything about their GSX Code other than not maintaining it anymore. As long as their Integration (Attempt) Code is kept active, the Door Integration of the B777 Plugin cannot be further improved.
+Maybe voicing your Opinion helps in showing it is not that one crazy Guy constantly asking PMDG to take Action to their Words:<br/>
+https://forum.pmdg.com/forum/main-forum/general-discussion-news-and-announcements/360835-pmdg-removing-all-compatibility-with-gsx?p=371703#post371703
+
+<br/><br/>
+
 ### PMDG B737
 
 At the Moment it is just not possible to do anything on the same Level as the B777 - *maybe* when the UFT was updated.<br/>
