@@ -18,8 +18,8 @@ try {
 	$destPath = Join-Path $env:APPDATA "Any2GSX\plugins\PMDG.B777"
 	
 	if (Test-Path -Path $destPath) {
-		$dllPath = Join-Path $pathProject (Join-Path (Join-Path "bin" $buildConfiguration) "\net8.0-windows10.0.17763.0\Pmdg777Interface.dll")
-		$manifestPath = Join-Path $pathProject (Join-Path (Join-Path "bin" $buildConfiguration) "\net8.0-windows10.0.17763.0\manifest.json")	
+		$dllPath = Join-Path $pathProject (Join-Path (Join-Path "bin" $buildConfiguration) "\net10.0-windows10.0.17763.0\win-x64\Pmdg777Interface.dll")
+		$manifestPath = Join-Path $pathProject (Join-Path (Join-Path "bin" $buildConfiguration) "\net10.0-windows10.0.17763.0\win-x64\manifest.json")	
 
 		Copy-Item -Path $dllPath -Destination $destPath -Force | Out-Null
 		Copy-Item -Path $manifestPath -Destination $destPath -Force | Out-Null

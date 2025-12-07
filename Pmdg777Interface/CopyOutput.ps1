@@ -16,8 +16,8 @@ try {
 	$appFolderName = $args[3]
 	$pathBase = (Resolve-Path (Join-Path $pathBase "..")).Path
 
-	$dllPath = Join-Path $pathProject (Join-Path (Join-Path "bin" $buildConfiguration) "\net8.0-windows10.0.17763.0\Pmdg777Interface.dll")
-	$manifestPath = Join-Path $pathProject (Join-Path (Join-Path "bin" $buildConfiguration) "\net8.0-windows10.0.17763.0\manifest.json")		
+	$dllPath = Join-Path $pathProject (Join-Path (Join-Path "bin" $buildConfiguration) "\net10.0-windows10.0.17763.0\win-x64\Pmdg777Interface.dll")
+	$manifestPath = Join-Path $pathProject (Join-Path (Join-Path "bin" $buildConfiguration) "\net10.0-windows10.0.17763.0\win-x64\manifest.json")		
 	$destPath = Join-Path $pathProject "publish"
 
 	Copy-Item -Path $dllPath -Destination $destPath -Force | Out-Null

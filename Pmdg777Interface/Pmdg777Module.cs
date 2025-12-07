@@ -52,14 +52,13 @@ namespace Pmdg777Interface
             await CreateDataAreaDefaultChannel();
         }
 
-        public override Task UnregisterModule(bool disconnect)
+        public override async Task UnregisterModule(bool disconnect)
         {
             if (disconnect && Manager.IsReceiveRunning)
             {
                 Manager.GetSimConnect().OnRecvClientData -= RecvClientDataEventHandler;
+                await Call(sc => sc.ClearClientDataDefinition(PMDG_777X_ID.PMDG_777X_DATA_ID));
             }
-
-            return Task.CompletedTask;
         }
 
         protected virtual async Task CreateDataAreaDefaultChannel()
