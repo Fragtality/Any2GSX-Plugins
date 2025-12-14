@@ -10,8 +10,8 @@
 	"Aircraft": "Microsoft/iniBuilds A330 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.1.1",
-	"VersionApp": "0.1.1",
+	"VersionPlugin": "0.3.0",
+	"VersionApp": "0.3.3",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
 		"FuelSync": 8,
@@ -23,24 +23,6 @@
 		"VolumeControl": true
 	},
 	"Settings": [
-		{
-			"Key": "INI.330.Option.Chocks.RemoveStartup",
-			"Type": 1,
-			"DefaultValue": true,
-			"Description": "Remove Chocks on Session Start before Walkaround Skip"
-		},
-		{
-			"Key": "INI.330.Option.Chocks.RemovePush",
-			"Type": 1,
-			"DefaultValue": false,
-			"Description": "Remove Chocks during Pushback (toggles Walkaround Mode!)"
-		},
-		{
-			"Key": "INI.330.Option.Chocks.PlaceArrival",
-			"Type": 1,
-			"DefaultValue": false,
-			"Description": "Place Chocks on Arrival (toggles Walkaround Mode!)"
-		},
 		{
 			"Key": "Generic.Option.Aircraft.RefuelStair",
 			"Type": 1,

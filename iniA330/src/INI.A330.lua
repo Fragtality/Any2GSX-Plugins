@@ -1,5 +1,11 @@
+local gsxController = GetGsxController()
 local aircraft = GetAircraftPlugin()
-UseVar("L:INI_FUEL_REQ", "Number")
+UseVar("FUEL TANK LEFT AUX QUANTITY", "gallons")
+UseVar("FUEL TANK LEFT MAIN QUANTITY", "gallons")
+UseVar("FUEL TANK RIGHT MAIN QUANTITY", "gallons")
+UseVar("FUEL TANK RIGHT AUX QUANTITY", "gallons")
+UseVar("FUEL TANK EXTERNAL1 QUANTITY", "gallons")
+UseVar("CG PERCENT", "percent")
 UseVar("L:INI_EFB_IS_REFUELING", "Number")
 UseVar("L:FSDT_GSX_SETTINGS_PROGRESS_REFUEL", "Number")
 UseVar("L:FSDT_GSX_SET_PROGRESS_REFUEL", "Number")
@@ -37,25 +43,14 @@ function OnCouatlStarted()
 end
 
 function BeforeWalkaroundSkip()
-    if not GetSetting("INI.330.Option.Chocks.RemoveStartup") then
-        return
-    end
-
-    Info("Removing Chocks & Covers in Walkaround")
+    Info("Removing Covers in Walkaround")
     Sleep(250)
-    if aircraft.IsBrakeSet == true then
-        Info("Set Parking Brake before removing Chocks")
-        SendInput("airliner_parkingbrake", 1)
-    end
 
-    if ReadVar("COVER ON:1") then
+    if ReadVar("COVER ON:1") ~= 0 then
         SendInput("unknown_cover_left", 1)
     end
-    if ReadVar("COVER ON:2") then
+    if ReadVar("COVER ON:2") ~= 0    then
         SendInput("unknown_pitot_covers", 1)
-    end
-    if ReadVar("COVER ON:0") then
-        SendInput("unknown_chocks", 1)
     end
     Sleep(250)
 end
@@ -110,14 +105,7 @@ function SetEquipmentPower(state, force)
 end
 
 function GetHasChocks()
-    local state = AutomationState()
-    if state == 3 and GetSetting("INI.330.Option.Chocks.RemovePush") then
-        return true
-    elseif state == 7 and GetSetting("INI.330.Option.Chocks.PlaceArrival") then
-        return true
-    else
-        return false
-    end
+    return true
 end
 
 function GetEquipmentChocks()
@@ -127,26 +115,90 @@ end
 function SetEquipmentChocks(state, force)
     local chockSet = GetEquipmentChocks()
     if state ~= chockSet or force then
-        Info("Toggle Chocks in Walkaround")
-        local gsxController = GetGsxController()
-        if gsxController.IsWalkaround == false then
-            ToggleWalkaround()
-        end
-
-        if state then
-            WriteVar("COVER ON:0", 1)
-        else
-            WriteVar("COVER ON:0", 0)
-        end
-
-        if gsxController.IsWalkaround == true then
-            ToggleWalkaround()
-        end
+        SendInput("unknown_chocks", 1)
     end
 end
 
+function GetTankKg(name, type)
+    if type == nil then
+        type = "QUANTITY"
+    end
+    return ReadVar("FUEL TANK " .. name .. " " .. type) * FuelWeightKgPerGallon()
+end
+
+function SetTankKg(name, value)
+    return WriteVar("FUEL TANK " .. name .. " QUANTITY", value / FuelWeightKgPerGallon())
+end
+
+function SetTanks(leftAux, leftMain, rightMain, rightAux, trim)
+    local scalar = FuelWeightKgPerGallon()
+    WriteVar("FUEL TANK LEFT AUX QUANTITY", leftAux / scalar)
+    WriteVar("FUEL TANK LEFT MAIN QUANTITY", leftMain / scalar)
+    WriteVar("FUEL TANK RIGHT MAIN QUANTITY", rightMain / scalar)
+    WriteVar("FUEL TANK RIGHT AUX QUANTITY", rightAux / scalar)
+    WriteVar("FUEL TANK EXTERNAL1 QUANTITY", trim / scalar)
+end
+
+local initialFobSet = false
+local maxAux = 2891.0
+local maxMain = 32967.0
+local minMain = 4500.0
+local trimMain = 15360.0
+local minTrim = 2400.0
+local maxTrim = 4889.7
+
 function SetFuelOnBoardKg(fuelKg)
-    WriteVar("L:INI_FUEL_REQ", fuelKg)
+    if not initialFobSet and gsxController.GetService(2).State >= 4 then
+        initialFobSet = true
+    end
+
+    local rightMain = 0
+    local rightAux = 0
+    local trim = 0
+    if initialFobSet then
+        local cg = ReadVar("CG PERCENT")
+        if fuelKg < (minMain * 2.0) then -- filling main tanks only until 4500kg each
+            rightMain = math.min((fuelKg / 2.0) + 0.5, minMain + 0.5)
+            rightAux = 0
+            trim = 0
+        elseif fuelKg < ((minMain * 2.0) + (maxAux * 2.0)) then -- filling aux tanks only until 2891kg each
+            rightMain = minMain + 0.5
+            rightAux = math.max(((fuelKg - (minMain * 2.0)) / 2.0) + 0.5, 0)
+            rightAux = math.min(rightAux, maxAux)
+            trim = 0
+        elseif fuelKg < ((trimMain * 2.0) + (maxAux * 2.0)) then -- filling main tanks only until 15360kg each
+            rightMain = math.max(((fuelKg - (maxAux * 2.0)) / 2.0) + 0.5, minMain + 0.5)
+            rightMain = math.min(rightMain, trimMain + 0.5)
+            rightAux = maxAux + 0.5
+            trim = 0
+        elseif fuelKg < ((trimMain * 2.0) + (maxAux * 2.0) + minTrim) then -- filling trim tank only until 2400kg
+            rightMain = trimMain + 0.5--math.max(((fuelKg - (maxAux * 2.0)) / 2.0) + 0.5, minMain)
+            rightAux = maxAux + 0.5
+            trim = math.max((fuelKg - (trimMain * 2.0) - (maxAux * 2.0)), 0)
+            trim = math.min(trim, minTrim)
+        elseif fuelKg < ((maxMain * 2.0) + (maxAux * 2.0) + minTrim) then -- filling main tanks only until 32960kg each
+            rightMain = math.max(((fuelKg - (maxAux * 2.0) - minTrim) / 2.0) + 0.5, trimMain + 0.5)
+            rightMain = math.min(rightMain, maxMain + 0.5)
+            rightAux = maxAux + 0.5
+            trim = minTrim
+        else -- filling trim until 4780kg
+            rightMain = maxMain + 0.5
+            rightAux = maxAux + 0.5
+            trim = math.max(fuelKg - (maxMain * 2.0) + (maxAux * 2.0), minTrim)
+            trim = math.min(trim, maxTrim)
+        end
+
+        if cg < 24.1 and rightMain >= trimMain then
+            Log("CG/Trim correction")
+            trim = trim + 100
+        end
+    else
+        rightMain = (fuelKg / 2.0) + 0.5
+        initialFobSet = true
+    end
+
+    --Log("Aux: " .. tostring(rightAux) .. " | Main: " .. tostring(rightMain) .. " | Trim: " .. tostring(trim))
+    SetTanks(rightAux, rightMain, rightMain, rightAux, trim)
 end
 
 local payloadPaxKg = 0

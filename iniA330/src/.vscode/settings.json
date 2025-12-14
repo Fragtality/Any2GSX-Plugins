@@ -33,6 +33,7 @@
         "ToggleWalkaround",
         "GetAircraftPlugin",
         "GetSettingProfile",
-        "GetGsxController"
+        "GetGsxController",
+        "FuelWeightKgPerGallon"
     ]
 }
