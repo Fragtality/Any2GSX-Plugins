@@ -85,6 +85,14 @@ iniBuilds just doesn't show any Interest. When asking how to get in Touch with t
 
 <br/><br/>
 
+### iniBuilds A340
+
+While the Devs don't seem that open, the Folks at the Store/Sales Side are really great!
+Upon asking if they could provide a free and time-limited Copy of the A340 to create a Plugin for A2G, I had the Aircraft on my Account within 1 Business-Day! <br/>
+Thanks iniBuilds (Store/Sales Staff) for making that possible! :heart:
+
+<br/><br/>
+
 ### FSLabs
 
 Remains to be seen / under Investigation.<br/>
