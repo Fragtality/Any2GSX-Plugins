@@ -1293,5 +1293,190 @@
                                                          "UnmutedValue":  10
                                                      }
                                                  ]
+                      },
+    "INI.A340.json":  {
+                          "Id":  "INI.A340",
+                          "Aircraft":  "iniBuilds A340 (All Variants)",
+                          "Author":  "Fragtality",
+                          "VersionChannel":  "0.1.4",
+                          "VersionApp":  "0.3.6",
+                          "ChannelDefinitions":  [
+                                                     {
+                                                         "Name":  "CPT.VHF1",
+                                                         "VolumeVariable":  "L:INI_RMP1_1_VOLUME",
+                                                         "VolumeUnit":  "Number",
+                                                         "MinValue":  0,
+                                                         "MaxValue":  100,
+                                                         "MuteVariable":  "L:INI_RMP1_1_RECEIVE_SEL",
+                                                         "MuteUnit":  "Number",
+                                                         "MutedValue":  0,
+                                                         "UnmutedValue":  1
+                                                     },
+                                                     {
+                                                         "Name":  "CPT.VHF2",
+                                                         "VolumeVariable":  "L:INI_RMP1_2_VOLUME",
+                                                         "VolumeUnit":  "Number",
+                                                         "MinValue":  0,
+                                                         "MaxValue":  100,
+                                                         "MuteVariable":  "L:INI_RMP1_2_RECEIVE_SEL",
+                                                         "MuteUnit":  "Number",
+                                                         "MutedValue":  0,
+                                                         "UnmutedValue":  1
+                                                     },
+                                                     {
+                                                         "Name":  "CPT.VHF3",
+                                                         "VolumeVariable":  "L:INI_RMP1_3_VOLUME",
+                                                         "VolumeUnit":  "Number",
+                                                         "MinValue":  0,
+                                                         "MaxValue":  100,
+                                                         "MuteVariable":  "L:INI_RMP1_3_RECEIVE_SEL",
+                                                         "MuteUnit":  "Number",
+                                                         "MutedValue":  0,
+                                                         "UnmutedValue":  1
+                                                     },
+                                                     {
+                                                         "Name":  "CPT.HF1",
+                                                         "VolumeVariable":  "L:INI_RMP1_4_VOLUME",
+                                                         "VolumeUnit":  "Number",
+                                                         "MinValue":  0,
+                                                         "MaxValue":  100,
+                                                         "MuteVariable":  "L:INI_RMP1_4_RECEIVE_SEL",
+                                                         "MuteUnit":  "Number",
+                                                         "MutedValue":  0,
+                                                         "UnmutedValue":  1
+                                                     },
+                                                     {
+                                                         "Name":  "CPT.HF2",
+                                                         "VolumeVariable":  "L:INI_RMP1_5_VOLUME",
+                                                         "VolumeUnit":  "Number",
+                                                         "MinValue":  0,
+                                                         "MaxValue":  100,
+                                                         "MuteVariable":  "L:INI_RMP1_5_RECEIVE_SEL",
+                                                         "MuteUnit":  "Number",
+                                                         "MutedValue":  0,
+                                                         "UnmutedValue":  1
+                                                     },
+                                                     {
+                                                         "Name":  "CPT.INT",
+                                                         "VolumeVariable":  "L:INI_RMP1_8_VOLUME",
+                                                         "VolumeUnit":  "Number",
+                                                         "MinValue":  0,
+                                                         "MaxValue":  100,
+                                                         "MuteVariable":  "L:INI_RMP1_8_RECEIVE_SEL",
+                                                         "MuteUnit":  "Number",
+                                                         "MutedValue":  0,
+                                                         "UnmutedValue":  1
+                                                     },
+                                                     {
+                                                         "Name":  "CPT.CAB",
+                                                         "VolumeVariable":  "L:INI_RMP1_11_VOLUME",
+                                                         "VolumeUnit":  "Number",
+                                                         "MinValue":  0,
+                                                         "MaxValue":  100,
+                                                         "MuteVariable":  "L:INI_RMP1_11_RECEIVE_SEL",
+                                                         "MuteUnit":  "Number",
+                                                         "MutedValue":  0,
+                                                         "UnmutedValue":  1
+                                                     },
+                                                     {
+                                                         "Name":  "CPT.PA",
+                                                         "VolumeVariable":  "L:INI_RMP1_9_VOLUME",
+                                                         "VolumeUnit":  "Number",
+                                                         "MinValue":  0,
+                                                         "MaxValue":  100,
+                                                         "MuteVariable":  "L:INI_RMP1_9_RECEIVE_SEL",
+                                                         "MuteUnit":  "Number",
+                                                         "MutedValue":  0,
+                                                         "UnmutedValue":  1
+                                                     },
+                                                     {
+                                                         "Name":  "FO.VHF1",
+                                                         "VolumeVariable":  "L:INI_RMP2_1_VOLUME",
+                                                         "VolumeUnit":  "Number",
+                                                         "MinValue":  0,
+                                                         "MaxValue":  100,
+                                                         "MuteVariable":  "L:INI_RMP2_1_RECEIVE_SEL",
+                                                         "MuteUnit":  "Number",
+                                                         "MutedValue":  0,
+                                                         "UnmutedValue":  1
+                                                     },
+                                                     {
+                                                         "Name":  "FO.VHF2",
+                                                         "VolumeVariable":  "L:INI_RMP2_2_VOLUME",
+                                                         "VolumeUnit":  "Number",
+                                                         "MinValue":  0,
+                                                         "MaxValue":  100,
+                                                         "MuteVariable":  "L:INI_RMP2_2_RECEIVE_SEL",
+                                                         "MuteUnit":  "Number",
+                                                         "MutedValue":  0,
+                                                         "UnmutedValue":  1
+                                                     },
+                                                     {
+                                                         "Name":  "FO.VHF3",
+                                                         "VolumeVariable":  "L:INI_RMP2_3_VOLUME",
+                                                         "VolumeUnit":  "Number",
+                                                         "MinValue":  0,
+                                                         "MaxValue":  100,
+                                                         "MuteVariable":  "L:INI_RMP2_3_RECEIVE_SEL",
+                                                         "MuteUnit":  "Number",
+                                                         "MutedValue":  0,
+                                                         "UnmutedValue":  1
+                                                     },
+                                                     {
+                                                         "Name":  "FO.HF1",
+                                                         "VolumeVariable":  "L:INI_RMP2_4_VOLUME",
+                                                         "VolumeUnit":  "Number",
+                                                         "MinValue":  0,
+                                                         "MaxValue":  100,
+                                                         "MuteVariable":  "L:INI_RMP2_4_RECEIVE_SEL",
+                                                         "MuteUnit":  "Number",
+                                                         "MutedValue":  0,
+                                                         "UnmutedValue":  1
+                                                     },
+                                                     {
+                                                         "Name":  "FO.HF2",
+                                                         "VolumeVariable":  "L:INI_RMP2_5_VOLUME",
+                                                         "VolumeUnit":  "Number",
+                                                         "MinValue":  0,
+                                                         "MaxValue":  100,
+                                                         "MuteVariable":  "L:INI_RMP2_5_RECEIVE_SEL",
+                                                         "MuteUnit":  "Number",
+                                                         "MutedValue":  0,
+                                                         "UnmutedValue":  1
+                                                     },
+                                                     {
+                                                         "Name":  "FO.INT",
+                                                         "VolumeVariable":  "L:INI_RMP2_8_VOLUME",
+                                                         "VolumeUnit":  "Number",
+                                                         "MinValue":  0,
+                                                         "MaxValue":  100,
+                                                         "MuteVariable":  "L:INI_RMP2_8_RECEIVE_SEL",
+                                                         "MuteUnit":  "Number",
+                                                         "MutedValue":  0,
+                                                         "UnmutedValue":  1
+                                                     },
+                                                     {
+                                                         "Name":  "FO.CAB",
+                                                         "VolumeVariable":  "L:INI_RMP2_11_VOLUME",
+                                                         "VolumeUnit":  "Number",
+                                                         "MinValue":  0,
+                                                         "MaxValue":  100,
+                                                         "MuteVariable":  "L:INI_RMP2_11_RECEIVE_SEL",
+                                                         "MuteUnit":  "Number",
+                                                         "MutedValue":  0,
+                                                         "UnmutedValue":  1
+                                                     },
+                                                     {
+                                                         "Name":  "FO.PA",
+                                                         "VolumeVariable":  "L:INI_RMP2_9_VOLUME",
+                                                         "VolumeUnit":  "Number",
+                                                         "MinValue":  0,
+                                                         "MaxValue":  100,
+                                                         "MuteVariable":  "L:INI_RMP2_9_RECEIVE_SEL",
+                                                         "MuteUnit":  "Number",
+                                                         "MutedValue":  0,
+                                                         "UnmutedValue":  1
+                                                     }
+                                                 ]
                       }
 }

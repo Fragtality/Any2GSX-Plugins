@@ -1,0 +1,183 @@
+{
+	"Id": "INI.A340",
+	"Type": 1,
+	"StartMode": 1,
+	"Filename": "INI.A340.lua",
+	"ChannelFile": "INI.A340.json",
+	"AircraftProfileEntries": [
+		"inibuilds-a340"
+	],
+	"Aircraft": "iniBuilds A340 (All Variants)",
+	"Author": "Fragtality",
+	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
+	"VersionPlugin": "0.1.4",
+	"VersionApp": "0.3.6",
+	"Capabilities": {
+		"HasFobSaveRestore": true,
+		"FuelSync": 8,
+		"CanSetPayload": true,
+		"PayloadSync": 8,
+		"DoorHandling": 4,
+		"GroundEquipmentHandling": 54,
+		"HasSmartButton": true,
+		"VolumeControl": true
+	},
+	"Settings": [
+		{
+			"Key": "Generic.Option.Aircraft.RefuelStair",
+			"Type": 1,
+			"DefaultValue": false
+		},
+		{
+			"Key": "INI.340.Option.Covers.RemoveStartup",
+			"Type": 1,
+			"DefaultValue": true,
+			"Description": "Remove Covers on Session Start"
+		},
+			{
+			"Key": "INI.340.Option.Fix.PayloadReset",
+			"Type": 1,
+			"DefaultValue": true,
+			"Description": "Try to fix the resetting Payload after Boarding"
+		},
+		{
+			"Key": "Generic.Var.Engine1.Name",
+			"Type": 4,
+			"DefaultValue": "ENG COMBUSTION:1"
+		},
+		{
+			"Key": "Generic.Var.Engine1.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.Engine2.Name",
+			"Type": 4,
+			"DefaultValue": "ENG COMBUSTION:2"
+		},
+		{
+			"Key": "Generic.Var.Engine2.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.PowerAvionic.Name",
+			"Type": 4,
+			"DefaultValue": "L:INI_AC_LIGHTS_FAILURE"
+		},
+		{
+			"Key": "Generic.Var.PowerAvionic.Unit",
+			"Type": 4,
+			"DefaultValue": "number"
+		},
+		{
+			"Key": "Generic.Var.ApuRunning.Name",
+			"Type": 4,
+			"DefaultValue": "L:INI_APU_AVAILABLE"
+		},
+		{
+			"Key": "Generic.Var.ApuRunning.Unit",
+			"Type": 4,
+			"DefaultValue": "number"
+		},
+		{
+			"Key": "Generic.Var.ApuBleedOn.Name",
+			"Type": 4,
+			"DefaultValue": "L:INI_AIR_BLEED_APU"
+		},
+		{
+			"Key": "Generic.Var.ApuBleedOn.Unit",
+			"Type": 4,
+			"DefaultValue": "number"
+		},
+		{
+			"Key": "Generic.Var.LightBeacon.Name",
+			"Type": 4,
+			"DefaultValue": "LIGHT BEACON ON"
+		},
+		{
+			"Key": "Generic.Var.LightBeacon.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.LightNav.Name",
+			"Type": 4,
+			"DefaultValue": "LIGHT NAV ON"
+		},
+		{
+			"Key": "Generic.Var.LightNav.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.ParkBrake.Name",
+			"Type": 4,
+			"DefaultValue": "BRAKE PARKING POSITION"
+		},
+		{
+			"Key": "Generic.Var.ParkBrake.Unit",
+			"Type": 4,
+			"DefaultValue": "Bool"
+		}
+	],
+		"HideGenericSettings": [
+		"Generic.Option.Aircraft.IsCargo",
+		"Generic.Var.Engine1.Name",
+		"Generic.Var.Engine1.Unit",
+		"Generic.Var.Engine2.Name",
+		"Generic.Var.Engine2.Unit",
+		"Generic.Var.ExtAvail.Name",
+		"Generic.Var.ExtAvail.Unit",
+		"Generic.Var.ExtConn.Name",
+		"Generic.Var.ExtConn.Unit",
+		"Generic.Var.DepartTrigger.Name",
+		"Generic.Var.DepartTrigger.Unit",
+		"Generic.Var.DepartTrigger.Comp",
+		"Generic.Var.DepartTrigger.Value"
+	],
+	"InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used is configured in the following Way (if the bundled Profiles are not installed):\r\n• The Option 'Show MSFS Fuel and Cargo during Refueling' is NOT checked!\r\n• The Preferred Exit is set to (L)2\r\n• Lavatory Position corrected\r\n\r\nNOTAMS:\r\n• Disable all GSX Options in the EFB and do NOT use 'load via GSX' in the EFB!\r\n• The Departure Services are started by importing (Init Request) the Flightplan into the MCDU (with the Nav Lights being on)\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request\r\n• Engine/Pitot Covers will automatically be removed on Session Start (configurable)\r\n• KNOWN ISSUE: GSX sometimes disconnects the Hose although Refuel is still running - the Refuel Process will continue (unless configured otherwise in the App)",
+	"PluginDefaultProfile": {
+		"PluginId": "INI.A340",
+		"ChannelFileId": "INI.A340",
+		"ProfileMatches": [
+			{
+			  "MatchData": 4,
+			  "MatchOperation": 3,
+			  "MatchString": "inibuilds-a340"
+			}
+		],
+		"RunAutomationService": true,
+		"RunAudioService": true,
+		"DelayCallRefuelAfterStair": 35,
+		"FuelResetBaseKg": 3800,
+		"AudioMappings": [
+			{
+			"Channel": "CPT.VHF1",
+			"Device": "",
+			"Binary": "vPilot",
+			"UseLatch": false
+			},
+			{
+			"Channel": "CPT.INT",
+			"Device": "",
+			"Binary": "Couatl64_MSFS2024",
+			"UseLatch": true
+			},
+			{
+			"Channel": "CPT.INT",
+			"Device": "",
+			"Binary": "Couatl64_MSFS",
+			"UseLatch": true
+			}
+      	],
+		"AudioStartupVolumes": {
+			"CPT.VHF1": 100,
+			"CPT.INT": 100
+		},
+		"AudioStartupUnmute": {
+			"CPT.VHF1": true,
+			"CPT.INT": true
+		}
+	}
+}

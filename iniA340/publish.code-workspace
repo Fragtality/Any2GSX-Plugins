@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "src"
+		}
+	],
+	"extensions": {
+		"recommendations": [
+			"sumneko.lua"
+		]
+	}
+}
