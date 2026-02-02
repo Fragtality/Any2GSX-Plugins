@@ -13,13 +13,13 @@
 	"Aircraft": "iniBuilds A350 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.1.4",
-	"VersionApp": "0.1.20",
+	"VersionPlugin": "0.1.5",
+	"VersionApp": "0.3.0",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
 		"FuelSync": 8,
-		"CanSetPayload": false,
-		"PayloadSync": 2,
+		"CanSetPayload": true,
+		"PayloadSync": 8,
 		"DoorHandling": 12,
 		"GroundEquipmentHandling": 54,
 		"HasSmartButton": true,
@@ -31,6 +31,18 @@
 			"Type": 1,
 			"DefaultValue": true,
 			"Description": "Remove Covers on Session Start before Walkaround Skip"
+		},
+		{
+			"Key": "INI.350.Option.Override.Board",
+			"Type": 1,
+			"DefaultValue": true,
+			"Description": "Override the native Payload Synch on GSX Boarding"
+		},
+		{
+			"Key": "INI.350.Option.Override.Deboard",
+			"Type": 1,
+			"DefaultValue": true,
+			"Description": "Override the native Payload Synch on GSX Deboarding"
 		},
 		{
 			"Key": "Generic.Var.Engine1.Name",
