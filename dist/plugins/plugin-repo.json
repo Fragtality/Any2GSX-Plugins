@@ -527,8 +527,8 @@
     "Aircraft": "PMDG B777 (All Variants)",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.3.7",
-    "VersionApp": "0.3.7",
+    "VersionPlugin": "0.3.8",
+    "VersionApp": "0.3.8",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
@@ -586,6 +586,7 @@
     ],
     "HideGenericSettings": [
       "Generic.Option.Aircraft.IsCargo",
+      "Generic.Option.Aircraft.GsxGpu",
       "Generic.Var.PowerAvionic.Name",
       "Generic.Var.PowerAvionic.Unit",
       "Generic.Var.ExtAvail.Name",

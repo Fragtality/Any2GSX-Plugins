@@ -21,6 +21,7 @@
 		"Generic.Var.SmartButton.Reset": "",
 		"Generic.Option.Aircraft.IsCargo": false,
 		"Generic.Option.Aircraft.RefuelStair": false,
+		"Generic.Option.Aircraft.GsxGpu": 2,
 		"Generic.Var.Engine1.Name": "ENG COMBUSTION:1",
 		"Generic.Var.Engine1.Unit": "Bool",
 		"Generic.Var.Engine2.Name": "ENG COMBUSTION:2",

@@ -21,6 +21,7 @@
 		"Generic.Var.SmartButton.Reset": "1 (\u003EL:A380X_RMP_1_INT_RAD)",
 		"Generic.Option.Aircraft.IsCargo": false,
 		"Generic.Option.Aircraft.RefuelStair": true,
+		"Generic.Option.Aircraft.GsxGpu": 2,
 		"Generic.Var.Engine1.Name": "ENG COMBUSTION:1",
 		"Generic.Var.Engine1.Unit": "Bool",
 		"Generic.Var.Engine2.Name": "ENG COMBUSTION:2",
