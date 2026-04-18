@@ -14,6 +14,7 @@
 *.userprefs
 publish/
 desktop.ini
+COMMIT.md
 
 # Mono auto generated files
 mono_crash.*

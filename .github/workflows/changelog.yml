@@ -1,0 +1,103 @@
+name: Build Changelog
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'dist/release-info'
+
+permissions:
+  contents: write
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Process changelog
+        run: |
+          node <<'EOF'
+          const fs = require("fs");
+          const { execSync } = require("child_process");
+
+          const file = "CHANGELOG.md";
+          if (!fs.existsSync(file)) process.exit(0);
+
+          const content = fs.readFileSync(file, "utf8").replace(/\r\n/g, "\n");
+
+          const hash = execSync("git rev-parse --short HEAD").toString().trim();
+          const date = new Date().toISOString().slice(0, 10);
+
+          const lines = content.split("\n");
+
+          let draft = [];
+          let rest = [];
+
+          let i = 0;
+
+          // 1. Expect first line to be header
+          if (!lines[i].startsWith("# Changelog")) {
+            console.error("Missing '# Changelog' header");
+            process.exit(1);
+          }
+
+          rest.push(lines[i]); // keep header
+          i++;
+
+          // skip blank lines after header
+          while (i < lines.length && lines[i].trim() === "") i++;
+
+          // 2. Collect draft (until first ##)
+          while (i < lines.length && !lines[i].startsWith("## ")) {
+            draft.push(lines[i]);
+            i++;
+          }
+
+          // 3. Remaining content
+          while (i < lines.length) {
+            rest.push(lines[i]);
+            i++;
+          }
+
+          // clean draft
+          const cleanedDraft = draft.filter(l => l.trim() !== "");
+
+          // If no draft → do nothing
+          if (cleanedDraft.length === 0) {
+            process.exit(0);
+          }
+
+          const newEntry = [
+            `## [${hash}] - ${date}`,
+            "",
+            ...draft,
+            "",
+            "<br/><br/>",
+            ""
+          ];
+
+          // 4. Rebuild file cleanly
+          const output = [
+            "# Changelog",
+            "",
+            ...newEntry,
+            ...rest.slice(1) // skip duplicated header
+          ];
+
+          fs.writeFileSync(file, output.join("\n").replace(/\n{3,}/g, "\n\n") + "\n");
+          EOF
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add CHANGELOG.md
+
+          git commit -m "Auto-update CHANGELOG" || exit 0
+          git push
