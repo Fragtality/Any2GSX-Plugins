@@ -1,7 +1,7 @@
 {
 	"Id": "INI.A340",
+	"SettingId": "INI.340",
 	"Type": 1,
-	"StartMode": 1,
 	"Filename": "INI.A340.lua",
 	"ChannelFile": "INI.A340.json",
 	"AircraftProfileEntries": [
@@ -10,17 +10,20 @@
 	"Aircraft": "iniBuilds A340 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.1.4",
-	"VersionApp": "0.3.6",
+	"VersionPlugin": "0.4.0",
+	"VersionApp": "0.4.0",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
 		"FuelSync": 8,
 		"CanSetPayload": true,
 		"PayloadSync": 8,
 		"DoorHandling": 4,
+		"DoorsSynced": 1,
+		"DoorsCloseAll": false,
 		"GroundEquipmentHandling": 54,
 		"HasSmartButton": true,
-		"VolumeControl": true
+		"VolumeControl": true,
+		"CockpitNotifications": 0
 	},
 	"Settings": [
 		{
@@ -32,13 +35,20 @@
 			"Key": "INI.340.Option.Covers.RemoveStartup",
 			"Type": 1,
 			"DefaultValue": true,
-			"Description": "Remove Covers on Session Start"
+			"Description": "Remove Covers",
+			"Tooltip": "The Covers on the Aircraft will be removed on Session Start."
 		},
-			{
+		{
 			"Key": "INI.340.Option.Fix.PayloadReset",
 			"Type": 1,
 			"DefaultValue": true,
-			"Description": "Try to fix the resetting Payload after Boarding"
+			"Description": "Try to fix Payload Reset",
+			"Tooltip": "Try to fix the resetting Payload after Boarding"
+		},		
+		{
+			"Key": "Generic.Var.ExtAvail.Name",
+			"Type": 4,
+			"DefaultValue": "L:INI_GPU_AVAIL"
 		},
 		{
 			"Key": "Generic.Var.Engine1.Name",
@@ -136,7 +146,7 @@
 		"Generic.Var.DepartTrigger.Comp",
 		"Generic.Var.DepartTrigger.Value"
 	],
-	"InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used is configured in the following Way (if the bundled Profiles are not installed):\r\n• The Option 'Show MSFS Fuel and Cargo during Refueling' is NOT checked!\r\n• The Preferred Exit is set to (L)2\r\n• Lavatory Position corrected\r\n\r\nNOTAMS:\r\n• Disable all GSX Options in the EFB and do NOT use 'load via GSX' in the EFB!\r\n• The Departure Services are started by importing (Init Request) the Flightplan into the MCDU (with the Nav Lights being on)\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request\r\n• Engine/Pitot Covers will automatically be removed on Session Start (configurable)\r\n• KNOWN ISSUE: GSX sometimes disconnects the Hose although Refuel is still running - the Refuel Process will continue (unless configured otherwise in the App)",
+	"InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used is configured in the following Way (if the bundled Profiles are not installed):\r\n• The Option 'Default Fuel System' is NOT checked!\r\n• The Preferred Exit is set to (L)2\r\n• Lavatory Position corrected\r\n\r\nNOTAMS:\r\n• Disable all GSX Options in the EFB and do NOT use 'load via GSX' in the EFB!\r\n• The Departure Services are started by importing (Init Request) the Flightplan into the MCDU (with the Nav Lights being on)\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request\r\n• Engine/Pitot Covers will automatically be removed on Session Start (configurable)\r\n• KNOWN ISSUE: GSX sometimes disconnects the Hose although Refuel is still running - the Refuel Process will continue (unless configured otherwise in the App)",
 	"PluginDefaultProfile": {
 		"PluginId": "INI.A340",
 		"ChannelFileId": "INI.A340",

@@ -1,41 +1,54 @@
 {
 	"Id": "PMDG.B777",
+	"SettingId": "PMDG.777",
 	"Type": 0,
-	"StartMode": 0,
 	"Filename": "Pmdg777Interface.dll",
 	"Aircraft": "PMDG B777 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.3.12",
-	"VersionApp": "0.3.12",
+	"VersionPlugin": "0.4.0",
+	"VersionApp": "0.4.0",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
 		"FuelSync": 8,
 		"CanSetPayload": true,
 		"PayloadSync": 8,
 		"DoorHandling": 10,
+		"DoorsSynced": 30,
+		"DoorsCloseAll": true,
 		"GroundEquipmentHandling": 38,
 		"HasSmartButton": true,
-		"VolumeControl": false
+		"VolumeControl": false,
+		"CockpitNotifications": 0
 	},
 	"Settings": [
 		{
 			"Key": "PMDG.777.Option.ClearVehicles",
 			"Type": 1,
 			"DefaultValue": true,
-			"Description": "Automatically remove all PMDG Vehicles as they appear"
+			"Description": "Clear PMDG Vehicles",
+			"Tooltip": "Automatically remove all PMDG Vehicles as they appear."
 		},
 		{
 			"Key": "PMDG.777.Option.ChangePowerType",
 			"Type": 1,
 			"DefaultValue": true,
-			"Description": "Automatically change Power Plug Type between GPU and Jetway"
+			"Description": "Set GPU Plug Type",
+			"Tooltip": "Automatically change Power Plug Type between GPU and Jetway depending on the Gate used."
 		},
 		{
 			"Key": "PMDG.777.Option.CargoLights",
 			"Type": 1,
 			"DefaultValue": true,
-			"Description": "Automatically toggle the Cargo Lights on the 777F"
+			"Description": "Toggle Cargo Lights",
+			"Tooltip": "Automatically toggle the Cargo Lights on the 777F when the Doors are operated or GSX becomes active."
+		},
+		{
+			"Key": "PMDG.777.Option.OperateBulk",
+			"Type": 1,
+			"DefaultValue": true,
+			"Description": "Use Bulk Cargo Door",
+			"Tooltip": "Also Open or Close the Bulk Cargo Door when the other Cargo Doors are operated (Pax/Cargo)."
 		},
 		{
 			"Key": "Generic.Option.Aircraft.RefuelStair",
@@ -61,6 +74,11 @@
 			"Key": "Generic.Var.Engine2.Unit",
 			"Type": 4,
 			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Option.Aircraft.InitDelay",
+			"Type": 2,
+			"DefaultValue": 2000
 		}
 	],
 	"HideGenericSettings": [
@@ -87,7 +105,7 @@
 		"Generic.Var.DepartTrigger.Comp",
 		"Generic.Var.DepartTrigger.Value"
 	],
-	"InstallUsageNotes": "IMPORTANT: DataBroadcast needs to be enabled in the 777_Options.ini File (for each Variant and Simulator)!\r\nConsult the PMDG_777_MSFS_SDK Manual in the Aircraft's Documentation\\SDK Folder.\r\n\r\nRECOMMENDED: The internal/GSX provided Aircraft Profiles can be more accurate than the PMDG provided Profiles.\r\nYou eventually need to delete the gsx.cfg File in the SimObjects\\Airplanes\\PMDG 777... Folder.\r\n\r\nNOTAMs:\r\n• The Departure Services will start when the Flightplan is imported in the UFT\r\n• The SmartButton is mapped to the MIC/INT Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
+	"InstallUsageNotes": "IMPORTANT: DataBroadcast needs to be enabled in the 777_Options.ini File (for each Variant and Simulator)!\r\nConsult the PMDG_777_MSFS_SDK Manual in the Aircraft's Documentation\\SDK Folder.\r\n\r\nRECOMMENDED: Use the internal/GSX provided Aircraft Profiles.\r\nYou eventually need to delete the gsx.cfg File in the SimObjects\\Airplanes\\PMDG 777... Folder.\r\n\r\nNOTAMs:\r\n• The Departure Services will start when the Flightplan is imported in the UFT\r\n• The SmartButton is mapped to the MIC/INT Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
 	"PluginDefaultProfile": {
 		"PluginId": "PMDG.B777",
 		"ProfileMatches": [

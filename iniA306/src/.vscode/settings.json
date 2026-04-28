@@ -23,6 +23,7 @@
         "WriteVar",
         "GetSetting",
         "GetSettingProfile",
+        "GetPluginSetting",
         "GetAircraftPlugin"
     ]
 }

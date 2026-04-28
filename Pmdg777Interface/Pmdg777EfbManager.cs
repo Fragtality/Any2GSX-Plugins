@@ -19,32 +19,45 @@ namespace Pmdg777Interface
         public virtual bool IsConnected => EfbData?.ground_conn != null && EfbData?.autocruise != null;
         public virtual bool IsRequestPending { get; set; } = false;
         public virtual bool HasEfbImportedFlightPlan { get; set; } = false;
+        public virtual bool WasEfbFlightPlanSynced { get; set; } = true;
         public static string DefaultRequestFormat { get; } = "{{\"data\":{{\"{0}\":1}},\"message_tag\":\"{1}\",\"tablet_side\":\"{2}\"}}";
+        public virtual DateTime TimeNextUpdateToggle { get; set; } = DateTime.MaxValue;
+        public virtual int GpuSetAttempts { get; set; } = 0;
+        public const int GpuMaxAttempts = 10;
 
         public virtual async Task CheckEfb()
         {
-            if (SettingProfile.HasSetting<bool>(PmdgSettings.OptionClearVehicles, out bool clearVehicles) && clearVehicles)
+            if (SettingProfile.GetSetting(PmdgSettings.ClearVehicles))
                 await CheckVehicles();
+
+            if (HasEfbImportedFlightPlan && !WasEfbFlightPlanSynced && !Aircraft.Flightplan.IsLoaded
+                && AutomationState < AutomationState.Pushback && AutomationState > AutomationState.TaxiIn)
+            {
+                Logger.Debug($"Trigger OFP Import in App");
+                await Aircraft.Flightplan.ImportOfp();
+            }
+            WasEfbFlightPlanSynced = true;
         }
 
-        public virtual void ResetState()
+        public virtual void ResetFlight()
         {
-            HasEfbImportedFlightPlan = false;
+            WasEfbFlightPlanSynced = true;
         }
 
         public virtual async Task CheckConnection()
         {
-            if (!IsConnected && !IsRequestPending)
+            if (!IsConnected && !IsRequestPending && !GsxController.IsWalkaround && TimeNextUpdateToggle < DateTime.Now)
+            {
                 await ToggleEfbUpdate();
+                TimeNextUpdateToggle = Pmdg777Aircraft.GetTime();
+            }
+            else if (IsConnected)
+                TimeNextUpdateToggle = DateTime.MinValue;
         }
 
         protected virtual async Task CheckVehicles()
         {
-            if (IsRequestPending || !(AutomationState == AutomationState.SessionStart
-                || AutomationState == AutomationState.Preparation
-                || AutomationState == AutomationState.Departure
-                || AutomationState == AutomationState.Arrival
-                || AutomationState == AutomationState.TurnAround))
+            if (IsRequestPending || !Aircraft.DoorManager.IsStateValid)
                 return;
 
             if (EfbData?.vehicles != null && IsConnected && !IsRequestPending)
@@ -64,88 +77,105 @@ namespace Pmdg777Interface
             }
         }
 
-        protected virtual async Task CheckVehicle(string vehicle)
+        protected virtual Task CheckVehicle(string vehicle)
         {
-            if (EfbData.vehicles.HasProperty<string>($"{vehicle}_state", out string vehicleText))
+            if (EfbData?.vehicles?.HasProperty<string>($"{vehicle}_state", out string vehicleText) == true)
             {
                 if (CheckTextConnected(vehicleText))
-                    await ToggleVehicle(vehicle);
+                    return ToggleVehicle(vehicle);
             }
+
+            return Task.CompletedTask;
         }
 
         public virtual bool CheckExternalConnected()
         {
-            return CheckTextConnected(EfbData.ground_conn.ground_power_state);
+            return CheckTextConnected(EfbData?.ground_conn?.ground_power_state);
         }
 
         public static bool CheckTextConnected(string text)
         {
-            return text == "RELEASE" || text == "CONNECTING";
+            return text?.Contains("RELEASE", StringComparison.InvariantCultureIgnoreCase) == true || text?.Contains("CONNECTING", StringComparison.InvariantCultureIgnoreCase) == true;
         }
 
-        public virtual async Task SendPayloadData(JsonObject data)
+        public virtual Task SendPayloadData(JsonObject data)
         {
-            await SendToPlane("{\"message_tag\":\"wb_payload\",\"data\":" + data.ToJsonString() + ",\"tablet_side\":\"CA\"}");
+            return SendToPlane("{\"message_tag\":\"wb_payload\",\"data\":" + data.ToJsonString() + ",\"tablet_side\":\"CA\"}");
         }
 
-        public virtual async Task SetPayloadEmpty()
+        public virtual Task SetPayloadEmpty()
         {
             JsonObject payloadData = new()
             {
                 ["overall_load_level_percent"] = 0
             };
-            await SendPayloadData(payloadData);
+            return SendPayloadData(payloadData);
         }
 
-        public virtual async Task SetFuelOnBoardKg(double fuelKg)
+        public virtual Task SetFuelOnBoardKg(double fuelKg)
         {
             int fuel = (int)AppResources.WeightConverter.ToLb(fuelKg);
             var payloadData = new JsonObject()
             {
                 ["fuel_total_lbs"] = fuel
             };
-            await SendPayloadData(payloadData);
+            return SendPayloadData(payloadData);
         }
 
-        public virtual async Task SetPaxOnBoard(int paxOnBoard)
+        public virtual Task SetPaxOnBoard(int paxOnBoard)
         {
             var payloadData = new JsonObject()
             {
                 ["pax_count_total"] = paxOnBoard
             };
-            await SendPayloadData(payloadData);
+            return SendPayloadData(payloadData);
         }
 
-        public virtual async Task SetCargoOnBoard(double cargoOnBoardKg)
+        public virtual Task SetCargoOnBoard(double cargoOnBoardKg)
         {
             int cargo = (int)AppResources.WeightConverter.ToLb(cargoOnBoardKg);
             var payloadData = new JsonObject()
             {
                 ["cargo_weight_total"] = cargo
             };
-            await SendPayloadData(payloadData);
+            return SendPayloadData(payloadData);
         }
 
-        public virtual bool? CheckGpuType()
+        public virtual bool CheckGpuType()
         {
             if (!IsConnected)
-                return null;
+                return false;
 
-            if (SettingProfile.HasSetting<bool>(PmdgSettings.OptionChangePowerType, out bool checkPower) && !checkPower)
+            if (!SettingProfile.GetSetting(PmdgSettings.ChangePowerType))
                 return true;
 
-            if (GsxController.HasGateJetway && EfbData.ground_conn.ground_power_type != "DUAL JETWAY PLUGS")
-                return false;
-            if (!GsxController.HasGateJetway && EfbData.ground_conn.ground_power_type != "DUAL GPU PLUGS")
-                return false;
+            if (GsxController.HasGateJetway && EfbData.IsGpuDual && EfbData.IsGpuJetway)
+                return true;
+            if (!GsxController.HasGateJetway && EfbData.IsGpuDual && EfbData.IsGpuCart)
+                return true;
 
-            return true;
+            return GpuSetAttempts >= GpuMaxAttempts;
         }
 
-        public virtual async Task ToggleVehicle(string vehicle)
+        public virtual async Task<bool> CycleGpu()
         {
-            await SendRequest(vehicle, "ground_vehicles");
+            if (!SettingProfile.GetSetting(PmdgSettings.ChangePowerType))
+                return false;
+
+            await SendRequest("ground_power_type", "ground_conn");
+            GpuSetAttempts++;
+            return GpuSetAttempts < GpuMaxAttempts;
+        }
+
+        public virtual Task ToggleGpu()
+        {
+            return SendRequest("ground_power", "ground_conn");
+        }
+
+        public virtual Task ToggleVehicle(string vehicle)
+        {
             IsRequestPending = true;
+            return SendRequest(vehicle, "ground_vehicles");
         }
 
         public virtual void OnCommBusEvent(string @event, string data)
@@ -155,7 +185,8 @@ namespace Pmdg777Interface
                 if (@event == "PlaneToTablet")
                 {
                     JsonNode node = JsonNode.Parse(data);
-                    //Logger.Debug($"PlaneToTablet: {data}");
+                    if (Aircraft.Config.LogLevel == LogLevel.Verbose)
+                        Logger.Verbose($"PlaneToTablet: {data}");
                     bool hasTag = node["message_tag"] != null;
                     if (hasTag && node["autocruise"] != null)
                     {
@@ -173,9 +204,10 @@ namespace Pmdg777Interface
                         {
                             Logger.Debug("EFB has imported Flightplan!");
                             HasEfbImportedFlightPlan = true;
+                            WasEfbFlightPlanSynced = false;
                         }
                         else
-                            Logger.Debug($"Received unknown PlaneToTablet Event: {data}");
+                            Logger.Verbose($"Received unknown PlaneToTablet Event: {data}");
                     }
                     else
                     {
@@ -189,27 +221,27 @@ namespace Pmdg777Interface
             }
         }
 
-        public virtual async Task SendToPlane(string data)
+        public virtual Task SendToPlane(string data)
         {
             Logger.Verbose($"Sending to Plane: {data}");
-            await CommBus.SendCommBus("TabletToPlane", data, BroadcastFlag.WASM);
+            return CommBus.SendCommBus("TabletToPlane", data, BroadcastFlag.WASM);
         }
 
-        public virtual async Task SendRequest(string request, string tag, string side = "CA")
+        public virtual Task SendRequest(string request, string tag, string side = "CA")
         {
-            await SendToPlane(string.Format(DefaultRequestFormat, request, tag, side));
+            return SendToPlane(string.Format(DefaultRequestFormat, request, tag, side));
         }
 
-        public virtual async Task ToggleEfbUpdate()
+        public virtual Task ToggleEfbUpdate()
         {
             Logger.Debug($"Toggle EFB Update");
-            await SendToPlane("{\"message_tag\":\"query_state\",\"data\":{\"request\":\"yes\"},\"tablet_side\":\"CA\"}");
+            return SendToPlane("{\"message_tag\":\"query_state\",\"data\":{\"request\":\"yes\"},\"tablet_side\":\"CA\"}");
         }
 
-        public virtual async Task ChangeGroundPowerType()
+        public virtual Task ChangeGroundPowerType()
         {
-            await SendRequest("ground_power_type", "ground_conn");
             IsRequestPending = true;
+            return SendRequest("ground_power_type", "ground_conn");
         }
     }
 }

@@ -1,7 +1,7 @@
 {
 	"Id": "INI.A306",
+	"SettingId": "INI.306",
 	"Type": 1,
-	"StartMode": 0,
 	"Filename": "INI.A306.lua",
 	"ChannelFile": "INI.A306.json",
 	"AircraftProfileEntries": [
@@ -14,17 +14,20 @@
 	"Aircraft": "iniBuilds A300-600 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.1.1",
-	"VersionApp": "0.1.1",
+	"VersionPlugin": "0.4.0",
+	"VersionApp": "0.4.0",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
 		"FuelSync": 8,
 		"CanSetPayload": true,
 		"PayloadSync": 8,
 		"DoorHandling": 12,
+		"DoorsSynced": 16,
+		"DoorsCloseAll": false,
 		"GroundEquipmentHandling": 22,
 		"HasSmartButton": true,
-		"VolumeControl": true
+		"VolumeControl": true,
+		"CockpitNotifications": 0
 	},
 	"Settings": [
 		{
@@ -40,22 +43,32 @@
 				"4": "Racing",
 				"5": "Horses"
 			},
-			"Description": "The visual Cargo/Freight Model to set on the Freighter"
+			"Description": "Cargo: Set Visual Model (Freighter)",
+			"Tooltip": "Set the selected visual Cargo/Freight Model on the Freighter when Boarding is completed."
 		},
 		{
 			"Key": "INI.306.Option.CargoSetValue",
 			"Type": 2,
 			"DefaultValue": 50,
-			"Description": "The Cargo Percentage at which the Model gets set at Boarding"
+			"Description": "Cargo: Set at (Boarding)",
+			"DescUnit": "%",
+			"Tooltip": "The Cargo loaded Percentage (as reported by GSX) at which the Model is set."
 		},
 		{
 			"Key": "INI.306.Option.CargoUnsetValue",
 			"Type": 2,
 			"DefaultValue": 50,
-			"Description": "The Cargo Percentage at which the Model gets unset at Deboarding"
+			"Description": "Cargo: Remove at (Deboarding)",
+			"DescUnit": "%",
+			"Tooltip": "The Cargo unloaded Percentage (as reported by GSX) at which the Model is removed."
 		},
 		{
 			"Key": "Generic.Option.Aircraft.RefuelStair",
+			"Type": 1,
+			"DefaultValue": false
+		},
+		{
+			"Key": "Generic.Option.Aircraft.FuelDialog",
 			"Type": 1,
 			"DefaultValue": false
 		},
@@ -78,6 +91,16 @@
 			"Key": "Generic.Var.Engine2.Unit",
 			"Type": 4,
 			"DefaultValue": "Bool"
+		},
+		{
+			"Key": "Generic.Var.ExtAvail.Name",
+			"Type": 4,
+			"DefaultValue": "L:INI_GPU_AVAIL"
+		},
+		{
+			"Key": "Generic.Var.ExtConn.Name",
+			"Type": 4,
+			"DefaultValue": "EXTERNAL POWER ON:1"
 		},
 		{
 			"Key": "Generic.Var.ApuRunning.Name",
@@ -143,7 +166,7 @@
 		"Generic.Var.DepartTrigger.Comp",
 		"Generic.Var.DepartTrigger.Value"
 	],
-	"InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Show MSFS Fuel and Cargo during Refueling' checked!\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing the Flightplan into the MCDU via ACARS\r\n• The SmartButton is mapped to the Voice Ident Switch on the ACP (Captain and FO) - move to Ident Position to trigger a Request",
+	"InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Default Fuel System' checked! (if not using the included GSX Aircraft Profiles)\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing the Flightplan into the MCDU via ACARS\r\n• The SmartButton is mapped to the Voice Ident Switch on the ACP (Captain and FO) - move to Ident Position to trigger a Request",
 	"PluginDefaultProfile": {
 		"PluginId": "INI.A306",
 		"ChannelFileId": "INI.A306",

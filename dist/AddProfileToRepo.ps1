@@ -49,7 +49,7 @@ try {
 	}
 	
 	Write-Host "Profile '$($name)' v$($versionProfile) $operation"
-	
+	[DateTimeOffset]::UtcNow.ToUnixTimeSeconds() | Out-File -FilePath (Join-Path $pwd.Path "release-info")
 	exit 0
 }
 catch {

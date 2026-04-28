@@ -13,7 +13,6 @@ UseVar("L:FSDT_GSX_SETTINGS_DETECT_CUST_REFUEL", "Number")
 UseVar("L:FSDT_GSX_SET_DETECT_CUST_REFUEL", "Number")
 UseVar("L:INI_AC_ESSENTIAL_BUS_POWERED", "Number")
 UseVar("L:INI_dc_essential_on_battery", "Number")
-UseVar("EXTERNAL POWER ON:1", "Bool")
 UseVar("L:INI_GPU_AVAIL", "Number")
 UseVar("L:INI_CPT_VOICE_IDENT_SWITCH", "Number")
 UseVar("L:INI_FO_VOICE_IDENT_SWITCH", "Number")
@@ -36,18 +35,7 @@ UseVar("L:INI_LOAD_NORMAL_SHOW", "Number")
 UseVar("L:INI_LOAD_POSTAL_SHOW", "Number")
 UseVar("L:INI_LOAD_RACING_SHOW", "Number")
 UseVar("L:INI_LOAD_HORSES_SHOW", "Number")
-
-function OnCouatlStarted()
-    if ReadVar("L:FSDT_GSX_SETTINGS_PROGRESS_REFUEL") == 1 then
-        Log("Disabling progressive Refuel")
-        WriteVar("L:FSDT_GSX_SET_PROGRESS_REFUEL", -1)
-    end
-
-    if ReadVar("L:FSDT_GSX_SETTINGS_DETECT_CUST_REFUEL") == 1 then
-        Log("Disabling custom Fuel Detection")
-        WriteVar("L:FSDT_GSX_SET_DETECT_CUST_REFUEL", -1)
-    end
-end
+UseVar("INTERACTIVE POINT GOAL:10", "percent over 100") --Bulk @ Pax
 
 function GetIsCargo()
     return ReadVar("L:INI_IS_PAX") == 0 and ReadVar("L:INI_FUEL_ON_BOARD") > 0
@@ -70,15 +58,7 @@ function GetAvionicPowered()
     return ReadVar("L:INI_AC_ESSENTIAL_BUS_POWERED") == 1 and ReadVar("L:INI_dc_essential_on_battery") == 0
 end
 
-function GetExternalPowerConnected()
-    return ReadVar("EXTERNAL POWER ON:1") == true
-end
-
-function GetExternalPowerAvailable()
-    return ReadVar("L:INI_GPU_AVAIL") > 0
-end
-
-function GetHasFuelSynch()
+function GetHasFuelSync()
     return true
 end
 
@@ -103,7 +83,7 @@ function GetEquipmentChocks()
 end
 
 function SetEquipmentPower(state, force)
-    if GetExternalPowerConnected() == true and -not state and -not force then
+    if aircraft.PowerConnected == true and -not state and -not force then
         return
     end
 
@@ -115,7 +95,7 @@ function SetEquipmentPower(state, force)
 end
 
 function SetEquipmentChocks(state, force)
-    if aircraft.IsBrakeSet == false and -not state and -not force then
+    if aircraft.ParkingBrake == false and -not state and -not force then
         return
     end
 
@@ -124,6 +104,14 @@ function SetEquipmentChocks(state, force)
     else
         WriteVar("L:INI_CHOCKS_ENABLED", 0)
     end
+end
+
+function BeforeWalkaroundSkip()
+    RemoveCovers()
+end
+
+function HandleWalkaroundEquipment()
+    RemoveCovers()
 end
 
 function OnDoorTrigger(door, trigger)
@@ -157,8 +145,8 @@ function OnMainCargoDoor(position)
     end
 end
 
-function SetFuelOnBoardKg(fuelKg)
-    WriteVar("L:INI_FUEL_REQ", fuelKg)
+function SetFuelOnBoardKg(fuelOnBoardKg, targetKg)
+    WriteVar("L:INI_FUEL_REQ", fuelOnBoardKg)
 end
 
 local payloadPaxKg = 0
@@ -167,9 +155,9 @@ local cargoModelSet = false
 
 function SetPayloadStations()
     local payloadTotalKg = payloadPaxKg + payloadCargoKg
-    WriteVar("PAYLOAD STATION WEIGHT:6", payloadTotalKg * 0.33)
-    WriteVar("PAYLOAD STATION WEIGHT:7", payloadTotalKg * 0.33)
-    WriteVar("PAYLOAD STATION WEIGHT:8", payloadTotalKg * 0.33)
+    WriteVar("PAYLOAD STATION WEIGHT:6", payloadTotalKg * 0.333333)
+    WriteVar("PAYLOAD STATION WEIGHT:7", payloadTotalKg * 0.333333)
+    WriteVar("PAYLOAD STATION WEIGHT:8", payloadTotalKg * 0.333333)
 end
 
 function SetInitialStations()
@@ -181,12 +169,17 @@ function SetInitialStations()
 end
 
 function OnAutomationStateChange(state)
-    if state == 1 then
+    if state == 0 then
+        RemoveCovers()
+    elseif state == 1 then
         payloadPaxKg = 0
         payloadCargoKg = 0
-        if ReadVar("L:INI_COVERS_ENABLED") > 0 then
-            WriteVar("L:INI_COVERS_ENABLED", 0)
-        end
+    end
+end
+
+function RemoveCovers()
+    if ReadVar("L:INI_COVERS_ENABLED") > 0 then
+        WriteVar("L:INI_COVERS_ENABLED", 0)
     end
 end
 
@@ -199,7 +192,7 @@ function SetPayloadEmpty()
 end
 
 function RemoveCargoModel()
-    if GetIsCargo() and GetSetting("INI.306.Option.CargoModel") >= 0 then
+    if GetIsCargo() and GetPluginSetting("CargoModel") >= 0 then
         WriteVar("L:INI_LOAD_HUMANITARIAN_SHOW", 0)
         WriteVar("L:INI_LOAD_AEROPARTS_SHOW", 0)
         WriteVar("L:INI_LOAD_NORMAL_SHOW", 0)
@@ -210,7 +203,7 @@ function RemoveCargoModel()
     end
 end
 
-function OnStairChange(state)
+function OnStairStateChange(state, paxDoorAllowed)
     if (state == 1 or state == 3 or state == 4 or state == 5) then
         if ReadVar("L:INI_SLIDE_L1") > 0 then
             Log("Stowing Slides on L1")
@@ -223,7 +216,7 @@ function OnStairChange(state)
     end
 end
 
-function OnJetwayChange(state)
+function OnJetwayStateChange(state, paxDoorAllowed)
         if (state == 1 or state == 3 or state == 4 or state == 5) then
         if ReadVar("L:INI_SLIDE_L1") > 0 then
             Log("Stowing Slides on L1")
@@ -236,22 +229,28 @@ function OnJetwayChange(state)
     end
 end
 
+function SetCargoDoors(state, force)
+    if not GetIsCargo() and not state and ReadVar("INTERACTIVE POINT GOAL:10") > 0 then
+        WriteVar("INTERACTIVE POINT GOAL:10", 0)
+    end
+end
+
 function BoardActive(paxTarget, cargoTargetKg)
     payloadPaxKg = 0
     payloadCargoKg = 0
     RemoveCargoModel()
 end
 
-function BoardChangePax(paxOnBoard, weightPerPaxKg)
+function BoardChangePax(paxOnBoard, weightPerPaxKg, paxTarget)
     payloadPaxKg = paxOnBoard * weightPerPaxKg
     SetPayloadStations()
 end
 
-function BoardChangeCargo(progressLoad, cargoOnBoardKg)
+function BoardChangeCargo(progressLoad, cargoOnBoardKg, cargoPlannedKg)
     payloadCargoKg = cargoOnBoardKg
     SetPayloadStations()
-    if GetIsCargo() and not cargoModelSet and progressLoad >= GetSetting("INI.306.Option.CargoSetValue") then
-        local modelTarget = GetSetting("INI.306.Option.CargoModel")
+    if GetIsCargo() and not cargoModelSet and progressLoad >= GetPluginSetting("CargoSetValue") then
+        local modelTarget = GetPluginSetting("CargoModel")
         if modelTarget == 0 then
             WriteVar("L:INI_LOAD_NORMAL_SHOW", 1)
         elseif modelTarget == 1 then
@@ -275,7 +274,7 @@ function BoardCompleted(paxTarget, weightPerPaxKg, cargoTargetKg)
     SetPayloadStations()
 
     local profile = GetSettingProfile()
-    if GetIsCargo() == true and profile.DoorCargoHandling == true then
+    if GetIsCargo() == true and profile.DoorCargoHandling == true and not profile.DoorsCargoKeepOpenOnDetachBoard then
         local door = ReadVar("L:INI_MAIN_CARGO_DOOR_TGT") > 0
         if door == true then
             WriteVar("L:INI_MAIN_CARGO_DOOR_TGT", 0)
@@ -291,7 +290,7 @@ end
 function DeboardChangeCargo(progressUnload, cargoOnBoardKg)
     payloadCargoKg = cargoOnBoardKg
     SetPayloadStations()
-    if GetIsCargo() and cargoModelSet and progressUnload <= GetSetting("INI.306.Option.CargoUnsetValue") then
+    if GetIsCargo() and cargoModelSet and progressUnload <= GetPluginSetting("CargoUnsetValue") then
         RemoveCargoModel()
     end
 end
@@ -302,7 +301,7 @@ function DeboardCompleted()
     SetPayloadStations()
 
     local profile = GetSettingProfile()
-    if GetIsCargo() == true and profile.DoorCargoHandling == true then
+    if GetIsCargo() == true and profile.DoorCargoHandling == true and not profile.DoorsCargoKeepOpenOnDetachDeboard then
         local door = ReadVar("L:INI_MAIN_CARGO_DOOR_TGT") > 0
         if door == true then
             WriteVar("L:INI_MAIN_CARGO_DOOR_TGT", 0)

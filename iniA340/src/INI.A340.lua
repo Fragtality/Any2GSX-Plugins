@@ -46,15 +46,13 @@ UseVar("ENG COMBUSTION:3", "Bool")
 UseVar("ENG COMBUSTION:4", "Bool")
 SubVar("PAYLOAD STATION WEIGHT:3", "OnPayloadChange", "Kilogram")
 
-function OnCouatlStarted()
-    if ReadVar("L:FSDT_GSX_SETTINGS_PROGRESS_REFUEL") == 1 then
-        Log("Disabling progressive Refuel")
-        WriteVar("L:FSDT_GSX_SET_PROGRESS_REFUEL", -1)
-    end
+function BeforeWalkaroundSkip()
+    CheckSetCovers()
+end
 
-    if ReadVar("L:FSDT_GSX_SETTINGS_DETECT_CUST_REFUEL") == 1 then
-        Log("Disabling custom Fuel Detection")
-        WriteVar("L:FSDT_GSX_SET_DETECT_CUST_REFUEL", -1)
+function CheckSetCovers()
+    if GetPluginSetting("Covers.RemoveStartup") and ReadVar("L:INI_COVERS_ENABLED") ~= 0 then
+        SendInput("common_a340_cfm_cover_1_a340_cfm_cover_1", 1)
     end
 end
 
@@ -63,11 +61,11 @@ function GetIsCargo()
 end
 
 function GetReadyDepartureServices()
-    return aircraft.IsAvionicPowered and aircraft.LightNav and ReadVar("L:INI_DEP_ICAO_EFB") > 0 and ReadVar("L:INI_ARR_ICAO_EFB") > 0
+    return aircraft.AvionicPowered and aircraft.LightNav and ReadVar("L:INI_DEP_ICAO_EFB") > 0 and ReadVar("L:INI_ARR_ICAO_EFB") > 0
 end
 
 function GetSmartButtonRequest()
-   return aircraft.IsAvionicPowered and (ReadVar("L:INI_CPT_INT_RAD_SWITCH") == 0 or ReadVar("L:INI_FO_INT_RAD_SWITCH") == 0)
+   return aircraft.AvionicPowered and (ReadVar("L:INI_CPT_INT_RAD_SWITCH") == 0 or ReadVar("L:INI_FO_INT_RAD_SWITCH") == 0)
 end
 
 function ResetSmartButton()
@@ -75,15 +73,11 @@ function ResetSmartButton()
     WriteVar("L:INI_FO_INT_RAD_SWITCH", 1)
 end
 
-function GetExternalPowerAvailable()
-    return ReadVar("L:INI_GPU_AVAIL") == 1
-end
-
 function GetExternalPowerConnected()
     return ReadVar("L:INI_GEN_EXT_A_ONLINE") == 1 or ReadVar("L:INI_GEN_EXT_B_ONLINE") == 1
 end
 
-function GetHasFuelSynch()
+function GetHasFuelSync()
     return true
 end
 
@@ -197,12 +191,12 @@ function SetTanks(wingMain, wingAux, centers, trim)
     -- Log("tankAux: " .. tostring(tankAux) .. " | tankMain: " .. tostring(tankMain) .. " | tankCenters: " .. tostring(tankCenters) .. " | tankTrim: " .. tostring(tankTrim))
 end
 
-function RefuelTick(stepKg, fuelKg)
+function RefuelTick(isFuelInc, stepKg, fuelOnBoardKg, fuelTargetKg)
     local distMain = 0
     local distAux = 0
     local distCenter = 0
     local distTrim = 0
-    -- Log("Tick - Step: " .. tostring(stepKg) .. " | FOB: " ..tostring(fuelKg))
+    -- Log("Tick - Step: " .. tostring(stepKg) .. " | FOB: " ..tostring(fuelOnBoardKg))
     if tankMain < minMain then -- filling main tanks only until 4500kg each
         distMain = 1
     elseif tankAux < maxAux then -- filling aux + main tanks until 3000kg aux
@@ -225,36 +219,36 @@ function RefuelTick(stepKg, fuelKg)
     SetTanks(tankMain + (halfStep * distMain), tankAux + (halfStep * distAux), tankCenters + (stepKg * distCenter), tankTrim + (stepKg * distTrim))
 end
 
-function SetFuelOnBoardKg(fuelKg)
+function SetFuelOnBoardKg(fuelOnBoardKg, fuelTargetKg)
     local wingMain = 0
     local wingAux = 0
     local centers = 0
     local trim = 0
-    if fuelKg < (minMain * 2.0) then -- filling main tanks only until 4500kg each
-        wingMain = math.min((fuelKg / 2.0), minMain)
+    if fuelOnBoardKg < (minMain * 2.0) then -- filling main tanks only until 4500kg each
+        wingMain = math.min((fuelOnBoardKg / 2.0), minMain)
         wingAux = 0
         centers = 0
         trim = 0
-    elseif fuelKg < ((minMain * 2.0) + (maxAux * 2.0)) then -- filling aux tanks only until 3000kg each
+    elseif fuelOnBoardKg < ((minMain * 2.0) + (maxAux * 2.0)) then -- filling aux tanks only until 3000kg each
         wingMain = minMain
-        wingAux = math.max(((fuelKg - (minMain * 2.0)) / 2.0), 0)
+        wingAux = math.max(((fuelOnBoardKg - (minMain * 2.0)) / 2.0), 0)
         wingAux = math.min(wingAux, maxAux)
         centers = 0
         trim = 0
-    elseif fuelKg < ((trimMain * 2.0) + (maxAux * 2.0)) then -- filling main tanks only until 15240kg each
-        wingMain = math.max(((fuelKg - (maxAux * 2.0)) / 2.0), minMain)
+    elseif fuelOnBoardKg < ((trimMain * 2.0) + (maxAux * 2.0)) then -- filling main tanks only until 15240kg each
+        wingMain = math.max(((fuelOnBoardKg - (maxAux * 2.0)) / 2.0), minMain)
         wingMain = math.min(wingMain, trimMain)
         wingAux = maxAux
         centers = 0
         trim = 0
-    elseif fuelKg < ((trimMain * 2.0) + (maxAux * 2.0) + minTrim) then -- filling trim tank additionally until 2400kg
+    elseif fuelOnBoardKg < ((trimMain * 2.0) + (maxAux * 2.0) + minTrim) then -- filling trim tank additionally until 2400kg
         wingAux = maxAux
-        local remain = math.max((fuelKg - (trimMain * 2.0) - (maxAux * 2.0)), 0)
+        local remain = math.max((fuelOnBoardKg - (trimMain * 2.0) - (maxAux * 2.0)), 0)
         wingMain = trimMain + (remain * 0.85)
         trim = math.min(remain * 0.15, minTrim)
         centers = 0
-    elseif fuelKg < ((maxMain * 2.0) + (maxAux * 2.0) + minTrim) then -- filling main tanks only until 34140kg each
-        wingMain = math.max(((fuelKg - (maxAux * 2.0) - minTrim) / 2.0), trimMain)
+    elseif fuelOnBoardKg < ((maxMain * 2.0) + (maxAux * 2.0) + minTrim) then -- filling main tanks only until 34140kg each
+        wingMain = math.max(((fuelOnBoardKg - (maxAux * 2.0) - minTrim) / 2.0), trimMain)
         wingMain = math.min(wingMain, maxMain)
         wingAux = maxAux
         trim = minTrim
@@ -262,7 +256,7 @@ function SetFuelOnBoardKg(fuelKg)
     else -- filling center and trim until full (96/4 % split)
         wingMain = maxMain
         wingAux = maxAux
-        local centerTrim = fuelKg - (maxMain * 2.0) - (maxAux * 2.0) - minTrim
+        local centerTrim = fuelOnBoardKg - (maxMain * 2.0) - (maxAux * 2.0) - minTrim
         centers = math.max(0, centerTrim * 0.96)
         centers = math.min(centers, maxCenters)
         trim = math.max(minTrim, minTrim + (centerTrim * 0.04))
@@ -282,16 +276,10 @@ function RefuelActive()
 
     gsxController.GetService(2).StateOverride = 5
     WriteVar("L:FSDT_GSX_REFUELING_STATE", 2)
-
-    if gsxController.HasUndergroundRefuel then
-        RunAfter(81000, "SetFuelDoor(1)")
-    else
-        RunAfter(25000, "SetFuelDoor(1)")
-    end
 end
 
-function SetFuelDoor(target)
-    WriteVar("L:INI_REFUELING_DOOR_POSITION", target)
+function SetPanelRefuel(target)
+    WriteVar("L:INI_REFUELING_DOOR_POSITION", target and 1 or 0)
 end
 
 function RefuelStart(fuelTargetKg)
@@ -308,11 +296,6 @@ function RefuelStop(fuelTargetKg, setTarget)
         SetFuelOnBoardKg(fuelTargetKg)
     end
 
-    if gsxController.HasUndergroundRefuel then
-        RunAfter(32000, "SetFuelDoor(0)")
-    else
-        RunAfter(44000, "SetFuelDoor(0)")
-    end
     WriteVar("L:INI_REFUEL_IN_PROGRESS", 0)
 end
 
@@ -341,20 +324,20 @@ function SetPayloadEmpty()
     SetPayloadStations()
 end
 
-function BoardActive(paxTarget, cargoTargetKg)
-    payloadPaxKg = 0
-    payloadCargoKg = 0
-    boardCompleted = false
-end
-
-function BoardChangePax(paxOnBoard, weightPerPaxKg)
+function SetPaxOnBoard(paxOnBoard, weightPerPaxKg, paxTarget)
     payloadPaxKg = paxOnBoard * weightPerPaxKg
     SetPayloadStations()
 end
 
-function BoardChangeCargo(progressLoad, cargoOnBoardKg)
+function SetCargoOnBoard(cargoOnBoardKg, cargoTargetKg)
     payloadCargoKg = cargoOnBoardKg
     SetPayloadStations()
+end
+
+function BoardActive(paxTarget, cargoTargetKg)
+    payloadPaxKg = 0
+    payloadCargoKg = 0
+    boardCompleted = false
 end
 
 function BoardCompleted(paxTarget, weightPerPaxKg, cargoTargetKg)
@@ -366,20 +349,10 @@ end
 
 function OnPayloadChange(load)
     local phase = gsxController.AutomationController.State
-    if GetSetting("INI.340.Option.Fix.PayloadReset") and boardCompleted and load < 1 and (phase == 2 or phase == 3) then
+    if GetPluginSetting("Fix.PayloadReset") and boardCompleted and load < 1 and (phase == 2 or phase == 3) then
         Log("Fixing Payload Reset")
         SetPayloadStations()
     end
-end
-
-function DeboardChangePax(paxOnBoard, gsxTotal, weightPerPaxKg)
-    payloadPaxKg = paxOnBoard * weightPerPaxKg
-    SetPayloadStations()
-end
-
-function DeboardChangeCargo(progressUnload, cargoOnBoardKg)
-    payloadCargoKg = cargoOnBoardKg
-    SetPayloadStations()
 end
 
 function DeboardCompleted()
@@ -400,9 +373,7 @@ end
 function OnAutomationStateChange(state)
     if state == 1 or state == 2 then --prep/departure
         SetDoorArmState(false)
-        if GetSetting("INI.340.Option.Covers.RemoveStartup") and ReadVar("L:INI_COVERS_ENABLED") ~= 0 then
-            SendInput("common_a340_cfm_cover_1_a340_cfm_cover_1", 1)
-        end
+        CheckSetCovers()
     elseif state == 4 then --taxiout
         SetDoorArmState(true)
         refuelWasOverridden = false
@@ -417,45 +388,18 @@ function OnAutomationStateChange(state)
     end
 end
 
-function ToggleWaterDoor()
-    Log("Toggle Water Door")
-    SendInput("common_pot_water_door_pot_water_door", 1)
-end
-
-function ToggleWasteDoor()
-    Log("Toggle Waste Door")
-    SendInput("common_waste_door_waste_door", 1)
-end
-
-local waterToggled = false
-local wasteToggled = false
-function RunInterval()
-    local phase = gsxController.AutomationController.State
-    if phase >= 4 and phase <= 6 then
-        return
-    end
-
+function SetPanelWater(target)
     local door = ReadVar("L:INI_Potable_Water_Door")
-    local state = gsxController.GetService(9).State
-    if state == 5 and door == 0 and not waterToggled then
-        RunAfter(25000, "ToggleWaterDoor()")
-        waterToggled = true
-    elseif state ~= 5 and door == 1 then
-        ToggleWaterDoor()
+    if (door == 0 and target) or (door == 1 and not target) then
+        Log("Toggle Water Door")
+        SendInput("common_pot_water_door_pot_water_door", 1)
     end
-    if door == 1 and waterToggled then
-        waterToggled = false
-    end
+end
 
-    door = ReadVar("L:INI_Waste_Water_Door")
-    state = gsxController.GetService(10).State
-    if state == 5 and door == 0 and not wasteToggled then
-        RunAfter(25000, "ToggleWasteDoor()")
-        wasteToggled = true
-    elseif state ~= 5 and door == 1 then
-        ToggleWasteDoor()
-    end
-    if door == 1 and wasteToggled then
-        wasteToggled = false
+function SetPanelLavatory(target)
+    local door = ReadVar("L:INI_Waste_Water_Door")
+    if (door == 0 and target) or (door == 1 and not target) then
+        Log("Toggle Waste Door")
+        SendInput("common_waste_door_waste_door", 1)
     end
 end

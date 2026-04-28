@@ -1,32 +1,37 @@
 {
 	"Id": "INI.A330",
 	"Type": 1,
-	"StartMode": 1,
 	"Filename": "INI.A330.lua",
 	"ChannelFile": "INI.A330.json",
-	"AircraftProfileEntries": [
-		"microsoft-a330"
-	],
+	"AircraftProfileEntries": [],
 	"Aircraft": "Microsoft/iniBuilds A330 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.3.0",
-	"VersionApp": "0.3.3",
+	"VersionPlugin": "0.4.0",
+	"VersionApp": "0.4.0",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
 		"FuelSync": 8,
 		"CanSetPayload": true,
 		"PayloadSync": 8,
 		"DoorHandling": 12,
+		"DoorsSynced": 6,
+		"DoorsCloseAll": false,
 		"GroundEquipmentHandling": 2,
 		"HasSmartButton": true,
-		"VolumeControl": true
+		"VolumeControl": true,
+		"CockpitNotifications": 0
 	},
 	"Settings": [
 		{
 			"Key": "Generic.Option.Aircraft.RefuelStair",
 			"Type": 1,
 			"DefaultValue": true
+		},		
+		{
+			"Key": "Generic.Var.ExtAvail.Name",
+			"Type": 4,
+			"DefaultValue": "L:INI_GPU_AVAIL"
 		},
 		{
 			"Key": "Generic.Var.Engine1.Name",
@@ -128,7 +133,7 @@
 		"Generic.Var.DepartTrigger.Comp",
 		"Generic.Var.DepartTrigger.Value"
 	],
-	"InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Show MSFS Fuel and Cargo during Refueling' checked!\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing (Init Request) the Flightplan into the MCDU\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request\r\n• Chocks and Engine/Pitot Covers will automatically be removed on Session Start, but are not further handled per Default\r\n• Chocks can also be configured to be removed/placed during Pushback and Arrival, but that requires an automatic Switch to the Walkaround Mode (requires default Binding)",
+	"InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Default Fuel System' checked! Use of the internal GSX Profile adviced.\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing (Init Request) the Flightplan into the MCDU\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
 	"PluginDefaultProfile": {
 		"PluginId": "INI.A330",
 		"ChannelFileId": "INI.A330",

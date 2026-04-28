@@ -2,9 +2,7 @@
 using CFIT.AppFramework.ResourceStores;
 using CFIT.AppLogger;
 using CFIT.AppTools;
-using CFIT.SimConnectLib.SimResources;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,37 +11,37 @@ namespace Pmdg777Interface
     public class Pmdg777DoorManager(Pmdg777Aircraft aircraft)
     {
         public virtual Pmdg777Aircraft Aircraft { get; } = aircraft;
+        public virtual Pmdg777EfbManager EfbManager => Aircraft?.EfbManager;
         public virtual SimStore SimStore => Aircraft?.SimStore;
         public virtual IGsxController GsxController => Aircraft?.GsxController;
         public virtual bool IsCargo => Aircraft.IsCargo;
+        public virtual bool IsStateValid => Aircraft.IsConnected && GsxController.AutomationState > AutomationState.SessionStart && (GsxController.AutomationState < AutomationState.TaxiOut || GsxController.AutomationState > AutomationState.TaxiIn);
         public virtual ISettingProfile SettingProfile => Aircraft?.AppResources?.ISettingProfile;
-        public virtual PMDG_777X_Data PMDG_777X_Data => Aircraft.PMDG_777X_Data;
-        public virtual Pmdg777EfbData EfbData => Aircraft?.EfbManager?.EfbData;
         public virtual ConcurrentDictionary<PmdgDoorIndex, Pmdg777Door> Doors { get; } = new()
         {
-            { PmdgDoorIndex.Pax1L, new(aircraft, PmdgDoorIndex.Pax1L, 14011, DoorMonitorAction.Monitored) },
-            { PmdgDoorIndex.Pax1R, new(aircraft, PmdgDoorIndex.Pax1R, 14012, DoorMonitorAction.KeepClosed) },
-            { PmdgDoorIndex.Pax2L, new(aircraft, PmdgDoorIndex.Pax2L, 14013, DoorMonitorAction.Monitored) },
-            { PmdgDoorIndex.Pax2R, new(aircraft, PmdgDoorIndex.Pax2R, 14014, DoorMonitorAction.Monitored) },
-            { PmdgDoorIndex.Pax3L, new(aircraft, PmdgDoorIndex.Pax3L, 14015, DoorMonitorAction.KeepClosed) },
-            { PmdgDoorIndex.Pax3R, new(aircraft, PmdgDoorIndex.Pax3R, 14016, DoorMonitorAction.KeepClosed) },
-            { PmdgDoorIndex.Pax4L, new(aircraft, PmdgDoorIndex.Pax4L, 14017, DoorMonitorAction.KeepClosed) },
-            { PmdgDoorIndex.Pax4R, new(aircraft, PmdgDoorIndex.Pax4R, 14018, DoorMonitorAction.KeepClosed) },
-            { PmdgDoorIndex.Pax5L, new(aircraft, PmdgDoorIndex.Pax5L, 14019, DoorMonitorAction.Monitored) },
-            { PmdgDoorIndex.Pax5R, new(aircraft, PmdgDoorIndex.Pax5R, 14020, DoorMonitorAction.Monitored) },
-            { PmdgDoorIndex.CargoFwd, new(aircraft, PmdgDoorIndex.CargoFwd, 14021, DoorMonitorAction.Monitored) { DefaultInhibitTime = 5000 } },
-            { PmdgDoorIndex.CargoAft, new(aircraft, PmdgDoorIndex.CargoAft, 14022, DoorMonitorAction.Monitored) { DefaultInhibitTime = 5000 } },
-            { PmdgDoorIndex.CargoMain, new(aircraft, PmdgDoorIndex.CargoMain, 14023, DoorMonitorAction.Monitored) { DefaultInhibitTime = 10000 } },
-            { PmdgDoorIndex.CargoBulk, new(aircraft, PmdgDoorIndex.CargoBulk, 14024, DoorMonitorAction.KeepClosed) },
-            { PmdgDoorIndex.Avionics, new(aircraft, PmdgDoorIndex.Avionics, 14025, DoorMonitorAction.KeepClosed) },
-            { PmdgDoorIndex.EEAccess, new(aircraft, PmdgDoorIndex.EEAccess, 14026, DoorMonitorAction.KeepClosed) },
+            { PmdgDoorIndex.Pax1L, new(aircraft, PmdgDoorIndex.Pax1L, 14011) },
+            { PmdgDoorIndex.Pax1R, new(aircraft, PmdgDoorIndex.Pax1R, 14012) },
+            { PmdgDoorIndex.Pax2L, new(aircraft, PmdgDoorIndex.Pax2L, 14013) },
+            { PmdgDoorIndex.Pax2R, new(aircraft, PmdgDoorIndex.Pax2R, 14014) },
+            { PmdgDoorIndex.Pax3L, new(aircraft, PmdgDoorIndex.Pax3L, 14015) },
+            { PmdgDoorIndex.Pax3R, new(aircraft, PmdgDoorIndex.Pax3R, 14016) },
+            { PmdgDoorIndex.Pax4L, new(aircraft, PmdgDoorIndex.Pax4L, 14017) },
+            { PmdgDoorIndex.Pax4R, new(aircraft, PmdgDoorIndex.Pax4R, 14018) },
+            { PmdgDoorIndex.Pax5L, new(aircraft, PmdgDoorIndex.Pax5L, 14019) },
+            { PmdgDoorIndex.Pax5R, new(aircraft, PmdgDoorIndex.Pax5R, 14020) },
+            { PmdgDoorIndex.CargoFwd, new(aircraft, PmdgDoorIndex.CargoFwd, 14021) },
+            { PmdgDoorIndex.CargoAft, new(aircraft, PmdgDoorIndex.CargoAft, 14022) },
+            { PmdgDoorIndex.CargoMain, new(aircraft, PmdgDoorIndex.CargoMain, 14023) },
+            { PmdgDoorIndex.CargoBulk, new(aircraft, PmdgDoorIndex.CargoBulk, 14024) },
+            { PmdgDoorIndex.Avionics, new(aircraft, PmdgDoorIndex.Avionics, 14025) },
+            { PmdgDoorIndex.EEAccess, new(aircraft, PmdgDoorIndex.EEAccess, 14026) },
         };
-        public virtual List<PmdgCargoLight> CargoLights { get; } = new()
+        public virtual ConcurrentDictionary<PmdgCargoLight, Pmdg777CargoLight> CargoLights { get; } = new()
         {
-            { PmdgCargoLight.Ceiling },
-            { PmdgCargoLight.Sidewall },
-            { PmdgCargoLight.ExtCam },
-            { PmdgCargoLight.SillLoad },
+            { PmdgCargoLight.Ceiling, new(aircraft,PmdgCargoLight.Ceiling) },
+            { PmdgCargoLight.Sidewall, new(aircraft, PmdgCargoLight.Sidewall) },
+            { PmdgCargoLight.ExtCam, new(aircraft, PmdgCargoLight.ExtCam) },
+            { PmdgCargoLight.SillLoad, new(aircraft, PmdgCargoLight.SillLoad, 0) },
         };
         public virtual ConcurrentDictionary<GsxDoor, PmdgDoorIndex> DoorMapping { get; } = new()
         {
@@ -55,377 +53,259 @@ namespace Pmdg777Interface
             { GsxDoor.ServiceDoor2, PmdgDoorIndex.Pax5R },
             { GsxDoor.CargoDoor1, PmdgDoorIndex.CargoFwd },
             { GsxDoor.CargoDoor2, PmdgDoorIndex.CargoAft },
-            { GsxDoor.CargoDoor3Main, PmdgDoorIndex.CargoMain },
+            { GsxDoor.CargoDoor3Main, PmdgDoorIndex.CargoBulk },
         };
+
+        public virtual Pmdg777Door GetDoor(GsxDoor door)
+        {
+            return Doors[DoorMapping[door]];
+        }
 
         public virtual void InitDoors()
         {
-            Logger.Debug("Initializing Doors");
-            if (Aircraft.AircraftString.Contains("200", System.StringComparison.InvariantCultureIgnoreCase))
+            string variant = "";
+            if (Aircraft.IsCargo)
             {
+                variant = "777F";
+
+                Doors[PmdgDoorIndex.Pax2L].IsAvailable = false;
+                Doors[PmdgDoorIndex.Pax3L].IsAvailable = false;
+                Doors[PmdgDoorIndex.Pax4L].IsAvailable = false;
+                Doors[PmdgDoorIndex.Pax5L].IsAvailable = false;
+
                 DoorMapping[GsxDoor.ServiceDoor1] = PmdgDoorIndex.Pax1R;
-                Doors[PmdgDoorIndex.Pax1R].Monitoring = DoorMonitorAction.Monitored;
-                Doors[PmdgDoorIndex.Pax2R].Monitoring = DoorMonitorAction.KeepClosed;
-                DoorMapping[GsxDoor.ServiceDoor2] = PmdgDoorIndex.Pax4R;
-                Doors[PmdgDoorIndex.Pax4R].Monitoring = DoorMonitorAction.Monitored;
-                Doors[PmdgDoorIndex.Pax5R].Monitoring = DoorMonitorAction.KeepClosed;
+                Doors[PmdgDoorIndex.Pax2R].IsAvailable = false;
+                Doors[PmdgDoorIndex.Pax3R].IsAvailable = false;
+                Doors[PmdgDoorIndex.Pax4R].IsAvailable = false;
+                Doors[PmdgDoorIndex.Pax5R].IsAvailable = false;
+
+                DoorMapping[GsxDoor.CargoDoor3Main] = PmdgDoorIndex.CargoMain;
+            }
+            else if (Aircraft.AircraftString.Contains("200", System.StringComparison.InvariantCultureIgnoreCase))
+            {
+                variant = "200";
                 DoorMapping[GsxDoor.PaxDoor4] = PmdgDoorIndex.Pax4L;
+                Doors[PmdgDoorIndex.Pax5L].IsAvailable = false;
+
+
+                DoorMapping[GsxDoor.ServiceDoor1] = PmdgDoorIndex.Pax1R;
+                DoorMapping[GsxDoor.ServiceDoor2] = PmdgDoorIndex.Pax4R;
+                Doors[PmdgDoorIndex.Pax5R].IsAvailable = false;
+
+                Doors[PmdgDoorIndex.CargoMain].IsAvailable = false;
+            }
+            else if (Aircraft.AircraftString.Contains("300", System.StringComparison.InvariantCultureIgnoreCase))
+            {
+                variant = "300";
+
+                Doors[PmdgDoorIndex.CargoMain].IsAvailable = false;
             }
 
-            if (!Aircraft.IsCargo)
-                Doors[PmdgDoorIndex.CargoMain].Monitoring = DoorMonitorAction.Unmonitored;
-            else
-            {
-                DoorMapping[GsxDoor.ServiceDoor1] = PmdgDoorIndex.Pax1R;
-                Doors[PmdgDoorIndex.Pax1R].Monitoring = DoorMonitorAction.Monitored;
-                Doors[PmdgDoorIndex.Pax2R].Monitoring = DoorMonitorAction.KeepClosed;
-                Doors[PmdgDoorIndex.Pax4R].Monitoring = DoorMonitorAction.KeepClosed;
-            }
+            Logger.Information($"Mapped Doors for Variant: {variant}");
         }
 
         public virtual async Task CheckDoors()
         {
-            foreach (var door in Doors.Values)
-            {
-                if (door.IsInhibited || door.Monitoring == DoorMonitorAction.Unmonitored)
-                    continue;
-
-                if (door.Monitoring == DoorMonitorAction.KeepClosed && door.State == PmdgDoorState.Open)
-                {
-                    Logger.Debug($"Keeping Door {door.Index} closed");
-                    await door.SendDoorCode();
-                }
-                else if (door.Target != door.State && !door.IsMoving)
-                {
-                    if ((door.Target == PmdgDoorState.ClosedArmed && door.State == PmdgDoorState.Closed)
-                     || (door.Target == PmdgDoorState.Closed && door.State == PmdgDoorState.ClosedArmed))
-                    {
-                        door.Target = door.State;
-                        Logger.Debug($"Update armed State for Door {door.Index}");
-                    }
-                    else
-                    {
-                        Logger.Debug($"{door.Index}: Target State ({door.Target}) different to current State ({door.State}) - trigger Door");
-                        await door.SendDoorCode();
-                        if (door.Index == PmdgDoorIndex.CargoMain)
-                            door.InhibitUpdates(7500);
-                    }
-                }
-            }
+            if (!IsStateValid)
+                return;
 
             if (Aircraft.DoorArmTarget && HasUnarmedDoors())
                 await Aircraft.EfbManager.SendRequest("arm_all", "doors");
 
-            if (Aircraft.AutomationState == AutomationState.Preparation || Aircraft.AutomationState == AutomationState.Departure || Aircraft.AutomationState == AutomationState.Arrival)
-                SyncDoorToService();
-            if (IsCargo && (Aircraft.AutomationState == AutomationState.Preparation || Aircraft.AutomationState == AutomationState.Departure || Aircraft.AutomationState == AutomationState.Pushback
-                || Aircraft.AutomationState == AutomationState.Arrival || Aircraft.AutomationState == AutomationState.TurnAround))
-                SyncCargoLights();
+            if (IsCargo)
+                await SyncCargoLights();
         }
 
         protected virtual bool IsLightSyncAllowed()
         {
-            return Aircraft.ISettingProfile.HasSetting<bool>(PmdgSettings.OptionCargoLights, out bool cargoLights) && cargoLights;
+            return Aircraft.ISettingProfile.GetSetting(PmdgSettings.CargoLights) && IsStateValid;
         }
 
-        protected virtual void ToggleCargoLight(PmdgCargoLight light)
+        protected virtual async Task SyncCargoLights()
         {
-            if (!CargoLights.Contains(light))
-                return;
+            var main = Doors[PmdgDoorIndex.CargoMain];
+            var sill = CargoLights[PmdgCargoLight.SillLoad];
+            if (main.IsFullyOpen && sill.GetOff())
+                await sill.TurnOn();
+            else if (main.IsFullyClosed && sill.GetOn())
+                await sill.TurnOff();
 
-            SimStore[Pmdg777Aircraft.GetEventName((int)light)]!?.WriteValue(Pmdg777Aircraft.EvtLeftSingle);
-        }
+            if ((GsxController.AutomationState == AutomationState.Departure || GsxController.AutomationState == AutomationState.Arrival)
+                && (Doors[PmdgDoorIndex.CargoFwd].IsFullyOpen || Doors[PmdgDoorIndex.CargoAft].IsFullyOpen || Doors[PmdgDoorIndex.CargoMain].IsFullyOpen))
+                await CargoLights[PmdgCargoLight.Sidewall].TurnOn();
 
-        protected virtual void SyncCargoLights()
-        {
-            if (Doors[PmdgDoorIndex.CargoFwd].State == PmdgDoorState.Opening || Doors[PmdgDoorIndex.CargoAft].State == PmdgDoorState.Opening
-                || Doors[PmdgDoorIndex.CargoMain].State == PmdgDoorState.Opening)
+            if ((GsxController.AutomationState == AutomationState.Pushback || GsxController.AutomationState == AutomationState.TurnAround)
+                && CargoLights.Values.Any(cl => cl.GetOn())
+                && Doors.Values.Where(d => d.IsCargoDoor).All(d => d.IsFullyClosed))
             {
-                if (GetCargoLight(PmdgCargoLight.Sidewall) != 100)
-                {
-                    Logger.Debug($"Turning on Lights {PmdgCargoLight.Sidewall}");
-                    ToggleCargoLight(PmdgCargoLight.Sidewall);
-                }
+                foreach (var item in CargoLights.Values)
+                    if (item.Id != PmdgCargoLight.SillLoad)
+                        await item.TurnOff();
             }
-            else if (Doors[PmdgDoorIndex.CargoMain].State == PmdgDoorState.Closing)
+            else if ((GsxController.AutomationState == AutomationState.Departure || GsxController.AutomationState == AutomationState.Arrival)
+                && CargoLights.Values.Any(cl => cl.GetOff())
+                && Doors.Values.Where(d => d.IsCargoDoor).All(d => d.IsFullyOpen))
             {
-                if (GetCargoLight(PmdgCargoLight.Sidewall) != 0)
-                {
-                    Logger.Debug($"Turning off Lights {PmdgCargoLight.Sidewall}");
-                    ToggleCargoLight(PmdgCargoLight.Sidewall);
-                }
-            }
-        }
-
-        protected virtual int GetCargoLight(PmdgCargoLight light)
-        {
-            return (int)(SimStore[$"L:switch_{(int)light}_a"]!?.GetNumber() ?? 0.0);
-        }
-
-        protected virtual void SyncDoorToService()
-        {
-            if (GsxController.HasGateJetway)
-            {
-                SyncDoorToService(Doors[PmdgDoorIndex.Pax2L], GsxController.GetService(GsxServiceType.Jetway));
-                if (!IsCargo)
-                    SyncDoorToService(Doors[DoorMapping[GsxDoor.PaxDoor4]], GsxController.GetService(GsxServiceType.Stairs));
-            }
-            else
-            {
-                SyncDoorToService(Doors[PmdgDoorIndex.Pax1L], GsxController.GetService(GsxServiceType.Stairs));
-                if (!IsCargo)
-                {                    
-                    SyncDoorToService(Doors[PmdgDoorIndex.Pax2L], GsxController.GetService(GsxServiceType.Stairs));
-                    SyncDoorToService(Doors[DoorMapping[GsxDoor.PaxDoor4]], GsxController.GetService(GsxServiceType.Stairs));
-                }
+                foreach (var item in CargoLights.Values)
+                    if (item.Id != PmdgCargoLight.SillLoad)
+                        await item.TurnOn();
             }
         }
 
-        public static void SyncDoorToService(Pmdg777Door door, IGsxService service)
+        public virtual Task DoorsAllClose()
         {
-            if (door.IsInhibited)
-                return;
-
-            if (service.State == GsxServiceState.Active && !door.IsOpen)
-                door.SetDoor(PmdgDoorState.Open);
-            else if (service.State != GsxServiceState.Active && door.IsOpen)
-                door.SetDoor(PmdgDoorState.Closed);
+            return EfbManager.SendRequest("close_all", "doors");
         }
 
-        public virtual void SetAll(PmdgDoorState target)
+        public virtual async Task SetCargoDoors(bool state, bool force = false)
         {
-            foreach (var door in Doors.Values)
-            {
-                door.Target = target;
-                door.InhibitUpdates();
-            }
+            await Doors[PmdgDoorIndex.CargoFwd].SetDoor(state);
+            await Doors[PmdgDoorIndex.CargoAft].SetDoor(state);
+            if (Aircraft.ISettingProfile.GetSetting(PmdgSettings.OperateBulk))
+                await Doors[PmdgDoorIndex.CargoBulk].SetDoor(state);
+            if (IsCargo)
+                await Doors[PmdgDoorIndex.CargoMain].SetDoor(state);
         }
 
-        public virtual void DisarmAll()
+        public virtual bool HasArmedDoors()
         {
-            foreach (var door in Doors.Values)
-            {
-                if (door.State == PmdgDoorState.ClosedArmed)
-                {
-                    door.Target = PmdgDoorState.Closed;
-                    door.InhibitUpdates();
-                }
-            }
+            return Doors.Values.Any(d => d.IsPaxDoor && d.IsArmed);
         }
 
         public virtual bool HasUnarmedDoors()
         {
-            return Doors.Values.Any(d => d.State != PmdgDoorState.ClosedArmed);
+            return Doors.Values.Any(d => d.IsPaxDoor && !d.IsArmed);
         }
 
-        public virtual void ArmAll()
+        public virtual bool HasOpenDoors()
         {
-            foreach (var door in Doors.Values)
-            {
-                if (door.State == PmdgDoorState.Closed || door.State == PmdgDoorState.Closing)
-                {
-                    door.Target = PmdgDoorState.ClosedArmed;
-                    door.InhibitUpdates();
-                }
-            }
+            return Doors.Values.Any(d => d.IsOpen);
         }
 
-        public virtual void OnDoorMainCargo(ISimResourceSubscription sub, object data)
+        public virtual async Task OnBoardState(IGsxService boardService)
         {
-            bool doorOpen = sub?.GetNumber() == 100;
-
-            if (doorOpen && GetCargoLight(PmdgCargoLight.SillLoad) != 0)
-            {
-                Logger.Debug($"Turning on Lights {PmdgCargoLight.SillLoad}");
-                ToggleCargoLight(PmdgCargoLight.SillLoad);
-            }
-            else if (!doorOpen && GetCargoLight(PmdgCargoLight.SillLoad) != 100)
-            {
-                Logger.Debug($"Turning off Lights {PmdgCargoLight.SillLoad}");
-                ToggleCargoLight(PmdgCargoLight.SillLoad);
-            }
-        }
-
-        public virtual void OnBoardState(IGsxService boardService)
-        {
-            DoorMonitorAction action;
-            if ((boardService.State == GsxServiceState.Active || boardService.State == GsxServiceState.Requested) || !SettingProfile.DoorCargoHandling)
-                action = DoorMonitorAction.Unmonitored;
-            else
-            {
-                action = DoorMonitorAction.Monitored;
-                Doors[PmdgDoorIndex.CargoFwd].Target = PmdgDoorState.Closed;
-                Doors[PmdgDoorIndex.CargoAft].Target = PmdgDoorState.Closed;
-                if (IsCargo)
-                    Doors[PmdgDoorIndex.CargoMain].Target = PmdgDoorState.Closed;
-            }
-
-            Doors[PmdgDoorIndex.CargoFwd].Monitoring = action;
-            Doors[PmdgDoorIndex.CargoAft].Monitoring = action;
-            if (IsCargo)
-                Doors[PmdgDoorIndex.CargoMain].Monitoring = action;
-
             if (IsCargo && IsLightSyncAllowed())
             {
                 if (boardService.IsRunning)
                 {
-                    if (GetCargoLight(PmdgCargoLight.Ceiling) != 100)
-                    {
-                        Logger.Debug($"Turning on Lights {PmdgCargoLight.Ceiling}");
-                        ToggleCargoLight(PmdgCargoLight.Ceiling);
-                    }
-                    if (GetCargoLight(PmdgCargoLight.ExtCam) != 100)
-                    {
-                        Logger.Debug($"Turning on Lights {PmdgCargoLight.ExtCam}");
-                        ToggleCargoLight(PmdgCargoLight.ExtCam);
-                    }
+                    await CargoLights[PmdgCargoLight.Ceiling].TurnOn();
+                    await CargoLights[PmdgCargoLight.ExtCam].TurnOn();
                 }
                 else
                 {
-                    if (GetCargoLight(PmdgCargoLight.Ceiling) != 0)
+                    if (!SettingProfile.DoorsCargoKeepOpenOnDetachBoard)
                     {
-                        Logger.Debug($"Turning off Lights {PmdgCargoLight.Ceiling}");
-                        ToggleCargoLight(PmdgCargoLight.Ceiling);
-                    }
-                    if (GetCargoLight(PmdgCargoLight.Sidewall) != 0)
-                    {
-                        Logger.Debug($"Turning off Lights {PmdgCargoLight.Sidewall}");
-                        ToggleCargoLight(PmdgCargoLight.Sidewall);
-                    }
-                    if (GetCargoLight(PmdgCargoLight.ExtCam) != 0)
-                    {
-                        Logger.Debug($"Turning off Lights {PmdgCargoLight.ExtCam}");
-                        ToggleCargoLight(PmdgCargoLight.ExtCam);
+                        await CargoLights[PmdgCargoLight.Ceiling].TurnOff();
+                        await CargoLights[PmdgCargoLight.Sidewall].TurnOff();
+                        await CargoLights[PmdgCargoLight.ExtCam].TurnOff();
                     }
                 }
             }
         }
 
-        public virtual void OnDeboardState(IGsxService deboardService)
+        public virtual async Task OnDeboardState(IGsxService deboardService)
         {
-            DoorMonitorAction action;
-            if ((deboardService.State == GsxServiceState.Active || deboardService.State == GsxServiceState.Requested) || !SettingProfile.DoorCargoHandling)
-                action = DoorMonitorAction.Unmonitored;
-            else
-            {
-                action = DoorMonitorAction.Monitored;
-                Doors[PmdgDoorIndex.CargoFwd].Target = PmdgDoorState.Closed;
-                Doors[PmdgDoorIndex.CargoAft].Target = PmdgDoorState.Closed;
-                if (IsCargo)
-                    Doors[PmdgDoorIndex.CargoMain].Target = PmdgDoorState.Closed;
-            }
-
-            Doors[PmdgDoorIndex.CargoFwd].Monitoring = action;
-            Doors[PmdgDoorIndex.CargoAft].Monitoring = action;
-            if (IsCargo)
-                Doors[PmdgDoorIndex.CargoMain].Monitoring = action;
-
             if (IsCargo && IsLightSyncAllowed())
             {
                 if (deboardService.IsRunning)
                 {
-                    if (GetCargoLight(PmdgCargoLight.Ceiling) != 100)
-                    {
-                        Logger.Debug($"Turning on Lights {PmdgCargoLight.Ceiling}");
-                        ToggleCargoLight(PmdgCargoLight.Ceiling);
-                    }
-                    if (GetCargoLight(PmdgCargoLight.ExtCam) != 100)
-                    {
-                        Logger.Debug($"Turning on Lights {PmdgCargoLight.ExtCam}");
-                        ToggleCargoLight(PmdgCargoLight.ExtCam);
-                    }
+                    await CargoLights[PmdgCargoLight.Ceiling].TurnOn();
+                    await CargoLights[PmdgCargoLight.ExtCam].TurnOn();
                 }
                 else
                 {
-                    if (GetCargoLight(PmdgCargoLight.Ceiling) != 0)
+                    if (!SettingProfile.DoorsCargoKeepOpenOnDetachDeboard)
                     {
-                        Logger.Debug($"Turning off Lights {PmdgCargoLight.Ceiling}");
-                        ToggleCargoLight(PmdgCargoLight.Ceiling);
-                    }
-                    if (GetCargoLight(PmdgCargoLight.Sidewall) != 0)
-                    {
-                        Logger.Debug($"Turning off Lights {PmdgCargoLight.Sidewall}");
-                        ToggleCargoLight(PmdgCargoLight.Sidewall);
-                    }
-                    if (GetCargoLight(PmdgCargoLight.ExtCam) != 0)
-                    {
-                        Logger.Debug($"Turning off Lights {PmdgCargoLight.ExtCam}");
-                        ToggleCargoLight(PmdgCargoLight.ExtCam);
+                        await CargoLights[PmdgCargoLight.Ceiling].TurnOff();
+                        await CargoLights[PmdgCargoLight.Sidewall].TurnOff();
+                        await CargoLights[PmdgCargoLight.ExtCam].TurnOff();
                     }
                 }
             }
         }
 
-        public virtual void OnDoorTrigger(GsxDoor door, bool trigger)
+        public virtual async Task OnCateringState(IGsxService cateringService)
         {
-            if (trigger)
+            if (SettingProfile.DoorServiceHandling && !cateringService.IsRunning && IsStateValid)
             {
-                if (door == GsxDoor.ServiceDoor1 || door == GsxDoor.ServiceDoor2)
-                {
-                    if (SettingProfile.DoorServiceHandling)
-                    {
-                        Doors[DoorMapping[GsxDoor.ServiceDoor1]].ToggleDoor();
-                        if (!IsCargo)
-                            Doors[DoorMapping[GsxDoor.ServiceDoor2]].ToggleDoor();
-                    }
-                    else
-                    {
-                        Doors[DoorMapping[GsxDoor.ServiceDoor1]].Monitoring = DoorMonitorAction.Unmonitored;
-                        if (!IsCargo)
-                            Doors[DoorMapping[GsxDoor.ServiceDoor2]].Monitoring = DoorMonitorAction.Unmonitored;
-                    }
-                }
+                Pmdg777Door pmdgDoor = GetDoor(GsxDoor.ServiceDoor1);
+                if (pmdgDoor.IsOpen && !pmdgDoor.IsMoving)
+                    await pmdgDoor.SetDoor(PmdgDoorState.Closed);
 
-                if (IsCargo && door == GsxDoor.CargoDoor3Main && SettingProfile.DoorCargoHandling)
-                {
-                    var pmdgDoor = Doors[DoorMapping[GsxDoor.CargoDoor3Main]];
-                    if (pmdgDoor.IsClosed)
-                        pmdgDoor.SetDoor(PmdgDoorState.Open);
-                    else
-                        pmdgDoor.SetDoor(PmdgDoorState.Closed);
-                    Doors[PmdgDoorIndex.CargoMain].Monitoring = DoorMonitorAction.Monitored;
-                }
-                else
-                    Doors[PmdgDoorIndex.CargoMain].Monitoring = DoorMonitorAction.Unmonitored;
+                pmdgDoor = GetDoor(GsxDoor.ServiceDoor2);
+                if (pmdgDoor.IsOpen && !pmdgDoor.IsMoving)
+                    await pmdgDoor.SetDoor(PmdgDoorState.Closed);
             }
         }
 
-        public virtual void OnJetwayChange(GsxServiceState state)
+        public virtual async Task OnDoorTrigger(GsxDoor door, bool trigger)
         {
-            if (!IsCargo && state == GsxServiceState.Active)
-                Doors[DoorMapping[GsxDoor.PaxDoor2]].SetDoor(PmdgDoorState.Open);
-        }
-
-        public virtual void OnStairChange(GsxServiceState state)
-        {
-            if (!SettingProfile.DoorStairHandling)
-            {
-                Doors[DoorMapping[GsxDoor.PaxDoor1]].Monitoring = DoorMonitorAction.Unmonitored;
-                Doors[DoorMapping[GsxDoor.PaxDoor2]].Monitoring = DoorMonitorAction.Unmonitored;
-                Doors[DoorMapping[GsxDoor.PaxDoor4]].Monitoring = DoorMonitorAction.Unmonitored;
+            if (!IsStateValid)
                 return;
-            }
-            else
+
+            Pmdg777Door pmdgDoor = GetDoor(door);
+            if (trigger && !IGsxController.IsCargoDoor(door))
             {
-                Doors[DoorMapping[GsxDoor.PaxDoor1]].Monitoring = DoorMonitorAction.Monitored;
-                Doors[DoorMapping[GsxDoor.PaxDoor2]].Monitoring = DoorMonitorAction.Monitored;
-                Doors[DoorMapping[GsxDoor.PaxDoor4]].Monitoring = DoorMonitorAction.Monitored;
+                if (GsxController.HasGateJetway && door == GsxDoor.PaxDoor2)
+                {
+                    if (pmdgDoor.IsClosed && GsxController.JetwayState == GsxServiceState.Active)
+                        await pmdgDoor.ToggleDoor();
+                }
+                else if (!GsxController.HasGateJetway && IGsxController.IsPaxDoor(door))
+                {
+                    if (pmdgDoor.IsClosed && GsxController.StairsState == GsxServiceState.Active)
+                        await pmdgDoor.ToggleDoor();
+                }
+                else
+                    await pmdgDoor.ToggleDoor();
             }
+        }
+
+        public virtual Task OnLoaderAttached(GsxDoor door, bool attached)
+        {
+            if (!IsStateValid)
+                return Task.CompletedTask;
+
+            Pmdg777Door pmdgDoor = GetDoor(door);
+
+            return pmdgDoor.SetDoor(attached ? PmdgDoorState.Open : PmdgDoorState.Closed);
+        }
+
+        public virtual Task OnJetwayStateChange(GsxServiceState state, bool paxDoorAllowed)
+        {
+            if (!IsCargo && paxDoorAllowed)
+            {
+                if (state == GsxServiceState.Active)
+                    return GetDoor(GsxDoor.PaxDoor2).SetDoor(PmdgDoorState.Open);
+                else
+                    return GetDoor(GsxDoor.PaxDoor2).SetDoor(PmdgDoorState.Closed);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        public virtual async Task OnStairStateChange(GsxServiceState state, bool paxDoorAllowed)
+        {
+            if (!IsStateValid || !paxDoorAllowed)
+                return;
+
+            if (HasArmedDoors() && state == GsxServiceState.Active)
+                await Aircraft.DoorDisarmAll();
 
             var target = state == GsxServiceState.Active ? PmdgDoorState.Open : PmdgDoorState.Closed;
             if (!IsCargo)
             {
-                Doors[DoorMapping[GsxDoor.PaxDoor4]].SetDoor(target);
+                await GetDoor(GsxDoor.PaxDoor4).SetDoor(target);
 
                 if (!Aircraft.GsxController.HasGateJetway)
                 {
-                    Doors[DoorMapping[GsxDoor.PaxDoor1]].SetDoor(target);
-                    Doors[DoorMapping[GsxDoor.PaxDoor2]].SetDoor(target);
+                    await GetDoor(GsxDoor.PaxDoor1).SetDoor(target);
+                    await GetDoor(GsxDoor.PaxDoor2).SetDoor(target);
                 }
             }
             else
             {
-                Doors[DoorMapping[GsxDoor.PaxDoor1]].SetDoor(target);
+                await GetDoor(GsxDoor.PaxDoor1).SetDoor(target);
             }
         }
     }

@@ -1,48 +1,67 @@
 {
 	"Id": "INI.A350",
+	"SettingId": "INI.350",
 	"Type": 1,
-	"StartMode": 1,
 	"Filename": "INI.A350.lua",
 	"ChannelFile": "INI.A350.json",
-	"AircraftProfileEntries": [
-		"a350",
-		"inibuilds-aircraft-a350-900",
-		"inibuilds-aircraft-a350-900-ulr",
-		"inibuilds-aircraft-a350-1000"
-	],
+	"AircraftProfileEntries": [],
 	"Aircraft": "iniBuilds A350 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.1.5",
-	"VersionApp": "0.3.0",
+	"VersionPlugin": "0.4.0",
+	"VersionApp": "0.4.0",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
 		"FuelSync": 8,
 		"CanSetPayload": true,
 		"PayloadSync": 8,
 		"DoorHandling": 12,
+		"DoorsSynced": 4,
+		"DoorsCloseAll": true,
 		"GroundEquipmentHandling": 54,
 		"HasSmartButton": true,
-		"VolumeControl": true
+		"VolumeControl": true,
+		"CockpitNotifications": 0
 	},
 	"Settings": [
 		{
 			"Key": "INI.350.Option.Covers.RemoveStartup",
 			"Type": 1,
 			"DefaultValue": true,
-			"Description": "Remove Covers on Session Start before Walkaround Skip"
+			"Description": "Remove Covers",
+			"Tooltip": "The Covers on the Aircraft will be removed on Session Start."
 		},
 		{
-			"Key": "INI.350.Option.Override.Board",
+			"Key": "INI.350.Option.Override.Payload",
 			"Type": 1,
 			"DefaultValue": true,
-			"Description": "Override the native Payload Synch on GSX Boarding"
+			"Description": "Override native Payload Sync",
+			"Tooltip": "The Plugin will override the GSX State Variables for Boarding/Deboarding to disable the native Payload-Sync (and instead use the Plugin to sync the Payload with GSX)."
 		},
 		{
-			"Key": "INI.350.Option.Override.Deboard",
+			"Key": "Generic.Option.Aircraft.FuelDialog",
 			"Type": 1,
-			"DefaultValue": true,
-			"Description": "Override the native Payload Synch on GSX Deboarding"
+			"DefaultValue": false
+		},				
+		{
+			"Key": "Generic.Var.PowerAvionic.Name",
+			"Type": 4,
+			"DefaultValue": "L:INI_ELEC_AC_ESS_SHED_BUS_IS_POWERED"
+		},
+		{
+			"Key": "Generic.Var.ExtAvail.Name",
+			"Type": 4,
+			"DefaultValue": "L:INI_GPU_AVAIL"
+		},				
+		{
+			"Key": "Generic.Var.ApuRunning.Name",
+			"Type": 4,
+			"DefaultValue": "L:INI_APU_AVAILABLE"
+		},				
+		{
+			"Key": "Generic.Var.ApuBleedOn.Name",
+			"Type": 4,
+			"DefaultValue": "L:INI_AIR_BLEED_APU"
 		},
 		{
 			"Key": "Generic.Var.Engine1.Name",
@@ -112,7 +131,7 @@
 		"Generic.Var.DepartTrigger.Comp",
 		"Generic.Var.DepartTrigger.Value"
 	],
-	"InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Show MSFS Fuel and Cargo during Refueling' checked!\r\nThe L2 Door either needs to be set as Standard Door #3 or as No Door\r\nThe L4 Door needs to be set as Custom Door with the following Check: '(A:INTERACTIVE POINT OPEN:9,percent over 100) 0.5 >'\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing (FPLAN REQUEST) the Flightplan into the MCDU\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
+	"InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Default Fuel System' checked!\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing (FPLAN REQUEST) the Flightplan into the MCDU\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
 	"PluginDefaultProfile": {
 		"PluginId": "INI.A350",
 		"ChannelFileId": "INI.A350",

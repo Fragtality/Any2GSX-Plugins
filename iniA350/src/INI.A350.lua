@@ -9,11 +9,8 @@ UseVar("L:FSDT_GSX_SET_DETECT_CUST_REFUEL", "Number")
 UseVar("L:INI_GPU_AVAIL", "Number")
 UseVar("L:INI_CHOCKS_ENABLED", "Number")
 UseVar("L:INI_ACU_AVAIL", "Number")
-UseVar("L:INI_ELEC_AC_ESS_SHED_BUS_IS_POWERED", "Number")
 UseVar("L:INI_GEN_EXT_A_ONLINE", "Number")
 UseVar("L:INI_GEN_EXT_B_ONLINE", "Number")
-UseVar("L:INI_AIR_BLEED_APU", "Number")
-UseVar("L:INI_APU_AVAILABLE", "Number")
 UseVar("L:INI_RMP_INT_RAD_1", "Number")
 UseVar("L:INI_RMP_INT_RAD_2", "Number")
 UseVar("L:INI_PAX_BUSSINESS", "Number")
@@ -32,49 +29,52 @@ UseVar("L:INI_DEP_ICAO_EFB", "Number")
 UseVar("L:INI_ARR_ICAO_EFB", "Number")
 UseVar("L:INI_SLIDES_REQ", "Number")
 UseVar("L:INI_DOOR0_ARMED", "Number")
-UseVar("INTERACTIVE POINT GOAL:9", "percent over 100") --4L
-UseVar("INTERACTIVE POINT OPEN:9", "percent over 100")
 UseVar("L:FSDT_GSX_REFUELING_STATE", "Number")
 UseVar("L:FSDT_GSX_BOARDING_STATE", "Number")
 UseVar("L:FSDT_GSX_DEBOARDING_STATE", "Number")
-
-function OnCouatlStarted()
-    if ReadVar("L:FSDT_GSX_SETTINGS_PROGRESS_REFUEL") == 1 then
-        Log("Disabling progressive Refuel")
-        WriteVar("L:FSDT_GSX_SET_PROGRESS_REFUEL", -1)
-    end
-
-    if ReadVar("L:FSDT_GSX_SETTINGS_DETECT_CUST_REFUEL") == 1 then
-        Log("Disabling custom Fuel Detection")
-        WriteVar("L:FSDT_GSX_SET_DETECT_CUST_REFUEL", -1)
-    end
+UseVar("L:INI_GSX_INTEG_ENABLED", "Number")
+UseVar("L:INI_Potable_Water_Door", "Number")
+UseVar("L:INI_Waste_Water_Door", "Number")
+UseVar("L:INI_Refuel_Door", "Number")
+UseVar("INTERACTIVE POINT OPEN:2", "percent over 100") --2L
+for i = 0, 10 do
+    UseVar("INTERACTIVE POINT GOAL:"..tostring(i), "percent over 100")
 end
 
 function BeforeWalkaroundSkip()
     if not gsxController.IsMsfs2024 then
         return
     end
-
-    if not GetSetting("INI.350.Option.Covers.RemoveStartup") then
-        return
-    end
-
-    Info("Removing Pitot & Engine Covers in Walkaround")
-    if ReadVar("COVER ON:1") then
-        WriteVar("COVER ON:1", 0)
-    end
-    if ReadVar("COVER ON:2") then
-        WriteVar("COVER ON:2", 0)
-    end
+    CheckSetCovers()
     Sleep(250)
 end
 
+function CheckSetCovers()
+    if not GetPluginSetting("Covers.RemoveStartup") then
+        return
+    end
+    Log("Removing Pitot & Engine Covers")
+
+    if gsxController.IsMsfs2024 then
+        if ReadVar("COVER ON:1") then
+            WriteVar("COVER ON:1", 0)
+        end
+        if ReadVar("COVER ON:2") then
+            WriteVar("COVER ON:2", 0)
+        end
+    else
+        if ReadVar("L:INI_COVERS_ENABLED") > 0 then
+            WriteVar("L:INI_COVERS_ENABLED", 0)
+        end
+    end
+end
+
 function GetReadyDepartureServices()
-    return GetAvionicPowered() and aircraft.LightNav and ReadVar("L:INI_DEP_ICAO_EFB") > 0 and ReadVar("L:INI_ARR_ICAO_EFB") > 0
+    return aircraft.AvionicPowered and aircraft.LightNav and ReadVar("L:INI_DEP_ICAO_EFB") > 0 and ReadVar("L:INI_ARR_ICAO_EFB") > 0
 end
 
 function GetSmartButtonRequest()
-   return GetAvionicPowered() and (ReadVar("L:INI_RMP_INT_RAD_1") == 0 or ReadVar("L:INI_RMP_INT_RAD_2") == 0)
+   return aircraft.AvionicPowered and (ReadVar("L:INI_RMP_INT_RAD_1") == 0 or ReadVar("L:INI_RMP_INT_RAD_2") == 0)
 end
 
 function ResetSmartButton()
@@ -82,11 +82,7 @@ function ResetSmartButton()
     WriteVar("L:INI_RMP_INT_RAD_2", 1)
 end
 
-function GetExternalPowerAvailable()
-    return ReadVar("L:INI_GPU_AVAIL") > 0
-end
-
-function GetHasFuelSynch()
+function GetHasFuelSync()
     return true
 end
 
@@ -96,10 +92,6 @@ end
 
 function GetCanSetPayload()
     return true
-end
-
-function GetAvionicPowered()
-    return ReadVar("L:INI_ELEC_AC_ESS_SHED_BUS_IS_POWERED") > 0
 end
 
 function GetExternalPowerConnected()
@@ -122,14 +114,6 @@ function SetEquipmentPower(state, force)
     end
 end
 
-function GetApuRunning()
-    return ReadVar("L:INI_APU_AVAILABLE") > 0
-end
-
-function GetApuBleedOn()
-    return ReadVar("L:INI_AIR_BLEED_APU") > 0
-end
-
 function GetHasChocks()
     return true
 end
@@ -139,7 +123,7 @@ function GetEquipmentChocks()
 end
 
 function SetEquipmentChocks(state, force)
-    if aircraft.IsBrakeSet == false and not state and not force then
+    if aircraft.ParkingBrake == false and not state and not force then
         return
     end
 
@@ -159,7 +143,7 @@ function GetEquipmentPca()
 end
 
 function SetEquipmentPca(state, force)
-    if not state and not GetApuRunning() and not GetApuBleedOn() and not force then
+    if not state and not aircraft.ApuRunning and not aircraft.ApuBleedOn and not force then
         return
     end
 
@@ -170,7 +154,7 @@ function SetEquipmentPca(state, force)
     end
 end
 
-function SetFuelOnBoardKg(fuelKg)
+function SetFuelOnBoardKg(fuelKg, targetKg)
     WriteVar("L:INI_FUEL_REQ", fuelKg)
 end
 
@@ -203,39 +187,37 @@ function RefuelActive()
 
     gsxController.GetService(2).StateOverride = 5
     WriteVar("L:FSDT_GSX_REFUELING_STATE", 2)
-
-    if gsxController.HasUndergroundRefuel then
-        RunAfter(81000, "SetFuelDoor(1)")
-    else
-        RunAfter(25000, "SetFuelDoor(1)")
-    end
+    Log("tick")
+    Sleep(500)
+    Log("tock")
+    SetPanelRefuel(false)
 end
 
-function SetFuelDoor(target)
-    WriteVar("L:INI_EFB_IS_REFUELING", target)
-    SendInput("common_a350_refuel_door_a350_refuel_door", 1)
-end
-
-function RefuelStop(fuelTargetKg, setTarget)
-    if setTarget then
-        SetFuelOnBoardKg(fuelTargetKg)
+function SetPanelRefuel(target)
+    local value = 0
+    if target then
+        value = 1
     end
 
-    if gsxController.HasUndergroundRefuel then
-        RunAfter(32000, "SetFuelDoor(0)")
-    else
-        RunAfter(44000, "SetFuelDoor(0)")
+    if ReadVar("L:INI_EFB_IS_REFUELING") ~= value then
+        Log("Setting Refuel Door to " .. value)
+        WriteVar("L:INI_EFB_IS_REFUELING", value)
+    end
+
+    if ReadVar("L:INI_Refuel_Door") ~= value then
+        Log("Setting Refuel Panel Message to " .. value)
+        SendInput("common_a350_refuel_door_a350_refuel_door", 1)
     end
 end
 
 local boardWasOverriden = false
 
 function BoardActive(paxTarget, cargoTargetKg)
-    if not GetSetting("INI.350.Option.Override.Board") then
-        Log("Using native Board Payload Synch")
+    if not GetPluginSetting("Override.Payload") then
+        Log("Using native Board Payload Sync")
         return
     else
-        Log("Using Any2GSX Payload Synch on Boarding")
+        Log("Using Any2GSX Payload Sync on Boarding")
     end
 
     if boardWasOverriden then
@@ -251,8 +233,8 @@ function BoardActive(paxTarget, cargoTargetKg)
     SetPayloadStations()
 end
 
-function BoardChangePax(paxOnBoard, weightPerPaxKg)
-    if not GetSetting("INI.350.Option.Override.Board") then
+function BoardChangePax(paxOnBoard, weightPerPaxKg, paxTarget)
+    if not GetPluginSetting("Override.Payload") then
         return
     end
 
@@ -260,8 +242,8 @@ function BoardChangePax(paxOnBoard, weightPerPaxKg)
     SetPayloadStations()
 end
 
-function BoardChangeCargo(progressLoad, cargoOnBoardKg)
-    if not GetSetting("INI.350.Option.Override.Board") then
+function BoardChangeCargo(progressLoad, cargoOnBoardKg, cargoPlannedKg)
+    if not GetPluginSetting("Override.Payload") then
         return
     end
 
@@ -270,7 +252,7 @@ function BoardChangeCargo(progressLoad, cargoOnBoardKg)
 end
 
 function BoardCompleted(paxTarget, weightPerPaxKg, cargoTargetKg)
-    if not GetSetting("INI.350.Option.Override.Board") then
+    if not GetPluginSetting("Override.Payload") then
         return
     end
 
@@ -280,7 +262,7 @@ function BoardCompleted(paxTarget, weightPerPaxKg, cargoTargetKg)
 end
 
 function DeboardChangePax(paxOnBoard, gsxTotal, weightPerPaxKg)
-    if not GetSetting("INI.350.Option.Override.Deboard") then
+    if not GetPluginSetting("Override.Payload") then
         return
     end
     payloadPaxKg = paxOnBoard * weightPerPaxKg
@@ -288,7 +270,7 @@ function DeboardChangePax(paxOnBoard, gsxTotal, weightPerPaxKg)
 end
 
 function DeboardChangeCargo(progressUnload, cargoOnBoardKg)
-    if not GetSetting("INI.350.Option.Override.Deboard") then
+    if not GetPluginSetting("Override.Payload") then
         return
     end
     payloadCargoKg = cargoOnBoardKg
@@ -297,12 +279,16 @@ end
 
 local deboardWasOverriden = false
 
+function DeboardRequested()
+    DeboardActive()
+end
+
 function DeboardActive()
-    if not GetSetting("INI.350.Option.Override.Deboard") then
-        Log("Using native Deboard Payload Synch")
+    if not GetPluginSetting("Override.Payload") then
+        Log("Using native Deboard Payload Sync")
         return
-    else
-        Log("Using Any2GSX Payload Synch on Deboarding")
+    elseif not deboardWasOverriden then
+        Log("Using Any2GSX Payload Sync on Deboarding")
     end
 
     if deboardWasOverriden then
@@ -315,7 +301,7 @@ function DeboardActive()
 end
 
 function DeboardCompleted()
-    if not GetSetting("INI.350.Option.Override.Deboard") then
+    if not GetPluginSetting("Override.Deboard") then
         return
     end
 
@@ -335,9 +321,13 @@ end
 function OnAutomationStateChange(state)
     if state == 1 or state == 2 then --prep/departure
         deboardWasOverriden = false
-        SetDoorArmState(false)
-        if GetSetting("INI.350.Option.Covers.RemoveStartup") then
-            WriteVar("L:INI_COVERS_ENABLED", 0)
+        if gsxController.IsOnGround then
+            SetDoorArmState(false)
+        end
+        CheckSetCovers()
+        if ReadVar("L:INI_GSX_INTEG_ENABLED") > 0 then
+            Log("Disable native Menu Integration")
+            WriteVar("L:INI_GSX_INTEG_ENABLED", 0)
         end
     elseif state == 4 then --taxiout
         SetDoorArmState(true)
@@ -347,7 +337,7 @@ function OnAutomationStateChange(state)
         refuelWasOverridden = false
         boardWasOverriden = false
     elseif state == 7 then --arrival
-    SetDoorArmState(false)
+        SetDoorArmState(false)
 	elseif state == 8 then --turn
         deboardWasOverriden = false
     end
@@ -360,20 +350,89 @@ function PushOperationChange(status)
 end
 
 function OnDoorTrigger(door, trigger)
-    if trigger and door == 4 then
-        if ReadVar("INTERACTIVE POINT OPEN:9") >= 0.5 then
-            WriteVar("INTERACTIVE POINT GOAL:9", 0)
-        else
-            WriteVar("INTERACTIVE POINT GOAL:9", 1)
-        end
+    if trigger and door == 2 and ReadVar("INTERACTIVE POINT OPEN:2") < 0.5 then
+        SetInteractivePoint(2, 1)
     end
 end
 
-function OnStairChange(state)
-    local isOpen = ReadVar("INTERACTIVE POINT GOAL:9") > 0
+function CheckSetL2(state)
+    local isOpen = ReadVar("INTERACTIVE POINT OPEN:2") >= 0.5
     if state == 5 and not isOpen then
-        WriteVar("INTERACTIVE POINT GOAL:9", 1)
+        SetInteractivePoint(2, 1)
     elseif state ~= 5 and isOpen then
-        WriteVar("INTERACTIVE POINT GOAL:9", 0)
+        SetInteractivePoint(2, 0)
+    end
+end
+
+function OnStairStateChange(state, paxDoorAllowed)
+    if not paxDoorAllowed then
+        return
+    end
+
+    CheckSetL2(state)
+end
+
+function OnStairOperationChange(state, paxDoorAllowed)
+    if state == 7 and paxDoorAllowed then --completing
+        CheckSetL2(4)
+    end
+end
+
+function GetInteractivePoint(index)
+    return ReadVar("INTERACTIVE POINT GOAL:"..tostring(index))
+end
+
+function SetInteractivePoint(index, value)
+    Log("Set Interactive Point #" .. tostring(index) .. " to Target " .. tostring(value))
+    return WriteVar("INTERACTIVE POINT GOAL:"..tostring(index), value)
+end
+
+function GetHasOpenDoors()
+    for i = 0, 10 do
+        if GetInteractivePoint(i) > 0 then
+            return true
+        end
+    end
+
+    if ReadVar("L:INI_Potable_Water_Door") > 0 then
+        return true
+    end
+
+    if ReadVar("L:INI_Waste_Water_Door") > 0 then
+        return true
+    end
+
+    if ReadVar("L:INI_EFB_IS_REFUELING") > 0 then
+        return true
+    end
+
+    if ReadVar("L:INI_Refuel_Door") > 0 then
+        return true
+    end
+
+    return false
+end
+
+function DoorsAllClose()
+    for i = 0, 10 do
+        if GetInteractivePoint(i) > 0 then
+            SetInteractivePoint(i, 0)
+        end
+    end
+
+    if ReadVar("L:INI_Potable_Water_Door") > 0 then
+        WriteVar("L:INI_Potable_Water_Door", 0)
+    end
+
+    if ReadVar("L:INI_Waste_Water_Door") > 0 then
+        WriteVar("L:INI_Waste_Water_Door", 0)
+    end
+
+    if ReadVar("L:INI_EFB_IS_REFUELING") > 0 then
+        WriteVar("L:INI_EFB_IS_REFUELING", 0)
+    end
+
+    if ReadVar("L:INI_Refuel_Door") > 0 then
+        SendInput("common_a350_refuel_door_a350_refuel_door", 1)
     end
 end

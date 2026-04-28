@@ -11,28 +11,38 @@ namespace Pmdg777Interface
     {
         public const int EventBase = 69632;
         public const int EvtLeftSingle = 0x20000000;
-        public override bool IsConnected => Module?.ReceivedDataValid == true && EfbManager?.IsConnected == true;
+        public override bool IsConnected => ReceivedDataValid && EfbManager?.IsConnected == true;
+        public virtual bool ReceivedDataValid => Module?.ReceivedDataValid == true;
         public virtual Pmdg777Plugin Plugin => AppPlugin.Instance as Pmdg777Plugin;
         public virtual Pmdg777Module Module => Plugin?.SimConnectModule as Pmdg777Module;
         public virtual Pmdg777EfbManager EfbManager { get; }
-        public virtual Pmdg777Cdu CDU { get; }
         public virtual Pmdg777DoorManager DoorManager { get; }
-        public virtual PMDG_777X_Data PMDG_777X_Data => Module.PMDG_777X_Data;
-        public virtual bool WeightInKg => PMDG_777X_Data.WeightInKg != 0;
-        public override DisplayUnit UnitAircraft => Module?.ReceivedDataValid == true && !WeightInKg ? DisplayUnit.LB : DisplayUnit.KG;
+        public virtual PMDG_777X_Data PMDG_777X_Data => Module?.PMDG_777X_Data ?? new();
         public virtual ISimResourceSubscription SubRotorBrake { get; protected set; }
-        public virtual ISimResourceSubscription SubDoorMainCargo { get; protected set; }
         public virtual AutomationState AutomationState => GsxController.IAutomationController.State;
         public virtual bool DoorArmTarget { get; protected set; } = true;
         protected virtual bool MicIntSwitchTriggered { get; set; } = false;
-        protected virtual bool ResetPayloadDone { get; set; } = false;
         protected virtual bool FirstRun { get; set; } = true;
-        protected virtual bool ApplyCrewToCargo { get; set; } = false;
+        protected virtual bool LastModuleState { get; set; } = false;
+        protected virtual bool LastWalkaround { get; set; } = true;
+        protected virtual DateTime TimeNextDataToggle { get; set; } = DateTime.MaxValue;
+
+        public virtual bool IsWeightInKg => PMDG_777X_Data.WeightInKg != 0;
+        public virtual bool IsCargo => AircraftString?.Contains("PMDG 777F", StringComparison.InvariantCultureIgnoreCase) ?? false;
+        public virtual bool AvionicsPowered => SimStore[PmdgConstants.VarAircraftPowered]?.GetNumber() > 0;
+        public virtual bool PowerAvailable => PMDG_777X_Data.ELEC_annunExtPowr_AVAIL[0] > 0 || PMDG_777X_Data.ELEC_annunExtPowr_AVAIL[1] > 0;
+        public new bool PowerConnected => PMDG_777X_Data.ELEC_annunExtPowr_ON[0] > 0 || PMDG_777X_Data.ELEC_annunExtPowr_ON[1] > 0;
+        public virtual bool BrakesSet => PMDG_777X_Data.BRAKES_ParkingBrakeLeverOn > 0;
+        public virtual bool EquipChocks => PMDG_777X_Data.WheelChocksSet > 0;
+        public virtual bool EquipPca => SimStore[PmdgConstants.VarEquipAirCond]?.GetNumber() > 0;
+        public new bool ApuRunning => PMDG_777X_Data.APURunning > 0;
+        public new bool ApuBleedOn => PMDG_777X_Data.AIR_annunAPUBleedAirOFF == 0 && PMDG_777X_Data.AIR_APUBleedAir_Sw_AUTO > 0;
+        public new bool LightNav => PMDG_777X_Data.LTS_NAV_Sw_ON > 0;
+        public new bool LightBeacon => PMDG_777X_Data.LTS_Beacon_Sw_ON > 0;
 
         public Pmdg777Aircraft(IAppResources appResources) : base(appResources)
         {
             EfbManager = new(appResources, this);
-            CDU = new(this);
             DoorManager = new(this);
         }
 
@@ -46,100 +56,61 @@ namespace Pmdg777Interface
             return $"#{EventBase + code}";
         }
 
-        protected override async Task DoInit()
+        public static DateTime GetTime(int delay = 5)
         {
-            SimStore.AddVariable(PmdgConstants.VarSwitchMicIntCpt).OnReceived += OnMicIntSwitch;
-            SimStore.AddVariable(PmdgConstants.VarSwitchMicIntFo).OnReceived += OnMicIntSwitch;
+            return DateTime.Now + TimeSpan.FromSeconds(delay);
+        }
+
+        protected override Task DoInit()
+        {
+            SimStore.AddVariable(PmdgConstants.VarSwitchMicIntCpt)?.OnReceived += OnMicIntSwitch;
+            SimStore.AddVariable(PmdgConstants.VarSwitchMicIntFo)?.OnReceived += OnMicIntSwitch;
             SimStore.AddVariable(PmdgConstants.VarEquipAirCond);
             SimStore.AddVariable(PmdgConstants.VarEquipGpu);
             SimStore.AddVariable(PmdgConstants.VarAircraftPowered);
-            SubDoorMainCargo = SimStore.AddVariable(PmdgConstants.VarDoorMain);
-            SubDoorMainCargo.OnReceived += DoorManager.OnDoorMainCargo;
-
-            SimStore.AddVariable(PmdgConstants.VarGsxAutoEquip);
-            SimStore.AddVariable(PmdgConstants.VarGsxAutoDoors);
-            SimStore.AddVariable(PmdgConstants.VarGsxAutoFuel);
-            SimStore.AddVariable(PmdgConstants.VarGsxAutoPayload);
-            SimStore.AddVariable(PmdgConstants.VarGsxReadProgFuel);
-            SimStore.AddVariable(PmdgConstants.VarGsxSetProgFuel);
-            SimStore.AddVariable(PmdgConstants.VarGsxReadCustFuel);
-            SimStore.AddVariable(PmdgConstants.VarGsxSetCustFuel);
 
             SubRotorBrake = SimStore.AddEvent("ROTOR_BRAKE");
+            SimStore.AddEvent(PmdgConstants.EvtToggleLightTest); //Light Test
 
             foreach (var door in DoorManager.Doors)
-                SimStore.AddEvent($"#{Pmdg777Aircraft.EventBase + door.Value.EventCode}");
-            foreach (var light in DoorManager.CargoLights)
+                SimStore.AddEvent($"#{EventBase + door.Value.EventCode}");
+            foreach (var light in DoorManager.CargoLights.Values)
             {
-                SimStore.AddVariable($"L:switch_{(int)light}_a");
-                SimStore.AddEvent(GetEventName((int)light));
+                SimStore.AddVariable(light.GetVariable());
+                SimStore.AddEvent(light.GetEvent());
             }
 
             GsxController.GetService(GsxServiceType.Boarding).OnStateChanged += OnBoardState;
             GsxController.GetService(GsxServiceType.Deboarding).OnStateChanged += OnDeboardState;
+            GsxController.GetService(GsxServiceType.Catering).OnStateChanged += OnCateringState;
 
-            await CommBus.RegisterCommBus("PlaneToTablet", BroadcastFlag.JS, EfbManager.OnCommBusEvent);
+            return CommBus.RegisterCommBus("PlaneToTablet", BroadcastFlag.JS, EfbManager.OnCommBusEvent);
         }
 
-        protected override async Task DoStop()
+        protected override Task DoStop()
         {
-            SimStore[PmdgConstants.VarSwitchMicIntCpt].OnReceived -= OnMicIntSwitch;
-            SimStore[PmdgConstants.VarSwitchMicIntFo].OnReceived -= OnMicIntSwitch;
+            SimStore[PmdgConstants.VarSwitchMicIntCpt]?.OnReceived -= OnMicIntSwitch;
+            SimStore[PmdgConstants.VarSwitchMicIntFo]?.OnReceived -= OnMicIntSwitch;
             SimStore.Remove(PmdgConstants.VarSwitchMicIntCpt);
             SimStore.Remove(PmdgConstants.VarEquipAirCond);
             SimStore.Remove(PmdgConstants.VarEquipGpu);
             SimStore.Remove(PmdgConstants.VarAircraftPowered);
 
-            SubDoorMainCargo.OnReceived -= DoorManager.OnDoorMainCargo;
-            SubDoorMainCargo.Unsubscribe();
-
-            SimStore.Remove(PmdgConstants.VarGsxAutoEquip);
-            SimStore.Remove(PmdgConstants.VarGsxAutoDoors);
-            SimStore.Remove(PmdgConstants.VarGsxAutoFuel);
-            SimStore.Remove(PmdgConstants.VarGsxAutoPayload);
-            SimStore.Remove(PmdgConstants.VarGsxReadProgFuel);
-            SimStore.Remove(PmdgConstants.VarGsxSetProgFuel);
-            SimStore.Remove(PmdgConstants.VarGsxReadCustFuel);
-            SimStore.Remove(PmdgConstants.VarGsxSetCustFuel);
-
             SubRotorBrake?.Unsubscribe();
 
             foreach (var door in DoorManager.Doors)
                 SimStore.Remove(GetEventName(door.Value.EventCode));
-            foreach (var light in DoorManager.CargoLights)
+            foreach (var light in DoorManager.CargoLights.Values)
             {
-                SimStore.Remove($"L:switch_{(int)light}_a");
-                SimStore.Remove(GetEventName((int)light));
+                SimStore.Remove(light.GetVariable());
+                SimStore.Remove(light.GetEvent());
             }
 
             GsxController.GetService(GsxServiceType.Boarding).OnStateChanged -= OnBoardState;
             GsxController.GetService(GsxServiceType.Deboarding).OnStateChanged -= OnDeboardState;
+            GsxController.GetService(GsxServiceType.Catering).OnStateChanged -= OnCateringState;
 
-            await CommBus.UnregisterCommBus("PlaneToTablet", BroadcastFlag.JS, EfbManager.OnCommBusEvent);
-        }
-
-        protected virtual async Task SetGsxAutomationVar(ISimResourceSubscription variable, int value = 0)
-        {
-            Logger.Debug($"Disabling GSX Automation ({variable.Name})");
-            await variable.WriteValue(value);
-        }
-
-        public override async Task OnCouatlStarted()
-        {
-            await SetGsxAutomationVar(SimStore[PmdgConstants.VarGsxAutoEquip]);
-
-            await SetGsxAutomationVar(SimStore[PmdgConstants.VarGsxAutoDoors]);
-
-            if (HasEfbWeightBalance())
-            {
-                await SetGsxAutomationVar(SimStore[PmdgConstants.VarGsxAutoFuel]);
-
-                await SetGsxAutomationVar(SimStore[PmdgConstants.VarGsxAutoPayload]);
-
-                await SetGsxAutomationVar(SimStore[PmdgConstants.VarGsxSetProgFuel], -1);
-
-                await SetGsxAutomationVar(SimStore[PmdgConstants.VarGsxSetCustFuel], -1);
-            }
+            return CommBus.UnregisterCommBus("PlaneToTablet", BroadcastFlag.JS, EfbManager.OnCommBusEvent);
         }
 
         public override async Task RunInterval()
@@ -150,25 +121,50 @@ namespace Pmdg777Interface
                 FirstRun = false;
             }
 
-            await EfbManager.CheckEfb();
-            await DoorManager.CheckDoors();
-            await Task.Delay(25);
+            if ((!ReceivedDataValid || !EfbManager.IsConnected) && (AutomationState < AutomationState.TaxiOut || AutomationState > AutomationState.TaxiIn))
+                await EfbManager.CheckConnection();
+            else
+            {
+                await EfbManager.CheckEfb();
+                await DoorManager.CheckDoors();
+            }
         }
 
         public override async Task CheckConnection()
         {
-            if (Module.ReceivedDataValid)
+            if (!GsxController.IsWalkaround && LastWalkaround)
+                TimeNextDataToggle = GetTime();
+            LastWalkaround = GsxController.IsWalkaround;
+
+            if (ReceivedDataValid && !LastModuleState)
+                EfbManager.TimeNextUpdateToggle = GetTime(FirstRun ? 10 : 5);
+            LastModuleState = ReceivedDataValid;
+
+            if (ReceivedDataValid && !EfbManager.IsConnected)
                 await EfbManager.CheckConnection();
+            else if (!ReceivedDataValid && Module != null && !GsxController.IsWalkaround && TimeNextDataToggle < DateTime.Now && (AutomationState < AutomationState.TaxiOut || AutomationState > AutomationState.TaxiIn))
+            {
+                Logger.Debug("Toggle Light Test to trigger ClientData Update");
+                await SimStore[PmdgConstants.EvtToggleLightTest].WriteValue(0x00004000);
+                await Task.Delay(250);
+                await SimStore[PmdgConstants.EvtToggleLightTest].WriteValue(0x00002000);
+                TimeNextDataToggle = GetTime();
+            }
         }
 
-        protected override Task<bool> GetIsCargo()
+        public override Task<bool> GetSettingAdvAutomation()
         {
-            return Task.FromResult(AircraftString.Contains("PMDG 777F", StringComparison.InvariantCultureIgnoreCase));
+            return Task.FromResult(false);
         }
 
-        public override Task<bool> GetHasFuelSynch()
+        public override Task<bool> GetIsCargo()
         {
-            return Task.FromResult(HasEfbWeightBalance());
+            return Task.FromResult(IsCargo);
+        }
+
+        public override Task<bool> GetHasFuelSync()
+        {
+            return Task.FromResult(true);
         }
 
         public override Task<bool> GetCanSetPayload()
@@ -181,107 +177,53 @@ namespace Pmdg777Interface
             return Task.FromResult(true);
         }
 
-        public virtual bool HasEfbWeightBalance()
+        public override Task<DisplayUnit> GetAircraftUnits()
         {
-            return true;
+            return Task.FromResult(Module?.ReceivedDataValid == true && !IsWeightInKg ? DisplayUnit.LB : DisplayUnit.KG);
         }
 
-        public override async Task SetPayloadEmpty()
+        public override Task SetPayloadEmpty()
         {
-            try
-            {
-                while (!IsConnected && IsExecutionAllowed)
-                    await Task.Delay(500, Token);
-
-                if (HasEfbWeightBalance())
-                    await EfbManager.SetPayloadEmpty();
-                else
-                    await CDU.SetPayloadEmpty();
-
-                ResetPayloadDone = true;
-            }
-            catch (Exception ex)
-            {
-                if (ex is not TaskCanceledException)
-                    Logger.LogException(ex);
-            }
+            return EfbManager.SetPayloadEmpty();
         }
 
-        public override async Task SetFuelOnBoardKg(double fuelKg)
+        public override Task SetFuelOnBoardKg(double fuelKg, double targetKg)
         {
-            if (HasEfbWeightBalance())
-                await EfbManager.SetFuelOnBoardKg(fuelKg);
-            else
-                await CDU.SetFuelOnBoardKg(fuelKg); 
+            return EfbManager.SetFuelOnBoardKg(fuelKg);
         }
 
-        public override async Task RefuelTick(double stepKg, double fuelOnBoardKg)
+        public override Task SetCargoOnBoard(double cargoOnBoardKg, double cargoTargetKg)
         {
-            if (HasEfbWeightBalance())
-                await EfbManager.SetFuelOnBoardKg(fuelOnBoardKg);
+            return EfbManager.SetCargoOnBoard(cargoOnBoardKg);
         }
 
-        public override async Task BoardChangePax(int paxOnBoard, double weightPerPaxKg)
+        public override Task SetPaxOnBoard(int paxOnBoard, double weightPerPaxKg, int paxTarget)
         {
-            if (HasEfbWeightBalance())
-                await EfbManager.SetPaxOnBoard(paxOnBoard);
+            return EfbManager.SetPaxOnBoard(paxOnBoard);
         }
 
-        public override async Task BoardCompleted(int paxTarget, double weightPerPaxKg, double cargoTargetKg)
-        {
-            await base.BoardCompleted(paxTarget, weightPerPaxKg, cargoTargetKg);
-            await BoardChangePax(paxTarget, weightPerPaxKg);
-            await BoardChangeCargo(100, cargoTargetKg);
-        }
-
-        public override async Task DeboardCompleted()
-        {
-            await base.DeboardCompleted();
-            await DeboardChangePax(0, Flightplan.CountPax, Flightplan.WeightPerPaxKg);
-            await DeboardChangeCargo(0, 0);
-        }
-
-        public override Task SetCargoCrew(int paxOnBoard, double weightPerPaxKg)
-        {
-            base.SetCargoCrew(paxOnBoard, weightPerPaxKg);
-            ApplyCrewToCargo = true;
-            return Task.CompletedTask;
-        }
-
-        public override async Task DeboardChangePax(int paxOnBoard, int gsxTotal, double weightPerPaxKg)
-        {
-            if (HasEfbWeightBalance())
-                await EfbManager.SetPaxOnBoard(paxOnBoard);
-        }
-
-        public override async Task BoardChangeCargo(int progressLoad, double cargoOnBoardKg)
-        {
-            if (HasEfbWeightBalance())
-            {
-                if (ApplyCrewToCargo)
-                    cargoOnBoardKg += AppResources.IFlightplan.WeightPaxKg;
-                await EfbManager.SetCargoOnBoard(cargoOnBoardKg);
-            }
-        }
-
-        public override async Task DeboardChangeCargo(int progressUnload, double cargoOnBoardKg)
-        {
-            if (HasEfbWeightBalance())
-                await EfbManager.SetCargoOnBoard(cargoOnBoardKg);
-        }
-        
         public override async Task OnAutomationStateChange(AutomationState state)
         {
+            if (state == AutomationState.SessionStart)
+            {
+                if (DoorManager.HasOpenDoors())
+                {
+                    await DoorManager.DoorsAllClose();
+                    await DoorDisarmAll();
+                }
+            }
             if (state == AutomationState.Preparation)
             {
                 await DoorDisarmAll();
+                if (GsxController.HasGateJetway && GsxController.JetwayState == GsxServiceState.Active)
+                {
+                    if (DoorManager.GetDoor(GsxDoor.PaxDoor2).IsMoving)
+                        await Task.Delay(5000, Token);
+                    await DoorManager.OnJetwayStateChange(GsxServiceState.Active, ISettingProfile.DoorPaxHandling);
+                }
             }
-
-            if (state == AutomationState.Departure || state == AutomationState.Arrival)
+            else if (state == AutomationState.Departure || state == AutomationState.Arrival)
             {
-                await OnCouatlStarted();
-                ApplyCrewToCargo = false;
-                ResetPayloadDone = true;
                 await DoorDisarmAll();
             }
             else if (state == AutomationState.TaxiOut)
@@ -290,36 +232,39 @@ namespace Pmdg777Interface
             }
             else if (state == AutomationState.Flight)
             {
-                DoorManager.SetAll(PmdgDoorState.ClosedArmed);
-                ApplyCrewToCargo = false;
+                EfbManager.ResetFlight();
             }
-
-            if (state == AutomationState.Arrival || state == AutomationState.TurnAround)
+            else if (state == AutomationState.TurnAround)
             {
-                EfbManager.ResetState();
-                ApplyCrewToCargo = false;
+                await DoorDisarmAll();
             }
         }
 
-        public override async Task PushStateChange(GsxServiceState state)
+        public override Task PushStateChange(GsxServiceState state)
         {
             if (state == GsxServiceState.Active)
-                await DoorArmAll();
+                return DoorArmAll();
+            else
+                return Task.CompletedTask;
         }
 
-        public override async Task PushOperationChange(int status)
+        public override Task PushOperationChange(int status)
         {
-            if (GsxController.GetService(GsxServiceType.Pushback).State >= GsxServiceState.Requested &&  status > 1 && status <= 4)
-                await DoorArmAll();
+            if (status >= 1 && status <= 4)
+                return DoorArmAll();
+            else
+                return Task.CompletedTask;
         }
 
-        protected virtual void OnMicIntSwitch(ISimResourceSubscription sub, object data)
+        protected virtual Task OnMicIntSwitch(ISimResourceSubscription sub, object data)
         {
             if (sub.GetNumber() == 100)
             {
                 Logger.Debug($"Received MicInt Trigger");
                 MicIntSwitchTriggered = true;
             }
+
+            return Task.CompletedTask;
         }
 
         public override Task<bool> GetSmartButtonRequest()
@@ -333,98 +278,115 @@ namespace Pmdg777Interface
             return Task.CompletedTask;
         }
 
-        protected virtual async Task DoorArmAll()
+        public virtual Task DoorArmAll()
         {
             if (!DoorArmTarget || DoorManager.HasUnarmedDoors())
             {
                 Logger.Debug($"Arm Doors");
-                await EfbManager.SendRequest("arm_all", "doors");
                 DoorArmTarget = true;
-                DoorManager.ArmAll();
+                return EfbManager.SendRequest("arm_all", "doors");
             }
+
+            return Task.CompletedTask;
         }
 
-        protected virtual async Task DoorDisarmAll()
+        public virtual Task DoorDisarmAll()
         {
-            if (DoorArmTarget)
+            if (DoorArmTarget || DoorManager.HasArmedDoors())
             {
                 Logger.Debug($"Disarm Doors");
-                await EfbManager.SendRequest("disarm_all", "doors");
                 DoorArmTarget = false;
-                DoorManager.DisarmAll();
+                return EfbManager.SendRequest("disarm_all", "doors");
             }
+
+            return Task.CompletedTask;
         }
 
-        protected override Task<bool> GetHasOpenDoors()
+        public override Task<bool> GetHasOpenDoors()
         {
-            foreach (var door in PMDG_777X_Data.DOOR_state)
+            return Task.FromResult(DoorManager.HasOpenDoors());
+        }
+
+        public override Task DoorsAllClose()
+        {
+            if (DoorManager.HasOpenDoors())
             {
-                if (door == 0 || door == 4)
-                    return Task.FromResult(true);
+                Logger.Debug($"DoorsAllClose");
+                return DoorManager.DoorsAllClose();
             }
-
-            return Task.FromResult(false);
+            else
+                return Task.CompletedTask;
         }
 
-        public override async Task DoorsAllClose()
+        public override Task SetCargoDoors(bool state, bool force = false)
         {
-            Logger.Debug($"DoorsAllClose");
-            await EfbManager.SendRequest("close_all", "doors");
-            DoorManager.SetAll(PmdgDoorState.Closed);
+            return DoorManager.SetCargoDoors(state, force);
         }
 
         public override Task OnDoorTrigger(GsxDoor door, bool trigger)
         {
-            DoorManager.OnDoorTrigger(door, trigger);
-            return Task.CompletedTask;
+            return DoorManager.OnDoorTrigger(door, trigger);
         }
 
-        public override Task OnJetwayChange(GsxServiceState state)
-        {;
-            DoorManager.OnJetwayChange(state);
-            return Task.CompletedTask;
-        }
-
-        public override Task OnStairChange(GsxServiceState state)
+        public override Task OnLoaderAttached(GsxDoor door, bool attached)
         {
-            DoorManager.OnStairChange(state);
-            return Task.CompletedTask;
+            return DoorManager.OnLoaderAttached(door, attached);
+        }
+
+        public override Task OnJetwayStateChange(GsxServiceState state, bool paxDoorAllowed)
+        {
+            return DoorManager.OnJetwayStateChange(state, paxDoorAllowed);
+        }
+
+        public override Task OnStairStateChange(GsxServiceState state, bool paxDoorAllowed)
+        {
+            return DoorManager.OnStairStateChange(state, paxDoorAllowed);
+        }
+
+        public override Task OnStairOperationChange(GsxServiceState state, bool paxDoorAllowed)
+        {
+            if (state == GsxServiceState.Completing)
+                return DoorManager.OnStairStateChange(GsxServiceState.Requested, paxDoorAllowed);
+            else
+                return Task.CompletedTask;
         }
 
         protected virtual Task OnBoardState(IGsxService boardService)
         {
-            DoorManager.OnBoardState(boardService);
-            return Task.CompletedTask;
+            return DoorManager.OnBoardState(boardService);
         }
 
         protected virtual Task OnDeboardState(IGsxService deboardService)
         {
-            DoorManager.OnDeboardState(deboardService);
-            return Task.CompletedTask;
+            return DoorManager.OnDeboardState(deboardService);
         }
 
-        protected override Task<bool> GetAvionicPowered()
+        protected virtual Task OnCateringState(IGsxService cateringService)
         {
-            return Task.FromResult<bool>((bool)(SimStore[PmdgConstants.VarAircraftPowered]?.GetNumber() > 0 || GetApuRunning().Result || GetExternalPowerConnected().Result));
+            return DoorManager.OnCateringState(cateringService);
         }
 
-        protected override Task<bool> GetExternalPowerAvailable()
+        protected virtual bool IsAvionicsPowered()
         {
-            bool powerConnected = GetExternalPowerConnected().Result;
-            if (EfbManager.CheckGpuType() == false && !powerConnected)
+            return AvionicsPowered || ApuRunning || PowerConnected || Engine1 || Engine2;
+        }
+
+        public override Task<bool> GetAvionicPowered()
+        {
+            return Task.FromResult(IsAvionicsPowered());
+        }
+
+        public override Task<bool> GetExternalPowerAvailable()
+        {
+            if (!EfbManager.CheckGpuType() && !PowerConnected)
                 return Task.FromResult(false);
 
-            return Task.FromResult(GetExternalPowerAvailableRaw() || powerConnected || EfbManager.CheckExternalConnected());
+            return Task.FromResult(PowerAvailable || PowerConnected || EfbManager?.CheckExternalConnected() == true);
         }
 
-        protected virtual bool GetExternalPowerAvailableRaw()
+        public override Task<bool> GetExternalPowerConnected()
         {
-            return PMDG_777X_Data.ELEC_annunExtPowr_AVAIL[0] > 0 || PMDG_777X_Data.ELEC_annunExtPowr_AVAIL[1] > 0;
-        }
-
-        protected override Task<bool> GetExternalPowerConnected()
-        {
-            return Task.FromResult(PMDG_777X_Data.ELEC_annunExtPowr_ON[0] > 0 || PMDG_777X_Data.ELEC_annunExtPowr_ON[1] > 0);
+            return Task.FromResult(PowerConnected);
         }
 
         public override Task<bool> GetHasGpuInternal()
@@ -432,26 +394,34 @@ namespace Pmdg777Interface
             return Task.FromResult(true);
         }
 
+        public override Task<bool> GetGpuRequireChocks()
+        {
+            return Task.FromResult(true);
+        }
+
         public override async Task SetEquipmentPower(bool state, bool force = false)
         {
-            bool connected = GetExternalPowerConnected().Result;
-            if (!state && !force && connected)
+            if ((!state && !force && PowerConnected) || !IsConnected)
                 return;
 
-            bool? result = EfbManager.CheckGpuType();            
-            bool avail = GetExternalPowerAvailableRaw();
-            if (AutomationState == AutomationState.Preparation && result == false)
+            if (!PowerConnected && state && !EfbManager.CheckGpuType())
             {
-                if (!connected && avail)
-                    await EfbManager.SendRequest("ground_power", "ground_conn");
-                if (!EfbManager.IsRequestPending)
-                    await EfbManager.SendRequest("ground_power_type", "ground_conn");
+                if (!await EfbManager.CycleGpu())
+                {
+                    Logger.Debug($"GPU Type not found after {Pmdg777EfbManager.GpuMaxAttempts} Attempts");
+                    await EfbManager.ToggleGpu();
+                }
             }
-            else if ((state && avail) || (!state && !avail))
-                return;
-            
-            if (result == true || force)
-                await EfbManager.SendRequest("ground_power", "ground_conn");
+            else if (!PowerConnected && ((state && !PowerAvailable) || (!state && PowerAvailable)))
+            {
+                await EfbManager.ToggleGpu();
+                EfbManager.GpuSetAttempts = 0;
+            }
+            else if (!state && PowerConnected && force)
+            {
+                await EfbManager.ToggleGpu();
+                EfbManager.GpuSetAttempts = 0;
+            }
         }
 
         public override Task<bool> GetHasChocks()
@@ -459,38 +429,39 @@ namespace Pmdg777Interface
             return Task.FromResult(true);
         }
 
-        protected override Task<bool> GetEquipmentChocks()
+        public override Task<bool> GetEquipmentChocks()
         {
-            return Task.FromResult(PMDG_777X_Data.WheelChocksSet > 0);
+            return Task.FromResult(EquipChocks);
         }
 
-        protected override Task<bool> GetBrakeSet()
+        public override Task<bool> GetBrakeSet()
         {
-            return Task.FromResult(PMDG_777X_Data.BRAKES_ParkingBrakeLeverOn > 0);
+            return Task.FromResult(BrakesSet);
         }
 
-        public override async Task SetEquipmentChocks(bool state, bool force = false)
+        public override Task SetEquipmentChocks(bool state, bool force = false)
         {
-            if (!state && !force && !GetBrakeSet().Result)
-                return;
+            if (!state && !force && !BrakesSet)
+                return Task.CompletedTask;
 
-            if (GetExternalPowerAvailable().Result)
-                return;
+            if (PowerAvailable)
+                return Task.CompletedTask;
 
-            if ((state && GetEquipmentChocks().Result) || (!state && !GetEquipmentChocks().Result))
-                return;
+            if ((state && EquipChocks) || (!state && !EquipChocks))
+                return Task.CompletedTask;
 
-            await EfbManager.SendRequest("wheel_chocks", "ground_conn");
+            EfbManager.IsRequestPending = true;
+            return EfbManager.SendRequest("wheel_chocks", "ground_conn");
         }
 
-        protected override Task<bool> GetApuRunning()
+        public override Task<bool> GetApuRunning()
         {
-            return Task.FromResult(PMDG_777X_Data.APURunning > 0);
+            return Task.FromResult(ApuRunning);
         }
 
-        protected override Task<bool> GetApuBleedOn()
+        public override Task<bool> GetApuBleedOn()
         {
-            return Task.FromResult(PMDG_777X_Data.AIR_annunAPUBleedAirOFF == 0 && PMDG_777X_Data.AIR_APUBleedAir_Sw_AUTO > 0);
+            return Task.FromResult(ApuRunning && ApuBleedOn);
         }
 
         public override Task<bool> GetHasPca()
@@ -498,43 +469,48 @@ namespace Pmdg777Interface
             return Task.FromResult(true);
         }
 
-        protected override Task<bool> GetEquipmentPca()
+        public override Task<bool> GetPcaRequirePower()
         {
-            return Task.FromResult(SimStore[PmdgConstants.VarEquipAirCond]?.GetNumber() > 0);
+            return Task.FromResult(true);
         }
 
-        public override async Task SetEquipmentPca(bool state, bool force = false)
+        public override Task<bool> GetEquipmentPca()
         {
-            if (!state && !force && !GetApuRunning().Result && !GetApuBleedOn().Result)
-                return;
-
-            if ((state && GetEquipmentPca().Result) || (!state && !GetEquipmentPca().Result))
-                return;
-
-            await EfbManager.SendRequest("air_cond_unit", "ground_conn");
+            return Task.FromResult(EquipPca);
         }
 
-        protected override Task<bool> GetLightNav()
+        public override Task SetEquipmentPca(bool state, bool force = false)
         {
-            return Task.FromResult(PMDG_777X_Data.LTS_NAV_Sw_ON > 0);
+            if (!state && !force && !ApuRunning && !ApuBleedOn)
+                return Task.CompletedTask;
+
+            if ((state && EquipPca) || (!state && !EquipPca))
+                return Task.CompletedTask;
+
+            EfbManager.IsRequestPending = true;
+            return EfbManager.SendRequest("air_cond_unit", "ground_conn");
         }
 
-        protected override Task<bool> GetLightBeacon()
+        public override Task<bool> GetLightNav()
         {
-            return Task.FromResult(PMDG_777X_Data.LTS_Beacon_Sw_ON > 0);
+            return Task.FromResult(IsAvionicsPowered() && LightNav);
         }
 
-        protected override Task<bool> GetReadyDepartureServices()
+        public override Task<bool> GetLightBeacon()
         {
-            return Task.FromResult(GetReadyDepartureServicesRaw() && ResetPayloadDone);
+            return Task.FromResult(IsAvionicsPowered() && LightBeacon);
         }
 
-        protected virtual bool GetReadyDepartureServicesRaw()
+        public override Task<bool> GetReadyDepartureServices()
         {
-            if (HasEfbWeightBalance())
-                return GetAvionicPowered().Result && EfbManager.HasEfbImportedFlightPlan;
-            else
-                return GetAvionicPowered().Result && PMDG_777X_Data.ELEC_CabUtilSw > 0;
+            return Task.FromResult(IsAvionicsPowered() && EfbManager.HasEfbImportedFlightPlan);
+        }
+
+        public override Task OnFlightplanUnload()
+        {
+            EfbManager.HasEfbImportedFlightPlan = false;
+            EfbManager.WasEfbFlightPlanSynced = true;
+            return Task.CompletedTask;
         }
     }
 }

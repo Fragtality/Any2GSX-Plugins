@@ -1,9 +1,28 @@
-﻿namespace Pmdg777Interface
+﻿using Any2GSX.PluginInterface;
+
+namespace Pmdg777Interface
 {
     public static class PmdgSettings
     {
-        public const string OptionClearVehicles = "PMDG.777.Option.ClearVehicles";
-        public const string OptionChangePowerType = "PMDG.777.Option.ChangePowerType";
-        public const string OptionCargoLights = "PMDG.777.Option.CargoLights";
+        public static readonly PluginSetting ClearVehicles = new()
+        {
+            Key = "ClearVehicles",
+            Type = PluginSettingType.Bool
+        };
+        public static readonly PluginSetting ChangePowerType = new()
+        {
+            Key = "ChangePowerType",
+            Type = PluginSettingType.Bool
+        };
+        public static readonly PluginSetting CargoLights = new()
+        {
+            Key = "CargoLights",
+            Type = PluginSettingType.Bool
+        };
+        public static readonly PluginSetting OperateBulk = new()
+        {
+            Key = "OperateBulk",
+            Type = PluginSettingType.Bool
+        };
     }
 }

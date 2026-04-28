@@ -7,18 +7,12 @@ using System.Threading.Tasks;
 
 namespace Pmdg777Interface
 {
-    public class Pmdg777Module : SimConnectModule
+    public class Pmdg777Module(SimConnectManager manager, object moduleParams, bool wasRegisteredBefore) : SimConnectModule(manager, moduleParams, wasRegisteredBefore)
     {
         protected virtual bool ClientDataAreaCreated { get; set; } = false;
-        protected virtual SimConnect.RecvClientDataEventHandler RecvClientDataEventHandler { get; }
         public virtual bool ReceivedDataValid { get; protected set; } = false;
         protected virtual bool FirstReceive { get; set; } = true;
         public virtual PMDG_777X_Data PMDG_777X_Data { get; protected set; } = new();
-
-        public Pmdg777Module(SimConnectManager manager, object moduleParams) : base(manager, moduleParams)
-        {
-            RecvClientDataEventHandler = new SimConnect.RecvClientDataEventHandler(OnClientData);
-        }
 
         protected override void SetModuleParams(object moduleParams)
         {
@@ -45,47 +39,55 @@ namespace Pmdg777Interface
             Manager.OnOpen += OnOpen;
         }
 
-        public override async Task OnOpen(SIMCONNECT_RECV_OPEN evtData)
+        public override Task OnOpen(SIMCONNECT_RECV_OPEN evtData)
         {
-            await base.OnOpen(evtData);
-            Manager.GetSimConnect().OnRecvClientData += RecvClientDataEventHandler;
-            await CreateDataAreaDefaultChannel();
+            Manager.OnClientData += OnClientData;
+            return CreateDataAreaDefaultChannel();
         }
 
-        public override async Task UnregisterModule(bool disconnect)
+        public override Task UnregisterModule(bool disconnect)
         {
             if (disconnect && Manager.IsReceiveRunning)
             {
-                Manager.GetSimConnect().OnRecvClientData -= RecvClientDataEventHandler;
-                await Call(sc => sc.ClearClientDataDefinition(PMDG_777X_ID.PMDG_777X_DATA_ID));
+                Manager.OnClientData -= OnClientData;
+                return Call(sc => sc.RequestClientData(PMDG_777X_ID.PMDG_777X_DATA_ID,
+                            PMDG_777X_ID.DATA_REQUEST,
+                            PMDG_777X_ID.PMDG_777X_DATA_DEFINITION,
+                            SIMCONNECT_CLIENT_DATA_PERIOD.NEVER,
+                            SIMCONNECT_CLIENT_DATA_REQUEST_FLAG.DEFAULT,
+                            0,
+                            0,
+                            0));
             }
+            else
+                return Task.CompletedTask;
         }
 
         protected virtual async Task CreateDataAreaDefaultChannel()
         {
-            if (ClientDataAreaCreated)
-                return;
-
             //DATA
-            await Call(sc => sc.MapClientDataNameToID("PMDG_777X_Data", PMDG_777X_ID.PMDG_777X_DATA_ID));
+            if (!ClientDataAreaCreated && !WasRegisteredBefore)
+            {
+                await Call(sc => sc.MapClientDataNameToID("PMDG_777X_Data", PMDG_777X_ID.PMDG_777X_DATA_ID));
 
-            await Call(sc => sc.AddToClientDataDefinition(PMDG_777X_ID.PMDG_777X_DATA_DEFINITION, 0, (uint)System.Runtime.InteropServices.Marshal.SizeOf(typeof(PMDG_777X_Data)), 0, 0));
+                await Call(sc => sc.AddToClientDataDefinition(PMDG_777X_ID.PMDG_777X_DATA_DEFINITION, 0, (uint)System.Runtime.InteropServices.Marshal.SizeOf(typeof(PMDG_777X_Data)), 0, 0));
+            }
 
             await Call(sc => sc.RegisterStruct<SIMCONNECT_RECV_CLIENT_DATA, PMDG_777X_Data>(PMDG_777X_ID.PMDG_777X_DATA_DEFINITION));
 
             await Call(sc => sc.RequestClientData(PMDG_777X_ID.PMDG_777X_DATA_ID,
-                PMDG_777X_ID.DATA_REQUEST,
-                PMDG_777X_ID.PMDG_777X_DATA_DEFINITION,
-                SIMCONNECT_CLIENT_DATA_PERIOD.VISUAL_FRAME,
-                SIMCONNECT_CLIENT_DATA_REQUEST_FLAG.CHANGED,
-                0,
-                0,
-                0));
+                        PMDG_777X_ID.DATA_REQUEST,
+                        PMDG_777X_ID.PMDG_777X_DATA_DEFINITION,
+                        SIMCONNECT_CLIENT_DATA_PERIOD.VISUAL_FRAME,
+                        SIMCONNECT_CLIENT_DATA_REQUEST_FLAG.CHANGED,
+                        0,
+                        0,
+                        0));
 
             ClientDataAreaCreated = true;
         }
 
-        protected virtual void OnClientData(SimConnect sender, SIMCONNECT_RECV_CLIENT_DATA evtData)
+        protected virtual Task OnClientData(SIMCONNECT_RECV_CLIENT_DATA evtData)
         {
             try
             {
@@ -115,6 +117,8 @@ namespace Pmdg777Interface
             {
                 Logger.LogException(ex);
             }
+
+            return Task.CompletedTask;
         }
     }
 }

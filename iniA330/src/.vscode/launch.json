@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Publish Plugin",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "${workspaceFolder}\\..\\PublishPlugin.ps1",
+            "cwd": "${workspaceFolder}\\.."
+        },
+        {
+            "name": "Publish Channel",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "${workspaceFolder}\\..\\PublishChannel.ps1",
+            "cwd": "${workspaceFolder}\\.."
+        }
+        ]
+}

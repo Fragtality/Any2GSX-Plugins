@@ -1,11 +1,21 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace Pmdg777Interface
 {
     public class Pmdg777EfbData
     {
 #pragma warning disable IDE1006
+        [JsonIgnore]
+        public virtual string GpuType => ground_conn?.ground_power_type ?? "";
+        [JsonIgnore]
+        public virtual bool IsGpuJetway => GpuType.Contains("JETWAY", StringComparison.InvariantCultureIgnoreCase);
+        [JsonIgnore]
+        public virtual bool IsGpuCart => GpuType.Contains("GPU", StringComparison.InvariantCultureIgnoreCase);
+        [JsonIgnore]
+        public virtual bool IsGpuDual => GpuType.Contains("DUAL", StringComparison.InvariantCultureIgnoreCase);
         public virtual JsonNode autocruise { get; set; } = null;
         public virtual JsonNode doors { get; set; }
         public virtual Pmdg777EfbGroundConn ground_conn { get; set; }

@@ -1,5 +1,4 @@
 ﻿using CFIT.AppLogger;
-using System;
 using System.Threading.Tasks;
 
 namespace Pmdg777Interface
@@ -11,13 +10,6 @@ namespace Pmdg777Interface
         ClosedArmed = 2,
         Closing = 3,
         Opening = 4,
-    }
-
-    public enum DoorMonitorAction
-    {
-        Unmonitored = 0,
-        Monitored = 1,
-        KeepClosed = 2,
     }
 
     public enum PmdgDoorIndex
@@ -40,87 +32,63 @@ namespace Pmdg777Interface
         EEAccess = 15,
     }
 
-    public enum PmdgCargoLight
-    {
-        Ceiling = 1121,
-        Sidewall = 1122,
-        ExtCam = 1123,
-        SillLoad = 1124,
-    }
-
-    public class Pmdg777Door(Pmdg777Aircraft aircraft, PmdgDoorIndex index, int evtCode, DoorMonitorAction monitoring = DoorMonitorAction.Monitored)
+    public class Pmdg777Door(Pmdg777Aircraft aircraft, PmdgDoorIndex index, int evtCode)
     {
         protected virtual Pmdg777Aircraft Aircraft { get; } = aircraft;
-        protected virtual PMDG_777X_Data PMDG_777X_Data => Aircraft.PMDG_777X_Data;
+        protected virtual PMDG_777X_Data PMDG_777X_Data => Aircraft?.Module?.PMDG_777X_Data ?? new();
         public virtual PmdgDoorIndex Index { get; } = index;
         public virtual int EventCode { get; } = evtCode;
         public virtual PmdgDoorState State => (PmdgDoorState)PMDG_777X_Data.DOOR_state[(int)Index];
-        public virtual PmdgDoorState Target { get; set; } = PmdgDoorState.ClosedArmed;
-        public virtual DoorMonitorAction Monitoring { get; set; } = monitoring;
-        public virtual int DefaultInhibitTime { get; set; } = 1500;
-        protected virtual DateTime InhibitTime { get; set; } = DateTime.MinValue;
-        public virtual bool IsInhibited => DateTime.Now < InhibitTime;
-        public virtual bool IsMoving => IsDoorMoving(State);
-        public virtual bool IsClosed => IsDoorClosed(State);
-        public virtual bool IsOpen => IsDoorOpen(State);
+        public virtual bool IsAvailable { get; set; } = true;
+        public virtual bool IsMoving => State == PmdgDoorState.Closing || State == PmdgDoorState.Opening;
+        public virtual bool IsClosed => State == PmdgDoorState.Closed || State == PmdgDoorState.ClosedArmed || State == PmdgDoorState.Closing;
+        public virtual bool IsFullyClosed => State == PmdgDoorState.Closed || State == PmdgDoorState.ClosedArmed;
+        public virtual bool IsArmed => State == PmdgDoorState.ClosedArmed;
+        public virtual bool IsOpen => State == PmdgDoorState.Open || State == PmdgDoorState.Opening;
+        public virtual bool IsFullyOpen => State == PmdgDoorState.Open;
+        public virtual bool IsPaxDoor => IsAvailable && Index <= PmdgDoorIndex.Pax5R;
+        public virtual bool IsCargoDoor => IsAvailable && Index >= PmdgDoorIndex.CargoFwd && Index <= PmdgDoorIndex.CargoBulk;
 
-        public virtual void InhibitUpdates(int ms = -1)
+        public virtual Task SendDoorCode()
         {
-            InhibitTime = DateTime.Now + TimeSpan.FromMilliseconds(ms < 0 ? DefaultInhibitTime : ms);
-        }
-
-        public virtual async Task SendDoorCode()
-        {
-            Logger.Information($"Operating Door {Index}");
+            Logger.Information($"Operating Door {Index} (current State: {State})");
             string evt = Pmdg777Aircraft.GetEventName(EventCode);
             Logger.Debug($"Sending Door Event: {EventCode} -> {evt}");
-            await Aircraft.SimStore[evt]!?.WriteValue(Pmdg777Aircraft.EvtLeftSingle); ;
+            return Aircraft.SimStore[evt]?.WriteValue(Pmdg777Aircraft.EvtLeftSingle);
         }
 
-        public virtual void SetDoor(PmdgDoorState target)
+        public virtual Task SetDoor(bool state)
         {
-            if (IsDoorMoving(State))
-            {
-                Logger.Debug($"Door {Index} already moving");
-                Target = target;
-                InhibitUpdates(5000);
-            }
-            else if ((State == PmdgDoorState.Closed && target == PmdgDoorState.ClosedArmed)
-                  || (State == PmdgDoorState.ClosedArmed && target == PmdgDoorState.Closed))
-            {
-                Target = target;
-            }
-            else if (State != target && Target != target && (target == PmdgDoorState.Open || target == PmdgDoorState.Closed))
-            {
-                Target = target;
-                InhibitUpdates();
-            }
+            return SetDoor(state ? PmdgDoorState.Open : PmdgDoorState.Closed);
         }
 
-        public virtual void ToggleDoor()
+        public virtual Task SetDoor(PmdgDoorState target)
         {
             if (IsMoving)
-                return;
+            {
+                Logger.Debug($"Door {Index} already moving");
+            }
+            else if (target == PmdgDoorState.Closed && State == PmdgDoorState.ClosedArmed)
+            {
+                Logger.Debug($"Door {Index} already armed");
+            }
+            else if (State != target)
+            {
+                return SendDoorCode();
+            }
+
+            return Task.CompletedTask;
+        }
+
+        public virtual Task ToggleDoor()
+        {
+            if (IsMoving)
+                return Task.CompletedTask;
 
             if (IsClosed)
-                SetDoor(PmdgDoorState.Open);
+                return SetDoor(PmdgDoorState.Open);
             else
-                SetDoor(PmdgDoorState.Closed);
-        }
-
-        public static bool IsDoorMoving(PmdgDoorState state)
-        {
-            return state == PmdgDoorState.Closing || state == PmdgDoorState.Opening;
-        }
-
-        public static bool IsDoorClosed(PmdgDoorState state)
-        {
-            return state == PmdgDoorState.Closed || state == PmdgDoorState.ClosedArmed || state == PmdgDoorState.Closing;
-        }
-
-        public static bool IsDoorOpen(PmdgDoorState state)
-        {
-            return state == PmdgDoorState.Open || state == PmdgDoorState.Opening;
+                return SetDoor(PmdgDoorState.Closed);
         }
     }
 }

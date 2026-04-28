@@ -1,4 +1,5 @@
 local gsxController = GetGsxController()
+local profile = GetSettingProfile()
 local aircraft = GetAircraftPlugin()
 UseVar("FUEL TANK LEFT AUX QUANTITY", "gallons")
 UseVar("FUEL TANK LEFT MAIN QUANTITY", "gallons")
@@ -30,29 +31,17 @@ UseVar("INTERACTIVE POINT GOAL:10", "percent over 100") --2L
 UseVar("INTERACTIVE POINT GOAL:2", "percent over 100") --4L
 SubEvent("TOGGLE_JETWAY", "OnJetwayToggle")
 
-function OnCouatlStarted()
-    if ReadVar("L:FSDT_GSX_SETTINGS_PROGRESS_REFUEL") == 1 then
-        Log("Disabling progressive Refuel")
-        WriteVar("L:FSDT_GSX_SET_PROGRESS_REFUEL", -1)
-    end
-
-    if ReadVar("L:FSDT_GSX_SETTINGS_DETECT_CUST_REFUEL") == 1 then
-        Log("Disabling custom Fuel Detection")
-        WriteVar("L:FSDT_GSX_SET_DETECT_CUST_REFUEL", -1)
-    end
+function BeforeWalkaroundSkip()
+    CheckSetCovers()
 end
 
-function BeforeWalkaroundSkip()
-    Info("Removing Covers in Walkaround")
-    Sleep(250)
-
-    if ReadVar("COVER ON:1") ~= 0 then
+function CheckSetCovers()
+    if ReadVar("COVER ON:1") > 0 then
         SendInput("unknown_cover_left", 1)
     end
-    if ReadVar("COVER ON:2") ~= 0    then
+    if ReadVar("COVER ON:2") > 0 then
         SendInput("unknown_pitot_covers", 1)
     end
-    Sleep(250)
 end
 
 function GetIsCargo()
@@ -60,7 +49,7 @@ function GetIsCargo()
 end
 
 function GetReadyDepartureServices()
-    return aircraft.IsAvionicPowered and aircraft.LightNav and ReadVar("L:INI_DEP_ICAO_EFB") > 0 and ReadVar("L:INI_ARR_ICAO_EFB") > 0
+    return aircraft.AvionicPowered and aircraft.LightNav and ReadVar("L:INI_DEP_ICAO_EFB") > 0 and ReadVar("L:INI_ARR_ICAO_EFB") > 0
 end
 
 function GetSmartButtonRequest()
@@ -72,11 +61,7 @@ function ResetSmartButton()
     WriteVar("L:INI_FO_INT_RAD_SWITCH", 1)
 end
 
-function GetExternalPowerAvailable()
-    return ReadVar("L:INI_GPU_AVAIL") == 1
-end
-
-function GetHasFuelSynch()
+function GetHasFuelSync()
     return true
 end
 
@@ -93,7 +78,7 @@ function GetHasGpuInternal()
 end
 
 function SetEquipmentPower(state, force)
-    if aircraft.IsExternalPowerConnected == true and -not state and -not force then
+    if aircraft.IsExternalPowerConnected == true and not state and not force then
         return
     end
 
@@ -147,7 +132,7 @@ local trimMain = 15360.0
 local minTrim = 2400.0
 local maxTrim = 4889.7
 
-function SetFuelOnBoardKg(fuelKg)
+function SetFuelOnBoardKg(fuelKg, targetKg)
     if not initialFobSet and gsxController.GetService(2).State >= 4 then
         initialFobSet = true
     end
@@ -226,43 +211,24 @@ end
 
 function RefuelStop(fuelTargetKg, setTarget)
     WriteVar("L:INI_EFB_IS_REFUELING", 0)
+    if setTarget then
+        SetFuelOnBoardKg(fuelTargetKg)
+    end
+end
+
+function SetPaxOnBoard(paxOnBoard, weightPerPaxKg, paxTarget)
+    payloadPaxKg = paxOnBoard * weightPerPaxKg
+    SetPayloadStations()
+end
+
+function SetCargoOnBoard(cargoOnBoardKg, cargoTargetKg)
+    payloadCargoKg = cargoOnBoardKg
+    SetPayloadStations()
 end
 
 function BoardActive(paxTarget, cargoTargetKg)
     payloadPaxKg = 0
     payloadCargoKg = 0
-end
-
-function BoardChangePax(paxOnBoard, weightPerPaxKg)
-    payloadPaxKg = paxOnBoard * weightPerPaxKg
-    SetPayloadStations()
-end
-
-function BoardChangeCargo(progressLoad, cargoOnBoardKg)
-    payloadCargoKg = cargoOnBoardKg
-    SetPayloadStations()
-end
-
-function BoardCompleted(paxTarget, weightPerPaxKg, cargoTargetKg)
-    payloadPaxKg = paxTarget * weightPerPaxKg
-    payloadCargoKg = cargoTargetKg
-    SetPayloadStations()
-end
-
-function DeboardChangePax(paxOnBoard, gsxTotal, weightPerPaxKg)
-    payloadPaxKg = paxOnBoard * weightPerPaxKg
-    SetPayloadStations()
-end
-
-function DeboardChangeCargo(progressUnload, cargoOnBoardKg)
-    payloadCargoKg = cargoOnBoardKg
-    SetPayloadStations()
-end
-
-function DeboardCompleted()
-    payloadPaxKg = 0
-    payloadCargoKg = 0
-    SetPayloadStations()
 end
 
 function GetInteractivePoint(index)
@@ -278,14 +244,16 @@ local jetwayEvaluated = false
 local jetwayDoor = 0
 
 function OnAutomationStateChange(state)
-    if state == 4 or state == 5 then
+    if state == 1 then
+       CheckSetCovers()
+    elseif state == 4 or state == 5 then
         jetwayEvaluated = false
         jetwayDoor = 0
     end
 end
 
-function OnJetwayChange(state)
-    if GetIsCargo() then
+function OnJetwayStateChange(state, paxDoorAllowed)
+    if GetIsCargo() or not paxDoorAllowed then
         return
     end
 
@@ -313,9 +281,9 @@ end
 local inhibitDoor = false
 function OnDoorTrigger(door, trigger)
     if door == 1 then
-        Log("trigger")
-        Log(trigger)
-        Log(jetwayDoor)
+        -- Log("trigger")
+        -- Log(trigger)
+        -- Log(jetwayDoor)
         if trigger and jetwayDoor ~= 0 then
             inhibitDoor = true
         elseif not trigger and inhibitDoor and jetwayDoor ~= 0 then
@@ -325,7 +293,6 @@ function OnDoorTrigger(door, trigger)
 end
 
 function OnJetwayToggle(evtData)
-    local gsxController = GetGsxController()
     if jetwayEvaluated and jetwayDoor == 10 and gsxController.JetwayState == 5 then
         Log("Toggle Jetway Door on Toggle Event (close)")
         SetInteractivePoint(jetwayDoor, 0)
@@ -333,41 +300,43 @@ function OnJetwayToggle(evtData)
 end
 
 function RunInterval()
-    local gsxController = GetGsxController()
     if GetIsCargo() or gsxController.HasGateJetway == false then
         return
     end
 
-    local state = AutomationState()
+    local state = gsxController.AutomationState
     --correct Doors with Jetway in Prep/Depart/Push/Arrival/Turn
     if state == 1 or state == 2 or state == 3 or state == 7 or state == 8 then
-        local profile = GetSettingProfile()
+        
         if profile.DoorStairHandling == false then
             return
         end
 
-        local gsxController = GetGsxController()
         local stair = gsxController.StairsState
         local doorOpen = GetInteractivePoint(2) == 1
 
-        if doorOpen and stair ~= 5 then
-            Log("Correcting Door L4 (close)")
-            SetInteractivePoint(2, 0)
-        elseif not doorOpen and stair == 5 and state ~= 3 then
-            Log("Correcting Door L4 (open)")
-            SetInteractivePoint(2, 1)
+        if profile.DoorStairHandling then
+            if doorOpen and stair ~= 5 then
+                Log("Correcting Door L4 (close)")
+                SetInteractivePoint(2, 0)
+            elseif not doorOpen and stair == 5 and state ~= 3 then
+                Log("Correcting Door L4 (open)")
+                SetInteractivePoint(2, 1)
+            end
         end
 
-        doorOpen = GetInteractivePoint(0) == 1
-        if doorOpen and gsxController.HasGateJetway and not inhibitDoor and jetwayDoor ~= 0 then
-            Log("Correcting Door L1 (close)")
-            SetInteractivePoint(0, 0)
-        end
+        if profile.DoorPaxHandling then
+            doorOpen = GetInteractivePoint(0) == 1
+            if doorOpen and gsxController.HasGateJetway and not inhibitDoor and jetwayDoor ~= 0 then
+                Log("Correcting Door L1 (close)")
+                SetInteractivePoint(0, 0)
+            end
 
-        doorOpen = GetInteractivePoint(10) == 1
-        if doorOpen and gsxController.HasGateJetway and jetwayDoor ~= 10 then
-            Log("Correcting Door L2 (close)")
-            SetInteractivePoint(10, 0)
+            doorOpen = GetInteractivePoint(10) == 1
+            if doorOpen and gsxController.HasGateJetway and jetwayDoor ~= 10 then
+                Log("Correcting Door L2 (close)")
+                SetInteractivePoint(10, 0)
+            end
         end
     end
 end

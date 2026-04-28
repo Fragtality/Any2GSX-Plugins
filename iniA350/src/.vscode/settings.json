@@ -34,6 +34,7 @@
         "GetAircraftPlugin",
         "GetSettingProfile",
         "GetGsxController",
-        "RunAfter"
+        "RunAfter",
+        "GetPluginSetting"
     ]
 }
