@@ -5,7 +5,7 @@ Plugin Repository for [Any2GSX](https://github.com/Fragtality/Any2GSX) containin
 
 ## 1 - Installing Plugins / Channels / Profiles
 
-Use the Plugin View ('Available from GitHub') of the Any2GSX App to install Stuff from this Repository!<br/>
+Use the Plugin View ('Available from GitHub') of the Any2GSX App to install Plugins / Channels / Profiles from this Repository!<br/>
 
 <br/><br/>
 
@@ -15,10 +15,12 @@ Use the Plugin View ('Available from GitHub') of the Any2GSX App to install Stuf
 
 | Aircraft | Author | Description |
 | :-------------- | :---------: | :----------- |
+| Fenix A320 | Fragtality | Complete & progressive Fuel, Payload, Door and Equipment Sync. (And other Fenix2GSX Stuff) |
 | iniBuilds A300-600 | Fragtality | Complete & progressive Fuel, Payload and Equipment Sync. Can control the Main Cargo Door & Lights and the visual Cargo Model on the Freighter. |
-| iniBuilds A330 | Fragtality | Complete & progressive Fuel & Payload Sync. Limited Equipment Sync. Door-Sync fixing L1/L2 and L4 randomly opening for no Reason. |
-| iniBuilds A350 | Fragtality | Complete & progressive Fuel, Payload and Equipment Sync (overriding iniBuilds' Integration). Door-Sync for L4. |
-| PMDG B777 | Fragtality | Complete & progressive Fuel, Payload and Equipment Sync. Full Door-Sync trying to workaround PMDG's Integration - also controls Cargo Bay Lights on the Freigher. |
+| iniBuilds A330 | Fragtality | Complete & progressive Fuel, Payload Sync. Limited Equipment Sync. Door-Sync fixing L1/L2 and L4 randomly opening for no Reason. |
+| iniBuilds A340 | Fragtality | Complete & progressive Fuel, Payload and Equipment Sync. Door-Sync through GSX. |
+| iniBuilds A350 | Fragtality | Complete & progressive Fuel, Payload and Equipment Sync (overriding iniBuilds' Integration). Door-Sync for L2. |
+| PMDG B777 | Fragtality | Complete & progressive Fuel, Payload, Door and Equipment Sync. Also controls Cargo Bay Lights on the Freigher. |
 
 <br/><br/>
 
@@ -26,11 +28,14 @@ Use the Plugin View ('Available from GitHub') of the Any2GSX App to install Stuf
 
 #### PMDG.B777
 
-PMDG has broke their UFT with **.116 and later** (without anything in the Changelog regarding UFT or W&B ...) so the progressive Payload-Sync on the 777**F** currently loads to much Cargo/Freight.<br/>
-The Plugin tries to correct that after Boarding via the CDU - but a manual Check you got the right Weights won't hurt.<br/><br/>
+In some Cases the DataBroadcast wasn't enabled although configured in the 777_Options.ini File (e.g. after an Update for the Aircraft). Try to remove it, load the Sim/Aircraft and and then reenable it in the ini File (after closing the Sim).<br/>
+Generally other Addons that read/use GSX' Total (Target) Passenger Number (`FSDT_GSX_NUMPASSENGERS`) may show weird Behavior or Numbers - PMDG is still writing to this GSX Variable in a non-standard Way. No Workaround - it has to be solved by PMDG being consistent about removing their GSX Integration.
 
-Some Doors (e.g. Service-Doors for Catering) might open again after being closed. They will be closed automatically by the Plugin but that Effect cannot be worked around.<br/>
-The Situation should hopefully improves when PMDG has finally removed their GSX Compatibility as announced.
+<br/>
+
+#### INI.A306
+
+The iniBuilds EFB won't Update the MACZFW when Fuel/Payload is synced through the Plugin. There is no Workaround available and no Solution in sight.
 
 <br/><br/>
 
@@ -44,6 +49,7 @@ The Situation should hopefully improves when PMDG has finally removed their GSX 
 | iFly 737 | FatGingerHead | CPT and FO ACP from VHF1 to PA |
 | iniBuilds A300-600 | Fragtality | CPT and FO ACP from VHF1 to PA |
 | iniBuilds A330 | Fragtality | CPT and FO ACP from VHF1 to PA |
+| iniBuilds A340 | Fragtality | CPT and FO ACP from VHF1 to PA |
 | iniBuilds A350 | Fragtality | CPT and FO ACP from VHF1 over TEL to CAB |
 
 <br/><br/>
@@ -52,8 +58,8 @@ The Situation should hopefully improves when PMDG has finally removed their GSX 
 
 | Aircraft | Author | Description |
 | :-------------- | :---------: | :----------- |
-| Fenix A320 Native | Fragtality | Profile to enhance Fenix native Integration (so use the EFB to load via GSX!) and Volume Control without Fenix2GSX |
-| Fenix A320 PilotsDeck | Fragtality | Profile only enabling PilotsDeck Integration - to be used together with Fenix2GSX |
+| Fenix A320 Native | Fragtality | Profile to enhance Fenix native Integration (so use the EFB to load via GSX!) and Volume Control (not using the FNX.A320 Plugin) |
+| Fenix A320 PilotsDeck | Fragtality | Profile only enabling PilotsDeck Integration on the Fenix |
 | FlyByWire A32NX | Fragtality | Profile enabling GSX Automation & Volume Control for the A320. Fuel, Payload and Equipment is perfectly handled by the Aircraft itself! (All other Aircraft Developers: Do *THAT* first, then build the Automation on Top) |
 | FlyByWire A380X | Fragtality | Profile enabling GSX Automation & Volume Control for the A380. Fuel, Payload and Equipment is perfectly handled by the Aircraft itself! (All other Aircraft Developers: Do *THAT* first, then build the Automation on Top) |
 | iFly 737 | FatGingerHead | Profile for Automation and Volume-Control for the iFLY B737. It has 0 Integration, Fuel and Payload need to be set manually and separately (!!) when the GSX Services run. |
@@ -62,41 +68,31 @@ The Situation should hopefully improves when PMDG has finally removed their GSX 
 
 ## 4 - What about ... ?
 
-### Better Door Handling on PMDG B777
-
-PMDG has no Rush in doing anything about their GSX Code other than not maintaining it anymore. As long as their Integration (Attempt) Code is kept active, the Door Integration of the B777 Plugin cannot be further improved.
-Maybe voicing your Opinion helps in showing it is not that one crazy Guy constantly asking PMDG to take Action to their Words:<br/>
-https://forum.pmdg.com/forum/main-forum/general-discussion-news-and-announcements/360835-pmdg-removing-all-compatibility-with-gsx?p=371703#post371703
-
-<br/><br/>
-
 ### PMDG B737
 
-At the Moment it is just not possible to do anything on the same Level as the B777 - *maybe* when the UFT was updated.<br/>
-Even then the Issue is: I don't own and won't buy the 737 - it is just not my Cup of Tea (the Aircraft itself, doesn't make a difference who's the Addon Dev). When asking for a free Copy of the Aircraft (limited by Time or other means of course) PMDG went silent.<br/>
-So I won't say never, but the Chances aren't looking good at the Moment.
+Don't have any Hope about that. To develop a Plugin for that Aircraft I would need Access to it. And PMDG **consistently refuses to answer any Questions / Requests** for a free (time-limited) Copy - you don't even get an Answer at all. After 1 Forum-PM and two Support Tickets that is (it's not that I didn't try)!<br/>
+And I on the other Side refuse to take a 737 as Donation - it just isn't right that existing Customers need to buy the Aircraft again from their own Money to support a Freeware Developer doing something for the Community.
 
 <br/><br/>
 
 ### Deeper Integration with iniBuilds Aircrafts
 
-Don't hope for anything. Or count on the Fact that I can continue "trick" the native Integration of the A350 in the Future.<br/>
-iniBuilds just doesn't show any Interest. When asking how to get in Touch with the Developers, the Discord Mods send you to Support and Support then parks your Ticket on /dev/null.
+Don't hope for anything. Or count on the Fact that I can continue "trick" the native Integration of the A350 in the Future. (so far, so good - knock on wood!)<br/>
+iniBuilds just doesn't show any Interest for an Exchange on a technical Developer-to-Developer Level. When asking how to get in Touch with the Developers, the Discord Mods send you to Support and Support then parks your Ticket and you never hear anything back. On 2 Attempts.
 
 <br/><br/>
 
 ### iniBuilds A340
 
 While the Devs don't seem that open, the Folks at the Store/Sales Side are really great!
-Upon asking if they could provide a free and time-limited Copy of the A340 to create a Plugin for A2G, I had the Aircraft on my Account within 1 Business-Day! <br/>
+Upon asking if they could provide a free and time-limited Copy of the A340 to create a Plugin for A2G, I had the Aircraft on my Account within 1 Business-Day!<br/>
 Thanks iniBuilds (Store/Sales Staff) for making that possible! :heart:
 
 <br/><br/>
 
 ### FSLabs
 
-Remains to be seen / under Investigation.<br/>
-The Thing is: the whole 2GSX Journey began becaused I missed the Stuff FSLabs did in P3D when using the Fenix in MSFS (admittedly, it grew *a bit* bigger than that :sweat_smile:). And back then I did not miss much, I just enhanced it a little (i.e. calling Jetways at Session Start and running MCDU Macros to trigger Services).<br/>
-Since I don't own it, I can't really assess if something needs to be done or can be done. So there is a slight Chance of me saying "Nah, that's fine!" - I don't mind their Use of the flawed Remote Control Mode. I have the GSX Menu on my StreamDeck and know the Variable to disable Remote Control. :stuck_out_tongue_winking_eye:
+Nothing planned or in sight. Even slightly weirder as with PMDG or iniBuilds because one of their Employees *approached me* for an updated PilotsDeck Profile and wanted to check for Copy/License for me ... and never got back on that :flushed:<br/>
+Leaving that aside, it would still be questionable if and what I could achieve since their existing GSX Integration seems pretty 'strict' on how it wants to be used. Or if there is Way to work around that.
 
 <br/><br/>
