@@ -1,5 +1,7 @@
 # Changelog
 
+## [a862ad2] - 2026-04-28
+
 ### FNX.A320
 - Reimplementation of Fenix2GSX as Plugin with 99% Feature Parity
 - Improved EFB Connection, needing less Requests
@@ -36,4 +38,6 @@
 - Changed Handling of the Refuel Panel
 - Automatically disable native GSX Menu Integration on Session Start
 - Implemented Interface Functions to close all Doors on Loadsheet/Push
+
+<br/><br/>
 
