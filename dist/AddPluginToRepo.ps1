@@ -31,7 +31,7 @@ try {
 	$repoData | ConvertTo-Json -Depth 100 | Set-Content -Path $pathRepoFile
 	
 	Write-Host "Plugin $($manifestData.Id) v$($manifestData.VersionPlugin) $operation"
-	[DateTimeOffset]::UtcNow.ToUnixTimeSeconds() | Out-File -FilePath (Join-Path $pwd.Path "release-info")
+	[DateTimeOffset]::UtcNow.ToUnixTimeSeconds() | Out-File -FilePath (Join-Path $pwd.Path "release-info") -Encoding utf8
 	exit 0
 }
 catch {

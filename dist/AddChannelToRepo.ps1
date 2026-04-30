@@ -32,7 +32,7 @@ try {
 	Copy-Item -Path $pathChannnel -Destination $pathRepo -Force | Out-Null
 	
 	Write-Host "Channel $($manifestData.Id) v$($manifestData.VersionChannel) $operation"
-	[DateTimeOffset]::UtcNow.ToUnixTimeSeconds() | Out-File -FilePath (Join-Path $pwd.Path "release-info")
+	[DateTimeOffset]::UtcNow.ToUnixTimeSeconds() | Out-File -FilePath (Join-Path $pwd.Path "release-info") -Encoding utf8
 	exit 0
 }
 catch {
