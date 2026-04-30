@@ -406,6 +406,12 @@ namespace Pmdg777Interface
 
             if (!PowerConnected && state && !EfbManager.CheckGpuType())
             {
+                if (PowerAvailable)
+                {
+                    await EfbManager.ToggleGpu();
+                    await Task.Delay(150);
+                }
+
                 if (!await EfbManager.CycleGpu())
                 {
                     Logger.Debug($"GPU Type not found after {Pmdg777EfbManager.GpuMaxAttempts} Attempts");
@@ -415,12 +421,10 @@ namespace Pmdg777Interface
             else if (!PowerConnected && ((state && !PowerAvailable) || (!state && PowerAvailable)))
             {
                 await EfbManager.ToggleGpu();
-                EfbManager.GpuSetAttempts = 0;
             }
             else if (!state && PowerConnected && force)
             {
                 await EfbManager.ToggleGpu();
-                EfbManager.GpuSetAttempts = 0;
             }
         }
 
@@ -450,7 +454,6 @@ namespace Pmdg777Interface
             if ((state && EquipChocks) || (!state && !EquipChocks))
                 return Task.CompletedTask;
 
-            EfbManager.IsRequestPending = true;
             return EfbManager.SendRequest("wheel_chocks", "ground_conn");
         }
 
@@ -469,11 +472,6 @@ namespace Pmdg777Interface
             return Task.FromResult(true);
         }
 
-        public override Task<bool> GetPcaRequirePower()
-        {
-            return Task.FromResult(true);
-        }
-
         public override Task<bool> GetEquipmentPca()
         {
             return Task.FromResult(EquipPca);
@@ -487,7 +485,6 @@ namespace Pmdg777Interface
             if ((state && EquipPca) || (!state && !EquipPca))
                 return Task.CompletedTask;
 
-            EfbManager.IsRequestPending = true;
             return EfbManager.SendRequest("air_cond_unit", "ground_conn");
         }
 

@@ -6,7 +6,7 @@
 	"Aircraft": "PMDG B777 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.4.0",
+	"VersionPlugin": "0.4.1",
 	"VersionApp": "0.4.0",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
@@ -49,6 +49,18 @@
 			"DefaultValue": true,
 			"Description": "Use Bulk Cargo Door",
 			"Tooltip": "Also Open or Close the Bulk Cargo Door when the other Cargo Doors are operated (Pax/Cargo)."
+		},
+		{
+			"Key": "PMDG.777.Option.FrontCatering",
+			"Type": 5,
+			"DefaultValue": -1,
+			"EnumValues": {
+				"-1": "Default",
+				"1": "Door 1R",
+				"3": "Door 2R"
+			},
+			"Description": "Catering: Front Door Mapping",
+			"Tooltip": "Configure which PMDG Door is operated when GSX requests Service Door 1 (Front Catering Truck).\nPer Default the 200's and Freighter will use 1R and the 300 the 2R Door.\nNote: Selecting a specific Door here applies to all Variants - so different Profiles for each Variant are needed then."
 		},
 		{
 			"Key": "Generic.Option.Aircraft.RefuelStair",

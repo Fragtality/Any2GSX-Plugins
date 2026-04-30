@@ -1,5 +1,14 @@
 # Changelog
 
+### PMDG.B777
+- Fixing GPU Connection ... AGAIN :sob:
+- Fixed Door Trigger closing rear Stair Door (on Jetway Stands)
+- Added Option to change internal Mapping for Front Catering/Service Door
+
+### INI.A340
+- Fixed Typo on Aircraft Properties in SetEquipmentPca Function
+
+
 ## [a862ad2] - 2026-04-28
 
 ### FNX.A320

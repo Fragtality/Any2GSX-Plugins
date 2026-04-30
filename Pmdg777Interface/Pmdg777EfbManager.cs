@@ -41,13 +41,15 @@ namespace Pmdg777Interface
 
         public virtual void ResetFlight()
         {
+            GpuSetAttempts = 0;
             WasEfbFlightPlanSynced = true;
         }
 
         public virtual async Task CheckConnection()
         {
-            if (!IsConnected && !IsRequestPending && !GsxController.IsWalkaround && TimeNextUpdateToggle < DateTime.Now)
+            if (!IsConnected && !GsxController.IsWalkaround && TimeNextUpdateToggle < DateTime.Now)
             {
+                IsRequestPending = false;
                 await ToggleEfbUpdate();
                 TimeNextUpdateToggle = Pmdg777Aircraft.GetTime();
             }
@@ -57,10 +59,10 @@ namespace Pmdg777Interface
 
         protected virtual async Task CheckVehicles()
         {
-            if (IsRequestPending || !Aircraft.DoorManager.IsStateValid)
+            if (!Aircraft.DoorManager.IsStateValid)
                 return;
 
-            if (EfbData?.vehicles != null && IsConnected && !IsRequestPending)
+            if (EfbData?.vehicles != null && IsConnected)
             {
                 await CheckVehicle("aft_cargo");
                 await CheckVehicle("aft_galley");
@@ -146,7 +148,7 @@ namespace Pmdg777Interface
             if (!IsConnected)
                 return false;
 
-            if (!SettingProfile.GetSetting(PmdgSettings.ChangePowerType))
+            if (!SettingProfile.GetSetting(PmdgSettings.ChangePowerType) || (GsxController.AutomationState > AutomationState.Departure && GsxController.AutomationState < AutomationState.Arrival))
                 return true;
 
             if (GsxController.HasGateJetway && EfbData.IsGpuDual && EfbData.IsGpuJetway)
@@ -174,7 +176,6 @@ namespace Pmdg777Interface
 
         public virtual Task ToggleVehicle(string vehicle)
         {
-            IsRequestPending = true;
             return SendRequest(vehicle, "ground_vehicles");
         }
 
@@ -198,7 +199,7 @@ namespace Pmdg777Interface
                     }
                     else if (hasTag)
                     {
-                        if ((node["message_tag"]!.ToString() == "ping" || node["message_tag"]!.ToString() == "ping_ok"))
+                        if (node["message_tag"]!.ToString() == "ping" || node["message_tag"]!.ToString() == "ping_ok")
                             Logger.Verbose($"Received Plane Ping");
                         else if (node["message_tag"]!.ToString() == "simbrief_fetch_result" && node["data"]!["result"]!.ToString() == "200")
                         {
@@ -221,10 +222,26 @@ namespace Pmdg777Interface
             }
         }
 
-        public virtual Task SendToPlane(string data)
+        public virtual async Task SendToPlane(string data)
         {
-            Logger.Verbose($"Sending to Plane: {data}");
-            return CommBus.SendCommBus("TabletToPlane", data, BroadcastFlag.WASM);
+            try
+            {
+                int delay = 0;
+                while (IsRequestPending && delay <= 1000 && !Aircraft.Token.IsCancellationRequested)
+                {
+                    await Task.Delay(100);
+                    delay += 100;
+                }
+                IsRequestPending = true;
+
+                Logger.Verbose($"Sending to Plane: {data}");
+                await CommBus.SendCommBus("TabletToPlane", data, BroadcastFlag.WASM);
+            }
+            catch (Exception ex)
+            {
+                if (ex is not TaskCanceledException)
+                    Logger.LogException(ex);
+            }
         }
 
         public virtual Task SendRequest(string request, string tag, string side = "CA")
@@ -240,7 +257,6 @@ namespace Pmdg777Interface
 
         public virtual Task ChangeGroundPowerType()
         {
-            IsRequestPending = true;
             return SendRequest("ground_power_type", "ground_conn");
         }
     }

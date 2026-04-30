@@ -64,6 +64,7 @@ namespace Pmdg777Interface
         public virtual void InitDoors()
         {
             string variant = "";
+            int mapping = Aircraft.ISettingProfile.GetSetting(PmdgSettings.FrontCatering);
             if (Aircraft.IsCargo)
             {
                 variant = "777F";
@@ -87,8 +88,10 @@ namespace Pmdg777Interface
                 DoorMapping[GsxDoor.PaxDoor4] = PmdgDoorIndex.Pax4L;
                 Doors[PmdgDoorIndex.Pax5L].IsAvailable = false;
 
-
-                DoorMapping[GsxDoor.ServiceDoor1] = PmdgDoorIndex.Pax1R;
+                if (mapping != 1 && mapping != 3)
+                    DoorMapping[GsxDoor.ServiceDoor1] = PmdgDoorIndex.Pax1R;
+                else
+                    DoorMapping[GsxDoor.ServiceDoor1] = (PmdgDoorIndex)mapping;
                 DoorMapping[GsxDoor.ServiceDoor2] = PmdgDoorIndex.Pax4R;
                 Doors[PmdgDoorIndex.Pax5R].IsAvailable = false;
 
@@ -98,6 +101,10 @@ namespace Pmdg777Interface
             {
                 variant = "300";
 
+                if (mapping != 1 && mapping != 3)
+                    DoorMapping[GsxDoor.ServiceDoor1] = PmdgDoorIndex.Pax1R;
+                else
+                    DoorMapping[GsxDoor.ServiceDoor1] = (PmdgDoorIndex)mapping;
                 Doors[PmdgDoorIndex.CargoMain].IsAvailable = false;
             }
 
@@ -246,14 +253,11 @@ namespace Pmdg777Interface
             Pmdg777Door pmdgDoor = GetDoor(door);
             if (trigger && !IGsxController.IsCargoDoor(door))
             {
-                if (GsxController.HasGateJetway && door == GsxDoor.PaxDoor2)
+                if (IGsxController.IsPaxDoor(door))
                 {
-                    if (pmdgDoor.IsClosed && GsxController.JetwayState == GsxServiceState.Active)
+                    if (GsxController.HasGateJetway && door == GsxDoor.PaxDoor2 && pmdgDoor.IsClosed && GsxController.JetwayState == GsxServiceState.Active)
                         await pmdgDoor.ToggleDoor();
-                }
-                else if (!GsxController.HasGateJetway && IGsxController.IsPaxDoor(door))
-                {
-                    if (pmdgDoor.IsClosed && GsxController.StairsState == GsxServiceState.Active)
+                    else if (!GsxController.HasGateJetway && IGsxController.IsPaxDoor(door) && pmdgDoor.IsClosed && GsxController.StairsState == GsxServiceState.Active)
                         await pmdgDoor.ToggleDoor();
                 }
                 else

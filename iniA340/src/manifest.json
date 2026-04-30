@@ -10,7 +10,7 @@
 	"Aircraft": "iniBuilds A340 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.4.0",
+	"VersionPlugin": "0.4.1",
 	"VersionApp": "0.4.0",
 	"Capabilities": {
 		"HasFobSaveRestore": true,

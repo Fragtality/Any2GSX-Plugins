@@ -24,5 +24,10 @@ namespace Pmdg777Interface
             Key = "OperateBulk",
             Type = PluginSettingType.Bool
         };
+        public static readonly PluginSetting FrontCatering = new()
+        {
+            Key = "FrontCatering",
+            Type = PluginSettingType.Enum
+        };
     }
 }

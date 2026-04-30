@@ -129,7 +129,7 @@ function GetEquipmentPca()
 end
 
 function SetEquipmentPca(state, force)
-    if not state and not aircraft.IsApuRunning and not aircraft.IsApuBleedOn and not force then
+    if not state and not aircraft.ApuRunning and not aircraft.ApuBleedOn and not force then
         return
     end
 
