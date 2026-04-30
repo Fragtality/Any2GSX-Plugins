@@ -1,5 +1,7 @@
 # Changelog
 
+## [2b2a6d3] - 2026-04-30
+
 ### PMDG.B777
 - Fixing GPU Connection ... AGAIN :sob:
 - Fixed Door Trigger closing rear Stair Door (on Jetway Stands)
@@ -8,6 +10,7 @@
 ### INI.A340
 - Fixed Typo on Aircraft Properties in SetEquipmentPca Function
 
+<br/><br/>
 
 ## [a862ad2] - 2026-04-28
 
@@ -49,4 +52,5 @@
 - Implemented Interface Functions to close all Doors on Loadsheet/Push
 
 <br/><br/>
+
 
