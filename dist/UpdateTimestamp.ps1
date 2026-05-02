@@ -1,0 +1,1 @@
+[DateTimeOffset]::UtcNow.ToUnixTimeSeconds() | Out-File -FilePath (Join-Path $pwd.Path "release-info") -Encoding utf8

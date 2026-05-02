@@ -67,6 +67,7 @@ namespace Pmdg777Interface
             SimStore.AddVariable(PmdgConstants.VarSwitchMicIntFo)?.OnReceived += OnMicIntSwitch;
             SimStore.AddVariable(PmdgConstants.VarEquipAirCond);
             SimStore.AddVariable(PmdgConstants.VarEquipGpu);
+            SimStore.AddVariable(PmdgConstants.VarEquipChocks);
             SimStore.AddVariable(PmdgConstants.VarAircraftPowered);
 
             SubRotorBrake = SimStore.AddEvent("ROTOR_BRAKE");
@@ -94,6 +95,7 @@ namespace Pmdg777Interface
             SimStore.Remove(PmdgConstants.VarSwitchMicIntCpt);
             SimStore.Remove(PmdgConstants.VarEquipAirCond);
             SimStore.Remove(PmdgConstants.VarEquipGpu);
+            SimStore.Remove(PmdgConstants.VarEquipChocks);
             SimStore.Remove(PmdgConstants.VarAircraftPowered);
 
             SubRotorBrake?.Unsubscribe();
@@ -135,6 +137,8 @@ namespace Pmdg777Interface
             if (!GsxController.IsWalkaround && LastWalkaround)
                 TimeNextDataToggle = GetTime();
             LastWalkaround = GsxController.IsWalkaround;
+            if (LastWalkaround && ISettingProfile.GetSetting(PmdgSettings.FixChocks) == true)
+                await CheckFixChocks();
 
             if (ReceivedDataValid && !LastModuleState)
                 EfbManager.TimeNextUpdateToggle = GetTime(FirstRun ? 10 : 5);
@@ -149,6 +153,23 @@ namespace Pmdg777Interface
                 await Task.Delay(250);
                 await SimStore[PmdgConstants.EvtToggleLightTest].WriteValue(0x00002000);
                 TimeNextDataToggle = GetTime();
+            }
+        }
+
+        protected virtual async Task CheckFixChocks()
+        {
+            try
+            {
+                if (!IsAvionicsPowered() && GsxController.IsWalkaround && SimStore[PmdgConstants.VarEquipChocks]?.GetNumber() == 0)
+                {
+                    Logger.Information($"Fix PMDG Chocks in Walkaround");
+                    await SimStore[PmdgConstants.VarEquipChocks]?.WriteValue(1);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is not TaskCanceledException)
+                    Logger.LogException(ex);
             }
         }
 
@@ -221,6 +242,8 @@ namespace Pmdg777Interface
                         await Task.Delay(5000, Token);
                     await DoorManager.OnJetwayStateChange(GsxServiceState.Active, ISettingProfile.DoorPaxHandling);
                 }
+                if (GsxController.StairsState == GsxServiceState.Active && ISettingProfile.DoorPaxHandling && ISettingProfile.DoorStairHandling)
+                    await OnStairStateChange(GsxServiceState.Active, true);
             }
             else if (state == AutomationState.Departure || state == AutomationState.Arrival)
             {

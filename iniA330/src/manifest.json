@@ -7,7 +7,7 @@
 	"Aircraft": "Microsoft/iniBuilds A330 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.4.0",
+	"VersionPlugin": "0.4.1",
 	"VersionApp": "0.4.0",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
@@ -23,11 +23,6 @@
 		"CockpitNotifications": 0
 	},
 	"Settings": [
-		{
-			"Key": "Generic.Option.Aircraft.RefuelStair",
-			"Type": 1,
-			"DefaultValue": true
-		},		
 		{
 			"Key": "Generic.Var.ExtAvail.Name",
 			"Type": 4,
@@ -125,13 +120,32 @@
 		}
 	],
 		"HideGenericSettings": [
-		"Generic.Option.Aircraft.IsCargo",
-		"Generic.Var.ExtAvail.Name",
-		"Generic.Var.ExtAvail.Unit",
-		"Generic.Var.DepartTrigger.Name",
-		"Generic.Var.DepartTrigger.Unit",
-		"Generic.Var.DepartTrigger.Comp",
-		"Generic.Var.DepartTrigger.Value"
+			"Generic.Option.Aircraft.GsxGpu",
+			"Generic.Option.Aircraft.IsCargo",
+			"Generic.Var.Engine1.Name",
+			"Generic.Var.Engine1.Unit",
+			"Generic.Var.Engine2.Name",
+			"Generic.Var.Engine2.Unit",
+			"Generic.Var.PowerAvionic.Name",
+			"Generic.Var.PowerAvionic.Unit",
+			"Generic.Var.ExtAvail.Name",
+			"Generic.Var.ExtAvail.Unit",
+			"Generic.Var.ExtConn.Name",
+			"Generic.Var.ExtConn.Unit",
+			"Generic.Var.ApuRunning.Name",
+			"Generic.Var.ApuRunning.Unit",
+			"Generic.Var.ApuBleedOn.Name",
+			"Generic.Var.ApuBleedOn.Unit",
+			"Generic.Var.LightBeacon.Name",
+			"Generic.Var.LightBeacon.Unit",
+			"Generic.Var.LightNav.Name",
+			"Generic.Var.LightNav.Unit",
+			"Generic.Var.ParkBrake.Name",
+			"Generic.Var.ParkBrake.Unit",
+			"Generic.Var.DepartTrigger.Name",
+			"Generic.Var.DepartTrigger.Unit",
+			"Generic.Var.DepartTrigger.Comp",
+			"Generic.Var.DepartTrigger.Value"
 	],
 	"InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Default Fuel System' checked! Use of the internal GSX Profile adviced.\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing (Init Request) the Flightplan into the MCDU\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
 	"PluginDefaultProfile": {
@@ -146,7 +160,6 @@
 		],
 		"RunAutomationService": true,
 		"RunAudioService": true,
-		"DelayCallRefuelAfterStair": 35,
 		"AudioMappings": [
 			{
 			"Channel": "CPT.VHF1",
@@ -174,6 +187,9 @@
 		"AudioStartupUnmute": {
 			"CPT.VHF1": true,
 			"CPT.INT": true
+		},
+		"PluginSettings": {
+			"Generic.Option.Aircraft.RefuelStair": true
 		}
 	}
 }

@@ -37,6 +37,14 @@ Generally other Addons that read/use GSX' Total (Target) Passenger Number (`FSDT
 
 The iniBuilds EFB won't Update the MACZFW when Fuel/Payload is synced through the Plugin. There is no Workaround available and no Solution in sight.
 
+<br/>
+
+#### INI.A340
+
+Even when iniBuilds Integration is disabled in the EFB, it will still reset Fuel/Payload when the respective GSX Service is reported as completed.<br/>
+Simbrief Payload NEEDS to be imported in the EFB (Payload & Fueling -> Import all from Simbrief)!<br/>
+It is recommended to disable the App Options to round up Fuel and randomize Pax Numbers - the Aircraft will override them anyway.
+
 <br/><br/>
 
 ## 3 - Available Channel Definitions

@@ -29,5 +29,10 @@ namespace Pmdg777Interface
             Key = "FrontCatering",
             Type = PluginSettingType.Enum
         };
+        public static readonly PluginSetting FixChocks = new()
+        {
+            Key = "FixChocks",
+            Type = PluginSettingType.Bool
+        };
     }
 }

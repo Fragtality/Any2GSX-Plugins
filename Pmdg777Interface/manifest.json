@@ -6,8 +6,8 @@
 	"Aircraft": "PMDG B777 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.4.1",
-	"VersionApp": "0.4.0",
+	"VersionPlugin": "0.4.2",
+	"VersionApp": "0.4.2",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
 		"FuelSync": 8,
@@ -63,9 +63,11 @@
 			"Tooltip": "Configure which PMDG Door is operated when GSX requests Service Door 1 (Front Catering Truck).\nPer Default the 200's and Freighter will use 1R and the 300 the 2R Door.\nNote: Selecting a specific Door here applies to all Variants - so different Profiles for each Variant are needed then."
 		},
 		{
-			"Key": "Generic.Option.Aircraft.RefuelStair",
+			"Key": "PMDG.777.Option.FixChocks",
 			"Type": 1,
-			"DefaultValue": true
+			"DefaultValue": true,
+			"Description": "Fix Chocks in Walkaround",
+			"Tooltip": "The Plugin will set the PMDG Chocks via L-Var in Walkaround before the Plugin Connection is established.\nThis should prevent the GSX Menu not opening/getting Ready without Brakes or Chocks."
 		},
 		{
 			"Key": "Generic.Var.Engine1.Name",
@@ -115,7 +117,8 @@
 		"Generic.Var.DepartTrigger.Name",
 		"Generic.Var.DepartTrigger.Unit",
 		"Generic.Var.DepartTrigger.Comp",
-		"Generic.Var.DepartTrigger.Value"
+		"Generic.Var.DepartTrigger.Value",
+		"Generic.Option.Aircraft.InitDelay"
 	],
 	"InstallUsageNotes": "IMPORTANT: DataBroadcast needs to be enabled in the 777_Options.ini File (for each Variant and Simulator)!\r\nConsult the PMDG_777_MSFS_SDK Manual in the Aircraft's Documentation\\SDK Folder.\r\n\r\nRECOMMENDED: Use the internal/GSX provided Aircraft Profiles.\r\nYou eventually need to delete the gsx.cfg File in the SimObjects\\Airplanes\\PMDG 777... Folder.\r\n\r\nNOTAMs:\r\n• The Departure Services will start when the Flightplan is imported in the UFT\r\n• The SmartButton is mapped to the MIC/INT Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
 	"PluginDefaultProfile": {
@@ -127,6 +130,9 @@
 				"MatchString": "PMDG 777"
 			}
 		],
-		"RunAutomationService": true
+		"RunAutomationService": true,
+		"PluginSettings": {
+			"Generic.Option.Aircraft.RefuelStair": true
+		}
 	}
 }

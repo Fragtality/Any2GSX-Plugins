@@ -1,5 +1,45 @@
 # Changelog
 
+### PMDG.B777
+- Workaround for PMDG Chocks not applied in Walkaround
+- Open Doors for Stairs on Preparation Phase (i.e. Stairs where connected in Walkaround)
+- Fixed RefuelStair being reset when Profile is loaded again
+- Updated Libraries & SimConnect
+
+### FNX.A320
+- Fixed deboarded Pax not reflected in EFB
+- Changed: EFB Phase is now set to 'Completed' (instead of 'Arrived') when shutting down the Engines
+- Improved Timing for Chock-Reset while Repositioning
+- Fixed Generic IsCargo Option not available in Plugin Options
+- Updated Libraries
+
+### INI.A306
+- Fixed RefuelStair & UseFuelDialog being reset when Profile is loaded again
+- Hide preconfigured Generic Plugin Variables
+
+### INI.A330
+- Fixed default Profile overriding Timeout for 'Attempt to connect Stairs while Refuel'
+  - Existing Profiles need to be manually set to 60s
+- Fixed RefuelStair being reset when Profile is loaded again
+- Hide preconfigured Generic Plugin Variables
+- Tip: Removing the Plugin Default Profile before updating/installing the Plugin will set the mentioned Settings as adviced (but also reset every customization made to it)
+
+### INI.A340
+- Revised Plugin NOTAMs (and Readme) on Importance to import the Simbrief Weights in the EFB
+- Revised default Profile Settings to disable Fuel Round Up and Randomize Pax Numbers
+- Fixed default Profile overriding Timeout for 'Attempt to connect Stairs while Refuel'
+  - Existing Profiles need to be manually set to 60s
+- Fixed RefuelStair being set by default Profile
+  - Existing Profiles need to disable the 'Refuel on Left/Port Side' Plugin Option manually
+  - Only disable if the GSX Aircraft Profile used does have Fuel on the Right/Star Side!
+- Hide preconfigured Generic Plugin Variables
+- Tip: Removing the Plugin Default Profile before updating/installing the Plugin will set the mentioned Settings as adviced (but also reset every customization made to it)
+
+### INI.A350
+- Fixed UseFuelDialog being reset when Profile is loaded again
+- Hide preconfigured Generic Plugin Variables
+
+
 ## [2b2a6d3] - 2026-04-30
 
 ### PMDG.B777

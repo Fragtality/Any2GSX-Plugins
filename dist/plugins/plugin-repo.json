@@ -1,1215 +1,1252 @@
 {
-    "INI.A306.zip":  {
-                         "Id":  "INI.A306",
-                         "SettingId":  "INI.306",
-                         "Type":  1,
-                         "Filename":  "INI.A306.lua",
-                         "ChannelFile":  "INI.A306.json",
-                         "AircraftProfileEntries":  [
-                                                        "a300-600",
-                                                        "inibuilds-aircraft-a306f",
-                                                        "inibuilds-aircraft-a306f-pw",
-                                                        "inibuilds-aircraft-a306r",
-                                                        "inibuilds-aircraft-a306r-pw"
-                                                    ],
-                         "Aircraft":  "iniBuilds A300-600 (All Variants)",
-                         "Author":  "Fragtality",
-                         "Url":  "https://github.com/Fragtality/Any2GSX-Plugins",
-                         "VersionPlugin":  "0.4.0",
-                         "VersionApp":  "0.4.0",
-                         "Capabilities":  {
-                                              "HasFobSaveRestore":  true,
-                                              "FuelSync":  8,
-                                              "CanSetPayload":  true,
-                                              "PayloadSync":  8,
-                                              "DoorHandling":  12,
-                                              "DoorsSynced":  16,
-                                              "DoorsCloseAll":  false,
-                                              "GroundEquipmentHandling":  22,
-                                              "HasSmartButton":  true,
-                                              "VolumeControl":  true,
-                                              "CockpitNotifications":  0
-                                          },
-                         "Settings":  [
-                                          {
-                                              "Key":  "INI.306.Option.CargoModel",
-                                              "Type":  5,
-                                              "DefaultValue":  0,
-                                              "EnumValues":  {
-                                                                 "-1":  "Nothing",
-                                                                 "0":  "Normal",
-                                                                 "1":  "Postal",
-                                                                 "2":  "Humanitarian",
-                                                                 "3":  "Aeroparts",
-                                                                 "4":  "Racing",
-                                                                 "5":  "Horses"
-                                                             },
-                                              "Description":  "Cargo: Set Visual Model (Freighter)",
-                                              "Tooltip":  "Set the selected visual Cargo/Freight Model on the Freighter when Boarding is completed."
-                                          },
-                                          {
-                                              "Key":  "INI.306.Option.CargoSetValue",
-                                              "Type":  2,
-                                              "DefaultValue":  50,
-                                              "Description":  "Cargo: Set at (Boarding)",
-                                              "DescUnit":  "%",
-                                              "Tooltip":  "The Cargo loaded Percentage (as reported by GSX) at which the Model is set."
-                                          },
-                                          {
-                                              "Key":  "INI.306.Option.CargoUnsetValue",
-                                              "Type":  2,
-                                              "DefaultValue":  50,
-                                              "Description":  "Cargo: Remove at (Deboarding)",
-                                              "DescUnit":  "%",
-                                              "Tooltip":  "The Cargo unloaded Percentage (as reported by GSX) at which the Model is removed."
-                                          },
-                                          {
-                                              "Key":  "Generic.Option.Aircraft.RefuelStair",
-                                              "Type":  1,
-                                              "DefaultValue":  false
-                                          },
-                                          {
-                                              "Key":  "Generic.Option.Aircraft.FuelDialog",
-                                              "Type":  1,
-                                              "DefaultValue":  false
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine1.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "ENG COMBUSTION:1"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine1.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine2.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "ENG COMBUSTION:2"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine2.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ExtAvail.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:INI_GPU_AVAIL"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ExtConn.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "EXTERNAL POWER ON:1"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ApuRunning.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:INI_apu_available"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ApuRunning.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Number"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ApuBleedOn.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:INI_apu_bleed"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ApuBleedOn.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Number"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightBeacon.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "LIGHT BEACON ON"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightBeacon.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightNav.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "LIGHT NAV ON"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightNav.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ParkBrake.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "BRAKE PARKING POSITION"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ParkBrake.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          }
-                                      ],
-                         "HideGenericSettings":  [
-                                                     "Generic.Option.Aircraft.IsCargo",
-                                                     "Generic.Var.PowerAvionic.Name",
-                                                     "Generic.Var.PowerAvionic.Unit",
-                                                     "Generic.Var.ExtAvail.Name",
-                                                     "Generic.Var.ExtAvail.Unit",
-                                                     "Generic.Var.ExtConn.Name",
-                                                     "Generic.Var.ExtConn.Unit",
-                                                     "Generic.Var.DepartTrigger.Name",
-                                                     "Generic.Var.DepartTrigger.Unit",
-                                                     "Generic.Var.DepartTrigger.Comp",
-                                                     "Generic.Var.DepartTrigger.Value"
-                                                 ],
-                         "InstallUsageNotes":  "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option \u0027Default Fuel System\u0027 checked! (if not using the included GSX Aircraft Profiles)\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing the Flightplan into the MCDU via ACARS\r\n• The SmartButton is mapped to the Voice Ident Switch on the ACP (Captain and FO) - move to Ident Position to trigger a Request",
-                         "PluginDefaultProfile":  {
-                                                      "PluginId":  "INI.A306",
-                                                      "ChannelFileId":  "INI.A306",
-                                                      "ProfileMatches":  [
-                                                                             {
-                                                                                 "MatchData":  4,
-                                                                                 "MatchOperation":  3,
-                                                                                 "MatchString":  "inibuilds-aircraft-a306|A300-600"
-                                                                             }
-                                                                         ],
-                                                      "RunAutomationService":  true,
-                                                      "RunAudioService":  true,
-                                                      "ClearGroundEquipOnBeacon":  false,
-                                                      "AudioMappings":  [
-                                                                            {
-                                                                                "Channel":  "CPT.VHF1",
-                                                                                "Device":  "",
-                                                                                "Binary":  "vPilot",
-                                                                                "UseLatch":  false
-                                                                            },
-                                                                            {
-                                                                                "Channel":  "CPT.INT",
-                                                                                "Device":  "",
-                                                                                "Binary":  "Couatl64_MSFS2024",
-                                                                                "UseLatch":  true
-                                                                            },
-                                                                            {
-                                                                                "Channel":  "CPT.INT",
-                                                                                "Device":  "",
-                                                                                "Binary":  "Couatl64_MSFS",
-                                                                                "UseLatch":  true
-                                                                            }
-                                                                        ],
-                                                      "AudioStartupVolumes":  {
-                                                                                  "CPT.VHF1":  100,
-                                                                                  "CPT.INT":  100
-                                                                              },
-                                                      "AudioStartupUnmute":  {
-                                                                                 "CPT.VHF1":  true,
-                                                                                 "CPT.INT":  true
-                                                                             }
-                                                  }
-                     },
-    "INI.A330.zip":  {
-                         "Id":  "INI.A330",
-                         "Type":  1,
-                         "Filename":  "INI.A330.lua",
-                         "ChannelFile":  "INI.A330.json",
-                         "AircraftProfileEntries":  [
-
-                                                    ],
-                         "Aircraft":  "Microsoft/iniBuilds A330 (All Variants)",
-                         "Author":  "Fragtality",
-                         "Url":  "https://github.com/Fragtality/Any2GSX-Plugins",
-                         "VersionPlugin":  "0.4.0",
-                         "VersionApp":  "0.4.0",
-                         "Capabilities":  {
-                                              "HasFobSaveRestore":  true,
-                                              "FuelSync":  8,
-                                              "CanSetPayload":  true,
-                                              "PayloadSync":  8,
-                                              "DoorHandling":  12,
-                                              "DoorsSynced":  6,
-                                              "DoorsCloseAll":  false,
-                                              "GroundEquipmentHandling":  2,
-                                              "HasSmartButton":  true,
-                                              "VolumeControl":  true,
-                                              "CockpitNotifications":  0
-                                          },
-                         "Settings":  [
-                                          {
-                                              "Key":  "Generic.Option.Aircraft.RefuelStair",
-                                              "Type":  1,
-                                              "DefaultValue":  true
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ExtAvail.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:INI_GPU_AVAIL"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine1.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "ENG COMBUSTION:1"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine1.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine2.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "ENG COMBUSTION:2"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine2.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.PowerAvionic.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "ELECTRICAL MAIN BUS VOLTAGE"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.PowerAvionic.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "volts"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ExtConn.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "EXTERNAL POWER ON"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ExtConn.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ApuRunning.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "APU GENERATOR ACTIVE:1"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ApuRunning.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ApuBleedOn.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "BLEED AIR APU"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ApuBleedOn.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightBeacon.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "LIGHT BEACON ON"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightBeacon.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightNav.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "LIGHT NAV ON"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightNav.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ParkBrake.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "BRAKE PARKING POSITION"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ParkBrake.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          }
-                                      ],
-                         "HideGenericSettings":  [
-                                                     "Generic.Option.Aircraft.IsCargo",
-                                                     "Generic.Var.ExtAvail.Name",
-                                                     "Generic.Var.ExtAvail.Unit",
-                                                     "Generic.Var.DepartTrigger.Name",
-                                                     "Generic.Var.DepartTrigger.Unit",
-                                                     "Generic.Var.DepartTrigger.Comp",
-                                                     "Generic.Var.DepartTrigger.Value"
-                                                 ],
-                         "InstallUsageNotes":  "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option \u0027Default Fuel System\u0027 checked! Use of the internal GSX Profile adviced.\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing (Init Request) the Flightplan into the MCDU\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
-                         "PluginDefaultProfile":  {
-                                                      "PluginId":  "INI.A330",
-                                                      "ChannelFileId":  "INI.A330",
-                                                      "ProfileMatches":  [
-                                                                             {
-                                                                                 "MatchData":  4,
-                                                                                 "MatchOperation":  3,
-                                                                                 "MatchString":  "microsoft-a330"
-                                                                             }
-                                                                         ],
-                                                      "RunAutomationService":  true,
-                                                      "RunAudioService":  true,
-                                                      "DelayCallRefuelAfterStair":  35,
-                                                      "AudioMappings":  [
-                                                                            {
-                                                                                "Channel":  "CPT.VHF1",
-                                                                                "Device":  "",
-                                                                                "Binary":  "vPilot",
-                                                                                "UseLatch":  false
-                                                                            },
-                                                                            {
-                                                                                "Channel":  "CPT.INT",
-                                                                                "Device":  "",
-                                                                                "Binary":  "Couatl64_MSFS2024",
-                                                                                "UseLatch":  true
-                                                                            },
-                                                                            {
-                                                                                "Channel":  "CPT.INT",
-                                                                                "Device":  "",
-                                                                                "Binary":  "Couatl64_MSFS",
-                                                                                "UseLatch":  true
-                                                                            }
-                                                                        ],
-                                                      "AudioStartupVolumes":  {
-                                                                                  "CPT.VHF1":  100,
-                                                                                  "CPT.INT":  100
-                                                                              },
-                                                      "AudioStartupUnmute":  {
-                                                                                 "CPT.VHF1":  true,
-                                                                                 "CPT.INT":  true
-                                                                             }
-                                                  }
-                     },
-    "INI.A350.zip":  {
-                         "Id":  "INI.A350",
-                         "SettingId":  "INI.350",
-                         "Type":  1,
-                         "Filename":  "INI.A350.lua",
-                         "ChannelFile":  "INI.A350.json",
-                         "AircraftProfileEntries":  [
-
-                                                    ],
-                         "Aircraft":  "iniBuilds A350 (All Variants)",
-                         "Author":  "Fragtality",
-                         "Url":  "https://github.com/Fragtality/Any2GSX-Plugins",
-                         "VersionPlugin":  "0.4.0",
-                         "VersionApp":  "0.4.0",
-                         "Capabilities":  {
-                                              "HasFobSaveRestore":  true,
-                                              "FuelSync":  8,
-                                              "CanSetPayload":  true,
-                                              "PayloadSync":  8,
-                                              "DoorHandling":  12,
-                                              "DoorsSynced":  4,
-                                              "DoorsCloseAll":  true,
-                                              "GroundEquipmentHandling":  54,
-                                              "HasSmartButton":  true,
-                                              "VolumeControl":  true,
-                                              "CockpitNotifications":  0
-                                          },
-                         "Settings":  [
-                                          {
-                                              "Key":  "INI.350.Option.Covers.RemoveStartup",
-                                              "Type":  1,
-                                              "DefaultValue":  true,
-                                              "Description":  "Remove Covers",
-                                              "Tooltip":  "The Covers on the Aircraft will be removed on Session Start."
-                                          },
-                                          {
-                                              "Key":  "INI.350.Option.Override.Payload",
-                                              "Type":  1,
-                                              "DefaultValue":  true,
-                                              "Description":  "Override native Payload Sync",
-                                              "Tooltip":  "The Plugin will override the GSX State Variables for Boarding/Deboarding to disable the native Payload-Sync (and instead use the Plugin to sync the Payload with GSX)."
-                                          },
-                                          {
-                                              "Key":  "Generic.Option.Aircraft.FuelDialog",
-                                              "Type":  1,
-                                              "DefaultValue":  false
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.PowerAvionic.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:INI_ELEC_AC_ESS_SHED_BUS_IS_POWERED"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ExtAvail.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:INI_GPU_AVAIL"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ApuRunning.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:INI_APU_AVAILABLE"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ApuBleedOn.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:INI_AIR_BLEED_APU"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine1.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "ENG COMBUSTION:1"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine1.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine2.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "ENG COMBUSTION:2"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine2.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightBeacon.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "LIGHT BEACON ON"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightBeacon.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightNav.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "LIGHT NAV ON"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightNav.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ParkBrake.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "BRAKE PARKING POSITION"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ParkBrake.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          }
-                                      ],
-                         "HideGenericSettings":  [
-                                                     "Generic.Option.Aircraft.IsCargo",
-                                                     "Generic.Var.PowerAvionic.Name",
-                                                     "Generic.Var.PowerAvionic.Unit",
-                                                     "Generic.Var.ExtAvail.Name",
-                                                     "Generic.Var.ExtAvail.Unit",
-                                                     "Generic.Var.ExtConn.Name",
-                                                     "Generic.Var.ExtConn.Unit",
-                                                     "Generic.Var.ApuRunning.Name",
-                                                     "Generic.Var.ApuRunning.Unit",
-                                                     "Generic.Var.ApuBleedOn.Name",
-                                                     "Generic.Var.ApuBleedOn.Unit",
-                                                     "Generic.Var.DepartTrigger.Name",
-                                                     "Generic.Var.DepartTrigger.Unit",
-                                                     "Generic.Var.DepartTrigger.Comp",
-                                                     "Generic.Var.DepartTrigger.Value"
-                                                 ],
-                         "InstallUsageNotes":  "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option \u0027Default Fuel System\u0027 checked!\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing (FPLAN REQUEST) the Flightplan into the MCDU\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
-                         "PluginDefaultProfile":  {
-                                                      "PluginId":  "INI.A350",
-                                                      "ChannelFileId":  "INI.A350",
-                                                      "ProfileMatches":  [
-                                                                             {
-                                                                                 "MatchData":  4,
-                                                                                 "MatchOperation":  3,
-                                                                                 "MatchString":  "a350"
-                                                                             }
-                                                                         ],
-                                                      "RunAutomationService":  true,
-                                                      "RunAudioService":  true,
-                                                      "AudioMappings":  [
-                                                                            {
-                                                                                "Channel":  "CPT.VHF1",
-                                                                                "Device":  "",
-                                                                                "Binary":  "vPilot",
-                                                                                "UseLatch":  false
-                                                                            },
-                                                                            {
-                                                                                "Channel":  "CPT.INT",
-                                                                                "Device":  "",
-                                                                                "Binary":  "Couatl64_MSFS2024",
-                                                                                "UseLatch":  true
-                                                                            },
-                                                                            {
-                                                                                "Channel":  "CPT.INT",
-                                                                                "Device":  "",
-                                                                                "Binary":  "Couatl64_MSFS",
-                                                                                "UseLatch":  true
-                                                                            }
-                                                                        ],
-                                                      "AudioStartupVolumes":  {
-                                                                                  "CPT.VHF1":  100,
-                                                                                  "CPT.INT":  100
-                                                                              },
-                                                      "AudioStartupUnmute":  {
-                                                                                 "CPT.VHF1":  true,
-                                                                                 "CPT.INT":  true
-                                                                             }
-                                                  }
-                     },
-    "PMDG.B777.zip":  {
-                          "Id":  "PMDG.B777",
-                          "SettingId":  "PMDG.777",
-                          "Type":  0,
-                          "Filename":  "Pmdg777Interface.dll",
-                          "Aircraft":  "PMDG B777 (All Variants)",
-                          "Author":  "Fragtality",
-                          "Url":  "https://github.com/Fragtality/Any2GSX-Plugins",
-                          "VersionPlugin":  "0.4.1",
-                          "VersionApp":  "0.4.0",
-                          "Capabilities":  {
-                                               "HasFobSaveRestore":  true,
-                                               "FuelSync":  8,
-                                               "CanSetPayload":  true,
-                                               "PayloadSync":  8,
-                                               "DoorHandling":  10,
-                                               "DoorsSynced":  30,
-                                               "DoorsCloseAll":  true,
-                                               "GroundEquipmentHandling":  38,
-                                               "HasSmartButton":  true,
-                                               "VolumeControl":  false,
-                                               "CockpitNotifications":  0
-                                           },
-                          "Settings":  [
-                                           {
-                                               "Key":  "PMDG.777.Option.ClearVehicles",
-                                               "Type":  1,
-                                               "DefaultValue":  true,
-                                               "Description":  "Clear PMDG Vehicles",
-                                               "Tooltip":  "Automatically remove all PMDG Vehicles as they appear."
-                                           },
-                                           {
-                                               "Key":  "PMDG.777.Option.ChangePowerType",
-                                               "Type":  1,
-                                               "DefaultValue":  true,
-                                               "Description":  "Set GPU Plug Type",
-                                               "Tooltip":  "Automatically change Power Plug Type between GPU and Jetway depending on the Gate used."
-                                           },
-                                           {
-                                               "Key":  "PMDG.777.Option.CargoLights",
-                                               "Type":  1,
-                                               "DefaultValue":  true,
-                                               "Description":  "Toggle Cargo Lights",
-                                               "Tooltip":  "Automatically toggle the Cargo Lights on the 777F when the Doors are operated or GSX becomes active."
-                                           },
-                                           {
-                                               "Key":  "PMDG.777.Option.OperateBulk",
-                                               "Type":  1,
-                                               "DefaultValue":  true,
-                                               "Description":  "Use Bulk Cargo Door",
-                                               "Tooltip":  "Also Open or Close the Bulk Cargo Door when the other Cargo Doors are operated (Pax/Cargo)."
-                                           },
-                                           {
-                                               "Key":  "PMDG.777.Option.FrontCatering",
-                                               "Type":  5,
-                                               "DefaultValue":  -1,
-                                               "EnumValues":  {
-                                                                  "-1":  "Default",
-                                                                  "1":  "Door 1R",
-                                                                  "3":  "Door 2R"
-                                                              },
-                                               "Description":  "Catering: Front Door Mapping",
-                                               "Tooltip":  "Configure which PMDG Door is operated when GSX requests Service Door 1 (Front Catering Truck).\nPer Default the 200\u0027s and Freighter will use 1R and the 300 the 2R Door.\nNote: Selecting a specific Door here applies to all Variants - so different Profiles for each Variant are needed then."
-                                           },
-                                           {
-                                               "Key":  "Generic.Option.Aircraft.RefuelStair",
-                                               "Type":  1,
-                                               "DefaultValue":  true
-                                           },
-                                           {
-                                               "Key":  "Generic.Var.Engine1.Name",
-                                               "Type":  4,
-                                               "DefaultValue":  "ENG COMBUSTION:1"
-                                           },
-                                           {
-                                               "Key":  "Generic.Var.Engine1.Unit",
-                                               "Type":  4,
-                                               "DefaultValue":  "Bool"
-                                           },
-                                           {
-                                               "Key":  "Generic.Var.Engine2.Name",
-                                               "Type":  4,
-                                               "DefaultValue":  "ENG COMBUSTION:2"
-                                           },
-                                           {
-                                               "Key":  "Generic.Var.Engine2.Unit",
-                                               "Type":  4,
-                                               "DefaultValue":  "Bool"
-                                           },
-                                           {
-                                               "Key":  "Generic.Option.Aircraft.InitDelay",
-                                               "Type":  2,
-                                               "DefaultValue":  2000
-                                           }
-                                       ],
-                          "HideGenericSettings":  [
-                                                      "Generic.Option.Aircraft.IsCargo",
-                                                      "Generic.Option.Aircraft.GsxGpu",
-                                                      "Generic.Var.PowerAvionic.Name",
-                                                      "Generic.Var.PowerAvionic.Unit",
-                                                      "Generic.Var.ExtAvail.Name",
-                                                      "Generic.Var.ExtAvail.Unit",
-                                                      "Generic.Var.ExtConn.Name",
-                                                      "Generic.Var.ExtConn.Unit",
-                                                      "Generic.Var.ApuRunning.Name",
-                                                      "Generic.Var.ApuRunning.Unit",
-                                                      "Generic.Var.ApuBleedOn.Name",
-                                                      "Generic.Var.ApuBleedOn.Unit",
-                                                      "Generic.Var.LightNav.Name",
-                                                      "Generic.Var.LightNav.Unit",
-                                                      "Generic.Var.LightBeacon.Name",
-                                                      "Generic.Var.LightBeacon.Unit",
-                                                      "Generic.Var.ParkBrake.Name",
-                                                      "Generic.Var.ParkBrake.Unit",
-                                                      "Generic.Var.DepartTrigger.Name",
-                                                      "Generic.Var.DepartTrigger.Unit",
-                                                      "Generic.Var.DepartTrigger.Comp",
-                                                      "Generic.Var.DepartTrigger.Value"
-                                                  ],
-                          "InstallUsageNotes":  "IMPORTANT: DataBroadcast needs to be enabled in the 777_Options.ini File (for each Variant and Simulator)!\r\nConsult the PMDG_777_MSFS_SDK Manual in the Aircraft\u0027s Documentation\\SDK Folder.\r\n\r\nRECOMMENDED: Use the internal/GSX provided Aircraft Profiles.\r\nYou eventually need to delete the gsx.cfg File in the SimObjects\\Airplanes\\PMDG 777... Folder.\r\n\r\nNOTAMs:\r\n• The Departure Services will start when the Flightplan is imported in the UFT\r\n• The SmartButton is mapped to the MIC/INT Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
-                          "PluginDefaultProfile":  {
-                                                       "PluginId":  "PMDG.B777",
-                                                       "ProfileMatches":  [
-                                                                              {
-                                                                                  "MatchData":  4,
-                                                                                  "MatchOperation":  3,
-                                                                                  "MatchString":  "PMDG 777"
-                                                                              }
-                                                                          ],
-                                                       "RunAutomationService":  true
-                                                   }
-                      },
-    "INI.A340.zip":  {
-                         "Id":  "INI.A340",
-                         "SettingId":  "INI.340",
-                         "Type":  1,
-                         "Filename":  "INI.A340.lua",
-                         "ChannelFile":  "INI.A340.json",
-                         "AircraftProfileEntries":  [
-                                                        "inibuilds-a340"
-                                                    ],
-                         "Aircraft":  "iniBuilds A340 (All Variants)",
-                         "Author":  "Fragtality",
-                         "Url":  "https://github.com/Fragtality/Any2GSX-Plugins",
-                         "VersionPlugin":  "0.4.1",
-                         "VersionApp":  "0.4.0",
-                         "Capabilities":  {
-                                              "HasFobSaveRestore":  true,
-                                              "FuelSync":  8,
-                                              "CanSetPayload":  true,
-                                              "PayloadSync":  8,
-                                              "DoorHandling":  4,
-                                              "DoorsSynced":  1,
-                                              "DoorsCloseAll":  false,
-                                              "GroundEquipmentHandling":  54,
-                                              "HasSmartButton":  true,
-                                              "VolumeControl":  true,
-                                              "CockpitNotifications":  0
-                                          },
-                         "Settings":  [
-                                          {
-                                              "Key":  "Generic.Option.Aircraft.RefuelStair",
-                                              "Type":  1,
-                                              "DefaultValue":  false
-                                          },
-                                          {
-                                              "Key":  "INI.340.Option.Covers.RemoveStartup",
-                                              "Type":  1,
-                                              "DefaultValue":  true,
-                                              "Description":  "Remove Covers",
-                                              "Tooltip":  "The Covers on the Aircraft will be removed on Session Start."
-                                          },
-                                          {
-                                              "Key":  "INI.340.Option.Fix.PayloadReset",
-                                              "Type":  1,
-                                              "DefaultValue":  true,
-                                              "Description":  "Try to fix Payload Reset",
-                                              "Tooltip":  "Try to fix the resetting Payload after Boarding"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ExtAvail.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:INI_GPU_AVAIL"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine1.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "ENG COMBUSTION:1"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine1.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine2.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "ENG COMBUSTION:2"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine2.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.PowerAvionic.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:INI_AC_LIGHTS_FAILURE"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.PowerAvionic.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "number"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ApuRunning.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:INI_APU_AVAILABLE"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ApuRunning.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "number"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ApuBleedOn.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:INI_AIR_BLEED_APU"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ApuBleedOn.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "number"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightBeacon.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "LIGHT BEACON ON"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightBeacon.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightNav.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "LIGHT NAV ON"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightNav.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ParkBrake.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "BRAKE PARKING POSITION"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ParkBrake.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          }
-                                      ],
-                         "HideGenericSettings":  [
-                                                     "Generic.Option.Aircraft.IsCargo",
-                                                     "Generic.Var.Engine1.Name",
-                                                     "Generic.Var.Engine1.Unit",
-                                                     "Generic.Var.Engine2.Name",
-                                                     "Generic.Var.Engine2.Unit",
-                                                     "Generic.Var.ExtAvail.Name",
-                                                     "Generic.Var.ExtAvail.Unit",
-                                                     "Generic.Var.ExtConn.Name",
-                                                     "Generic.Var.ExtConn.Unit",
-                                                     "Generic.Var.DepartTrigger.Name",
-                                                     "Generic.Var.DepartTrigger.Unit",
-                                                     "Generic.Var.DepartTrigger.Comp",
-                                                     "Generic.Var.DepartTrigger.Value"
-                                                 ],
-                         "InstallUsageNotes":  "IMPORTANT: Ensure that the Aircraft Profile used is configured in the following Way (if the bundled Profiles are not installed):\r\n• The Option \u0027Default Fuel System\u0027 is NOT checked!\r\n• The Preferred Exit is set to (L)2\r\n• Lavatory Position corrected\r\n\r\nNOTAMS:\r\n• Disable all GSX Options in the EFB and do NOT use \u0027load via GSX\u0027 in the EFB!\r\n• The Departure Services are started by importing (Init Request) the Flightplan into the MCDU (with the Nav Lights being on)\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request\r\n• Engine/Pitot Covers will automatically be removed on Session Start (configurable)\r\n• KNOWN ISSUE: GSX sometimes disconnects the Hose although Refuel is still running - the Refuel Process will continue (unless configured otherwise in the App)",
-                         "PluginDefaultProfile":  {
-                                                      "PluginId":  "INI.A340",
-                                                      "ChannelFileId":  "INI.A340",
-                                                      "ProfileMatches":  [
-                                                                             {
-                                                                                 "MatchData":  4,
-                                                                                 "MatchOperation":  3,
-                                                                                 "MatchString":  "inibuilds-a340"
-                                                                             }
-                                                                         ],
-                                                      "RunAutomationService":  true,
-                                                      "RunAudioService":  true,
-                                                      "DelayCallRefuelAfterStair":  35,
-                                                      "FuelResetBaseKg":  3800,
-                                                      "AudioMappings":  [
-                                                                            {
-                                                                                "Channel":  "CPT.VHF1",
-                                                                                "Device":  "",
-                                                                                "Binary":  "vPilot",
-                                                                                "UseLatch":  false
-                                                                            },
-                                                                            {
-                                                                                "Channel":  "CPT.INT",
-                                                                                "Device":  "",
-                                                                                "Binary":  "Couatl64_MSFS2024",
-                                                                                "UseLatch":  true
-                                                                            },
-                                                                            {
-                                                                                "Channel":  "CPT.INT",
-                                                                                "Device":  "",
-                                                                                "Binary":  "Couatl64_MSFS",
-                                                                                "UseLatch":  true
-                                                                            }
-                                                                        ],
-                                                      "AudioStartupVolumes":  {
-                                                                                  "CPT.VHF1":  100,
-                                                                                  "CPT.INT":  100
-                                                                              },
-                                                      "AudioStartupUnmute":  {
-                                                                                 "CPT.VHF1":  true,
-                                                                                 "CPT.INT":  true
-                                                                             }
-                                                  }
-                     },
-    "FNX.A320.zip":  {
-                         "Id":  "FNX.A320",
-                         "Type":  0,
-                         "Filename":  "FenixCeoPlugin.dll",
-                         "ChannelFile":  "FNX.A320.json",
-                         "Aircraft":  "Fenix A320 Family",
-                         "Author":  "Fragtality",
-                         "Url":  "https://github.com/Fragtality/Any2GSX-Plugins",
-                         "VersionPlugin":  "0.4.0",
-                         "VersionApp":  "0.4.0",
-                         "Capabilities":  {
-                                              "HasFobSaveRestore":  true,
-                                              "FuelSync":  8,
-                                              "CanSetPayload":  true,
-                                              "PayloadSync":  8,
-                                              "DoorHandling":  10,
-                                              "DoorsSynced":  30,
-                                              "DoorsCloseAll":  true,
-                                              "GroundEquipmentHandling":  38,
-                                              "HasSmartButton":  true,
-                                              "VolumeControl":  true,
-                                              "CockpitNotifications":  15
-                                          },
-                         "Settings":  [
-                                          {
-                                              "Key":  "FNX.A320.Option.UseRefuelPanel",
-                                              "Type":  1,
-                                              "DefaultValue":  false,
-                                              "Description":  "Use Refuel Panel",
-                                              "Tooltip":  "Use the simulated Panel to refuel the Plane.\nThe Rate is set by the EFB, the Rate Settings in the App are ignored by this Mode.\nNOTE: Does not support Defuel! Disable this Option to let the Plugin sync the Fuel."
-                                          },
-                                          {
-                                              "Key":  "FNX.A320.Option.InterceptGpuAndChocksOnBeacon",
-                                              "Type":  1,
-                                              "DefaultValue":  true,
-                                              "Description":  "Intercept GPU and Chocks",
-                                              "Tooltip":  "GPU and Chocks will be removed on Arrival while the Beacon is still on."
-                                          },
-                                          {
-                                              "Key":  "FNX.A320.Option.NumChockFlashes",
-                                              "Type":  2,
-                                              "DefaultValue":  10,
-                                              "Description":  "Chock Indication Duration",
-                                              "DescUnit":  "s",
-                                              "Tooltip":  "How long to flash the MECH Button on the ACP after the Chocks were placed."
-                                          },
-                                          {
-                                              "Key":  "FNX.A320.Option.AnswerCabinCallGround",
-                                              "Type":  1,
-                                              "DefaultValue":  true,
-                                              "Description":  "Answer Ground Cabin Call",
-                                              "Tooltip":  "Automatically answer the Cabin-Ready Call before Takeoff."
-                                          },
-                                          {
-                                              "Key":  "FNX.A320.Option.DelayCabinCallGround",
-                                              "Type":  2,
-                                              "DefaultValue":  8000,
-                                              "Description":  "Ground Call Reset Delay",
-                                              "DescUnit":  "ms",
-                                              "Tooltip":  "The Delay before the ACP Panel is reset, after the Ground Call was accepted."
-                                          },
-                                          {
-                                              "Key":  "FNX.A320.Option.AnswerCabinCallAir",
-                                              "Type":  1,
-                                              "DefaultValue":  true,
-                                              "Description":  "Answer Air Cabin Call",
-                                              "Tooltip":  "Automatically answer the Cabin-Ready Call on Approach."
-                                          },
-                                          {
-                                              "Key":  "FNX.A320.Option.DelayCabinCallAir",
-                                              "Type":  2,
-                                              "DefaultValue":  6000,
-                                              "Description":  "Air Call Reset Delay",
-                                              "DescUnit":  "ms",
-                                              "Tooltip":  "The Delay before the ACP Panel is reset, after the Air Call was accepted."
-                                          },
-                                          {
-                                              "Key":  "FNX.A320.Option.DoorStairIncludeL2",
-                                              "Type":  1,
-                                              "DefaultValue":  false,
-                                              "Description":  "Operate L2 Door for Stairs",
-                                              "Tooltip":  "Open/Close the L2 Door when GSX Stairs are attached/removed."
-                                          },
-                                          {
-                                              "Key":  "FNX.A320.Option.ChancePerSeat",
-                                              "Type":  3,
-                                              "DefaultValue":  2.5,
-                                              "Description":  "Chance per Seat",
-                                              "DescUnit":  "%",
-                                              "Tooltip":  "The Probability per Seat to \u0027flip\u0027 a Passenger (extra/no-show) for Randomization.\nThe Pax Difference is defined by the App up to its configured Limit - this Value only defines how that is applied to the Fenix."
-                                          },
-                                          {
-                                              "Key":  "FNX.A320.Option.EfbCheckInterval",
-                                              "Type":  2,
-                                              "DefaultValue":  1500,
-                                              "Description":  "EFB Check Interval",
-                                              "DescUnit":  "ms",
-                                              "Tooltip":  "The Interval in ms at which the EFB is checked for Changes (i.e. OFP, Equip, Payload).\nOnly applied on Ground - during Flight the Interval is set to 15s."
-                                          },
-                                          {
-                                              "Key":  "FNX.A320.Option.CargoDistMain",
-                                              "Type":  3,
-                                              "DefaultValue":  0.423728813559322,
-                                              "Description":  "Cargo Distribution Main",
-                                              "Tooltip":  "The Factor/Scalar used for distgributing Cargo in the Forward and Aft Holds (applied per Hold).\nBulk and 2x Main should add up to ~1.0."
-                                          },
-                                          {
-                                              "Key":  "FNX.A320.Option.CargoDistBulk",
-                                              "Type":  3,
-                                              "DefaultValue":  0.15254237288135594,
-                                              "Description":  "Cargo Distribution Bulk",
-                                              "Tooltip":  "The Factor/Scalar used for distgributing Cargo Bulk Hold.\nBulk and 2x Main should add up to ~1.0."
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine1.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "ENG COMBUSTION:1"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine1.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine2.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "ENG COMBUSTION:2"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.Engine2.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Bool"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.PowerAvionic.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:B_ELEC_BUS_POWER_DC_ESS"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.PowerAvionic.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Number"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ExtAvail.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:B_CONFIG_GPU"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ExtAvail.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Number"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ExtConn.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:I_OH_ELEC_EXT_PWR_L"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ExtConn.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Number"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ApuRunning.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:I_OH_ELEC_APU_START_U"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ApuRunning.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Number"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ApuBleedOn.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:S_OH_PNEUMATIC_APU_BLEED"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ApuBleedOn.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Number"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightNav.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:S_OH_EXT_LT_NAV_LOGO"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightNav.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Number"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightBeacon.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:S_OH_EXT_LT_BEACON"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.LightBeacon.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Number"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ParkBrake.Name",
-                                              "Type":  4,
-                                              "DefaultValue":  "L:S_MIP_PARKING_BRAKE"
-                                          },
-                                          {
-                                              "Key":  "Generic.Var.ParkBrake.Unit",
-                                              "Type":  4,
-                                              "DefaultValue":  "Number"
-                                          },
-                                          {
-                                              "Key":  "Generic.Option.Aircraft.InitDelay",
-                                              "Type":  2,
-                                              "DefaultValue":  2000
-                                          }
-                                      ],
-                         "HideGenericSettings":  [
-                                                     "Generic.Option.Aircraft.IsCargo",
-                                                     "Generic.Option.Aircraft.GsxGpu",
-                                                     "Generic.Var.Engine1.Name",
-                                                     "Generic.Var.Engine1.Unit",
-                                                     "Generic.Var.Engine2.Name",
-                                                     "Generic.Var.Engine2.Unit",
-                                                     "Generic.Var.PowerAvionic.Name",
-                                                     "Generic.Var.PowerAvionic.Unit",
-                                                     "Generic.Var.ExtAvail.Name",
-                                                     "Generic.Var.ExtAvail.Unit",
-                                                     "Generic.Var.ExtConn.Name",
-                                                     "Generic.Var.ExtConn.Unit",
-                                                     "Generic.Var.ApuRunning.Name",
-                                                     "Generic.Var.ApuRunning.Unit",
-                                                     "Generic.Var.ApuBleedOn.Name",
-                                                     "Generic.Var.ApuBleedOn.Unit",
-                                                     "Generic.Var.LightNav.Name",
-                                                     "Generic.Var.LightNav.Unit",
-                                                     "Generic.Var.LightBeacon.Name",
-                                                     "Generic.Var.LightBeacon.Unit",
-                                                     "Generic.Var.ParkBrake.Name",
-                                                     "Generic.Var.ParkBrake.Unit",
-                                                     "Generic.Var.DepartTrigger.Name",
-                                                     "Generic.Var.DepartTrigger.Unit",
-                                                     "Generic.Var.DepartTrigger.Comp",
-                                                     "Generic.Var.DepartTrigger.Value",
-                                                     "Generic.Option.Aircraft.InitDelay"
-                                                 ],
-                         "InstallUsageNotes":  "RECOMMENDED: Use the Developer-provided Profile included with the Fenix A320.\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing the Flightplan in the EFB\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request\r\n• DO NOT use the \u0027Load Aircraft\u0027 in the EFB\r\n• Planned Weights in the EFB can be changed before the respective Service starts",
-                         "PluginDefaultProfile":  {
-                                                      "PluginId":  "FNX.A320",
-                                                      "ChannelFileId":  "FNX.A320",
-                                                      "ProfileMatches":  [
-                                                                             {
-                                                                                 "MatchData":  4,
-                                                                                 "MatchOperation":  3,
-                                                                                 "MatchString":  "FNX_3"
-                                                                             }
-                                                                         ],
-                                                      "RunAutomationService":  true,
-                                                      "RunAudioService":  true,
-                                                      "AudioMappings":  [
-                                                                            {
-                                                                                "Channel":  "CPT.INT",
-                                                                                "Device":  "",
-                                                                                "Binary":  "Couatl64_MSFS2024",
-                                                                                "UseLatch":  true,
-                                                                                "OnlyActive":  true
-                                                                            },
-                                                                            {
-                                                                                "Channel":  "CPT.INT",
-                                                                                "Device":  "",
-                                                                                "Binary":  "Couatl64_MSFS",
-                                                                                "UseLatch":  true,
-                                                                                "OnlyActive":  true
-                                                                            },
-                                                                            {
-                                                                                "Channel":  "CPT.CAB",
-                                                                                "Device":  "",
-                                                                                "Binary":  "FlightSimulator",
-                                                                                "UseLatch":  true,
-                                                                                "OnlyActive":  true
-                                                                            },
-                                                                            {
-                                                                                "Channel":  "CPT.CAB",
-                                                                                "Device":  "",
-                                                                                "Binary":  "FlightSimulator2024",
-                                                                                "UseLatch":  true,
-                                                                                "OnlyActive":  true
-                                                                            },
-                                                                            {
-                                                                                "Channel":  "CPT.VHF1",
-                                                                                "Device":  "",
-                                                                                "Binary":  "vPilot",
-                                                                                "UseLatch":  false,
-                                                                                "OnlyActive":  true
-                                                                            },
-                                                                            {
-                                                                                "Channel":  "CPT.VHF1",
-                                                                                "Device":  "",
-                                                                                "Binary":  "BeyondATC",
-                                                                                "UseLatch":  false,
-                                                                                "OnlyActive":  true
-                                                                            }
-                                                                        ],
-                                                      "AudioStartupVolumes":  {
-                                                                                  "CPT.VHF1":  1,
-                                                                                  "CPT.INT":  1,
-                                                                                  "CPT.CAB":  1
-                                                                              },
-                                                      "AudioStartupUnmute":  {
-                                                                                 "CPT.VHF1":  true,
-                                                                                 "CPT.INT":  true,
-                                                                                 "CPT.CAB":  true
-                                                                             }
-                                                  }
-                     }
+  "INI.A306.zip": {
+    "Id": "INI.A306",
+    "SettingId": "INI.306",
+    "Type": 1,
+    "Filename": "INI.A306.lua",
+    "ChannelFile": "INI.A306.json",
+    "AircraftProfileEntries": [
+      "a300-600",
+      "inibuilds-aircraft-a306f",
+      "inibuilds-aircraft-a306f-pw",
+      "inibuilds-aircraft-a306r",
+      "inibuilds-aircraft-a306r-pw"
+    ],
+    "Aircraft": "iniBuilds A300-600 (All Variants)",
+    "Author": "Fragtality",
+    "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
+    "VersionPlugin": "0.4.1",
+    "VersionApp": "0.4.0",
+    "Capabilities": {
+      "HasFobSaveRestore": true,
+      "FuelSync": 8,
+      "CanSetPayload": true,
+      "PayloadSync": 8,
+      "DoorHandling": 12,
+      "DoorsSynced": 16,
+      "DoorsCloseAll": false,
+      "GroundEquipmentHandling": 22,
+      "HasSmartButton": true,
+      "VolumeControl": true,
+      "CockpitNotifications": 0
+    },
+    "Settings": [
+      {
+        "Key": "INI.306.Option.CargoModel",
+        "Type": 5,
+        "DefaultValue": 0,
+        "EnumValues": {
+          "-1": "Nothing",
+          "0": "Normal",
+          "1": "Postal",
+          "2": "Humanitarian",
+          "3": "Aeroparts",
+          "4": "Racing",
+          "5": "Horses"
+        },
+        "Description": "Cargo: Set Visual Model (Freighter)",
+        "Tooltip": "Set the selected visual Cargo/Freight Model on the Freighter when Boarding is completed."
+      },
+      {
+        "Key": "INI.306.Option.CargoSetValue",
+        "Type": 2,
+        "DefaultValue": 50,
+        "Description": "Cargo: Set at (Boarding)",
+        "DescUnit": "%",
+        "Tooltip": "The Cargo loaded Percentage (as reported by GSX) at which the Model is set."
+      },
+      {
+        "Key": "INI.306.Option.CargoUnsetValue",
+        "Type": 2,
+        "DefaultValue": 50,
+        "Description": "Cargo: Remove at (Deboarding)",
+        "DescUnit": "%",
+        "Tooltip": "The Cargo unloaded Percentage (as reported by GSX) at which the Model is removed."
+      },
+      {
+        "Key": "Generic.Var.Engine1.Name",
+        "Type": 4,
+        "DefaultValue": "ENG COMBUSTION:1"
+      },
+      {
+        "Key": "Generic.Var.Engine1.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.Engine2.Name",
+        "Type": 4,
+        "DefaultValue": "ENG COMBUSTION:2"
+      },
+      {
+        "Key": "Generic.Var.Engine2.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.ExtAvail.Name",
+        "Type": 4,
+        "DefaultValue": "L:INI_GPU_AVAIL"
+      },
+      {
+        "Key": "Generic.Var.ExtConn.Name",
+        "Type": 4,
+        "DefaultValue": "EXTERNAL POWER ON:1"
+      },
+      {
+        "Key": "Generic.Var.ApuRunning.Name",
+        "Type": 4,
+        "DefaultValue": "L:INI_apu_available"
+      },
+      {
+        "Key": "Generic.Var.ApuRunning.Unit",
+        "Type": 4,
+        "DefaultValue": "Number"
+      },
+      {
+        "Key": "Generic.Var.ApuBleedOn.Name",
+        "Type": 4,
+        "DefaultValue": "L:INI_apu_bleed"
+      },
+      {
+        "Key": "Generic.Var.ApuBleedOn.Unit",
+        "Type": 4,
+        "DefaultValue": "Number"
+      },
+      {
+        "Key": "Generic.Var.LightBeacon.Name",
+        "Type": 4,
+        "DefaultValue": "LIGHT BEACON ON"
+      },
+      {
+        "Key": "Generic.Var.LightBeacon.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.LightNav.Name",
+        "Type": 4,
+        "DefaultValue": "LIGHT NAV ON"
+      },
+      {
+        "Key": "Generic.Var.LightNav.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.ParkBrake.Name",
+        "Type": 4,
+        "DefaultValue": "BRAKE PARKING POSITION"
+      },
+      {
+        "Key": "Generic.Var.ParkBrake.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      }
+    ],
+    "HideGenericSettings": [
+      "Generic.Option.Aircraft.GsxGpu",
+      "Generic.Option.Aircraft.IsCargo",
+      "Generic.Var.Engine1.Name",
+      "Generic.Var.Engine1.Unit",
+      "Generic.Var.Engine2.Name",
+      "Generic.Var.Engine2.Unit",
+      "Generic.Var.PowerAvionic.Name",
+      "Generic.Var.PowerAvionic.Unit",
+      "Generic.Var.ExtAvail.Name",
+      "Generic.Var.ExtAvail.Unit",
+      "Generic.Var.ExtConn.Name",
+      "Generic.Var.ExtConn.Unit",
+      "Generic.Var.ApuRunning.Name",
+      "Generic.Var.ApuRunning.Unit",
+      "Generic.Var.ApuBleedOn.Name",
+      "Generic.Var.ApuBleedOn.Unit",
+      "Generic.Var.LightBeacon.Name",
+      "Generic.Var.LightBeacon.Unit",
+      "Generic.Var.LightNav.Name",
+      "Generic.Var.LightNav.Unit",
+      "Generic.Var.ParkBrake.Name",
+      "Generic.Var.ParkBrake.Unit",
+      "Generic.Var.DepartTrigger.Name",
+      "Generic.Var.DepartTrigger.Unit",
+      "Generic.Var.DepartTrigger.Comp",
+      "Generic.Var.DepartTrigger.Value"
+    ],
+    "InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Default Fuel System' checked! (if not using the included GSX Aircraft Profiles)\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing the Flightplan into the MCDU via ACARS\r\n• The SmartButton is mapped to the Voice Ident Switch on the ACP (Captain and FO) - move to Ident Position to trigger a Request",
+    "PluginDefaultProfile": {
+      "PluginId": "INI.A306",
+      "ChannelFileId": "INI.A306",
+      "ProfileMatches": [
+        {
+          "MatchData": 4,
+          "MatchOperation": 3,
+          "MatchString": "inibuilds-aircraft-a306|A300-600"
+        }
+      ],
+      "RunAutomationService": true,
+      "RunAudioService": true,
+      "ClearGroundEquipOnBeacon": false,
+      "AudioMappings": [
+        {
+          "Channel": "CPT.VHF1",
+          "Device": "",
+          "Binary": "vPilot",
+          "UseLatch": false
+        },
+        {
+          "Channel": "CPT.INT",
+          "Device": "",
+          "Binary": "Couatl64_MSFS2024",
+          "UseLatch": true
+        },
+        {
+          "Channel": "CPT.INT",
+          "Device": "",
+          "Binary": "Couatl64_MSFS",
+          "UseLatch": true
+        }
+      ],
+      "AudioStartupVolumes": {
+        "CPT.VHF1": 100,
+        "CPT.INT": 100
+      },
+      "AudioStartupUnmute": {
+        "CPT.VHF1": true,
+        "CPT.INT": true
+      }
+    }
+  },
+  "INI.A330.zip": {
+    "Id": "INI.A330",
+    "Type": 1,
+    "Filename": "INI.A330.lua",
+    "ChannelFile": "INI.A330.json",
+    "AircraftProfileEntries": [],
+    "Aircraft": "Microsoft/iniBuilds A330 (All Variants)",
+    "Author": "Fragtality",
+    "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
+    "VersionPlugin": "0.4.1",
+    "VersionApp": "0.4.0",
+    "Capabilities": {
+      "HasFobSaveRestore": true,
+      "FuelSync": 8,
+      "CanSetPayload": true,
+      "PayloadSync": 8,
+      "DoorHandling": 12,
+      "DoorsSynced": 6,
+      "DoorsCloseAll": false,
+      "GroundEquipmentHandling": 2,
+      "HasSmartButton": true,
+      "VolumeControl": true,
+      "CockpitNotifications": 0
+    },
+    "Settings": [
+      {
+        "Key": "Generic.Var.ExtAvail.Name",
+        "Type": 4,
+        "DefaultValue": "L:INI_GPU_AVAIL"
+      },
+      {
+        "Key": "Generic.Var.Engine1.Name",
+        "Type": 4,
+        "DefaultValue": "ENG COMBUSTION:1"
+      },
+      {
+        "Key": "Generic.Var.Engine1.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.Engine2.Name",
+        "Type": 4,
+        "DefaultValue": "ENG COMBUSTION:2"
+      },
+      {
+        "Key": "Generic.Var.Engine2.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.PowerAvionic.Name",
+        "Type": 4,
+        "DefaultValue": "ELECTRICAL MAIN BUS VOLTAGE"
+      },
+      {
+        "Key": "Generic.Var.PowerAvionic.Unit",
+        "Type": 4,
+        "DefaultValue": "volts"
+      },
+      {
+        "Key": "Generic.Var.ExtConn.Name",
+        "Type": 4,
+        "DefaultValue": "EXTERNAL POWER ON"
+      },
+      {
+        "Key": "Generic.Var.ExtConn.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.ApuRunning.Name",
+        "Type": 4,
+        "DefaultValue": "APU GENERATOR ACTIVE:1"
+      },
+      {
+        "Key": "Generic.Var.ApuRunning.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.ApuBleedOn.Name",
+        "Type": 4,
+        "DefaultValue": "BLEED AIR APU"
+      },
+      {
+        "Key": "Generic.Var.ApuBleedOn.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.LightBeacon.Name",
+        "Type": 4,
+        "DefaultValue": "LIGHT BEACON ON"
+      },
+      {
+        "Key": "Generic.Var.LightBeacon.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.LightNav.Name",
+        "Type": 4,
+        "DefaultValue": "LIGHT NAV ON"
+      },
+      {
+        "Key": "Generic.Var.LightNav.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.ParkBrake.Name",
+        "Type": 4,
+        "DefaultValue": "BRAKE PARKING POSITION"
+      },
+      {
+        "Key": "Generic.Var.ParkBrake.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      }
+    ],
+    "HideGenericSettings": [
+      "Generic.Option.Aircraft.GsxGpu",
+      "Generic.Option.Aircraft.IsCargo",
+      "Generic.Var.Engine1.Name",
+      "Generic.Var.Engine1.Unit",
+      "Generic.Var.Engine2.Name",
+      "Generic.Var.Engine2.Unit",
+      "Generic.Var.PowerAvionic.Name",
+      "Generic.Var.PowerAvionic.Unit",
+      "Generic.Var.ExtAvail.Name",
+      "Generic.Var.ExtAvail.Unit",
+      "Generic.Var.ExtConn.Name",
+      "Generic.Var.ExtConn.Unit",
+      "Generic.Var.ApuRunning.Name",
+      "Generic.Var.ApuRunning.Unit",
+      "Generic.Var.ApuBleedOn.Name",
+      "Generic.Var.ApuBleedOn.Unit",
+      "Generic.Var.LightBeacon.Name",
+      "Generic.Var.LightBeacon.Unit",
+      "Generic.Var.LightNav.Name",
+      "Generic.Var.LightNav.Unit",
+      "Generic.Var.ParkBrake.Name",
+      "Generic.Var.ParkBrake.Unit",
+      "Generic.Var.DepartTrigger.Name",
+      "Generic.Var.DepartTrigger.Unit",
+      "Generic.Var.DepartTrigger.Comp",
+      "Generic.Var.DepartTrigger.Value"
+    ],
+    "InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Default Fuel System' checked! Use of the internal GSX Profile adviced.\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing (Init Request) the Flightplan into the MCDU\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
+    "PluginDefaultProfile": {
+      "PluginId": "INI.A330",
+      "ChannelFileId": "INI.A330",
+      "ProfileMatches": [
+        {
+          "MatchData": 4,
+          "MatchOperation": 3,
+          "MatchString": "microsoft-a330"
+        }
+      ],
+      "RunAutomationService": true,
+      "RunAudioService": true,
+      "AudioMappings": [
+        {
+          "Channel": "CPT.VHF1",
+          "Device": "",
+          "Binary": "vPilot",
+          "UseLatch": false
+        },
+        {
+          "Channel": "CPT.INT",
+          "Device": "",
+          "Binary": "Couatl64_MSFS2024",
+          "UseLatch": true
+        },
+        {
+          "Channel": "CPT.INT",
+          "Device": "",
+          "Binary": "Couatl64_MSFS",
+          "UseLatch": true
+        }
+      ],
+      "AudioStartupVolumes": {
+        "CPT.VHF1": 100,
+        "CPT.INT": 100
+      },
+      "AudioStartupUnmute": {
+        "CPT.VHF1": true,
+        "CPT.INT": true
+      },
+      "PluginSettings": {
+        "Generic.Option.Aircraft.RefuelStair": true
+      }
+    }
+  },
+  "INI.A350.zip": {
+    "Id": "INI.A350",
+    "SettingId": "INI.350",
+    "Type": 1,
+    "Filename": "INI.A350.lua",
+    "ChannelFile": "INI.A350.json",
+    "AircraftProfileEntries": [],
+    "Aircraft": "iniBuilds A350 (All Variants)",
+    "Author": "Fragtality",
+    "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
+    "VersionPlugin": "0.4.1",
+    "VersionApp": "0.4.0",
+    "Capabilities": {
+      "HasFobSaveRestore": true,
+      "FuelSync": 8,
+      "CanSetPayload": true,
+      "PayloadSync": 8,
+      "DoorHandling": 12,
+      "DoorsSynced": 4,
+      "DoorsCloseAll": true,
+      "GroundEquipmentHandling": 54,
+      "HasSmartButton": true,
+      "VolumeControl": true,
+      "CockpitNotifications": 0
+    },
+    "Settings": [
+      {
+        "Key": "INI.350.Option.Covers.RemoveStartup",
+        "Type": 1,
+        "DefaultValue": true,
+        "Description": "Remove Covers",
+        "Tooltip": "The Covers on the Aircraft will be removed on Session Start."
+      },
+      {
+        "Key": "INI.350.Option.Override.Payload",
+        "Type": 1,
+        "DefaultValue": true,
+        "Description": "Override native Payload Sync",
+        "Tooltip": "The Plugin will override the GSX State Variables for Boarding/Deboarding to disable the native Payload-Sync (and instead use the Plugin to sync the Payload with GSX)."
+      },
+      {
+        "Key": "Generic.Var.PowerAvionic.Name",
+        "Type": 4,
+        "DefaultValue": "L:INI_ELEC_AC_ESS_SHED_BUS_IS_POWERED"
+      },
+      {
+        "Key": "Generic.Var.ExtAvail.Name",
+        "Type": 4,
+        "DefaultValue": "L:INI_GPU_AVAIL"
+      },
+      {
+        "Key": "Generic.Var.ApuRunning.Name",
+        "Type": 4,
+        "DefaultValue": "L:INI_APU_AVAILABLE"
+      },
+      {
+        "Key": "Generic.Var.ApuBleedOn.Name",
+        "Type": 4,
+        "DefaultValue": "L:INI_AIR_BLEED_APU"
+      },
+      {
+        "Key": "Generic.Var.Engine1.Name",
+        "Type": 4,
+        "DefaultValue": "ENG COMBUSTION:1"
+      },
+      {
+        "Key": "Generic.Var.Engine1.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.Engine2.Name",
+        "Type": 4,
+        "DefaultValue": "ENG COMBUSTION:2"
+      },
+      {
+        "Key": "Generic.Var.Engine2.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.LightBeacon.Name",
+        "Type": 4,
+        "DefaultValue": "LIGHT BEACON ON"
+      },
+      {
+        "Key": "Generic.Var.LightBeacon.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.LightNav.Name",
+        "Type": 4,
+        "DefaultValue": "LIGHT NAV ON"
+      },
+      {
+        "Key": "Generic.Var.LightNav.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.ParkBrake.Name",
+        "Type": 4,
+        "DefaultValue": "BRAKE PARKING POSITION"
+      },
+      {
+        "Key": "Generic.Var.ParkBrake.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      }
+    ],
+    "HideGenericSettings": [
+      "Generic.Option.Aircraft.GsxGpu",
+      "Generic.Var.Engine1.Name",
+      "Generic.Var.Engine1.Unit",
+      "Generic.Var.Engine2.Name",
+      "Generic.Var.Engine2.Unit",
+      "Generic.Var.PowerAvionic.Name",
+      "Generic.Var.PowerAvionic.Unit",
+      "Generic.Var.ExtAvail.Name",
+      "Generic.Var.ExtAvail.Unit",
+      "Generic.Var.ExtConn.Name",
+      "Generic.Var.ExtConn.Unit",
+      "Generic.Var.ApuRunning.Name",
+      "Generic.Var.ApuRunning.Unit",
+      "Generic.Var.ApuBleedOn.Name",
+      "Generic.Var.ApuBleedOn.Unit",
+      "Generic.Var.LightBeacon.Name",
+      "Generic.Var.LightBeacon.Unit",
+      "Generic.Var.LightNav.Name",
+      "Generic.Var.LightNav.Unit",
+      "Generic.Var.ParkBrake.Name",
+      "Generic.Var.ParkBrake.Unit",
+      "Generic.Var.DepartTrigger.Name",
+      "Generic.Var.DepartTrigger.Unit",
+      "Generic.Var.DepartTrigger.Comp",
+      "Generic.Var.DepartTrigger.Value"
+    ],
+    "InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Default Fuel System' checked!\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing (FPLAN REQUEST) the Flightplan into the MCDU\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
+    "PluginDefaultProfile": {
+      "PluginId": "INI.A350",
+      "ChannelFileId": "INI.A350",
+      "ProfileMatches": [
+        {
+          "MatchData": 4,
+          "MatchOperation": 3,
+          "MatchString": "a350"
+        }
+      ],
+      "RunAutomationService": true,
+      "RunAudioService": true,
+      "AudioMappings": [
+        {
+          "Channel": "CPT.VHF1",
+          "Device": "",
+          "Binary": "vPilot",
+          "UseLatch": false
+        },
+        {
+          "Channel": "CPT.INT",
+          "Device": "",
+          "Binary": "Couatl64_MSFS2024",
+          "UseLatch": true
+        },
+        {
+          "Channel": "CPT.INT",
+          "Device": "",
+          "Binary": "Couatl64_MSFS",
+          "UseLatch": true
+        }
+      ],
+      "AudioStartupVolumes": {
+        "CPT.VHF1": 100,
+        "CPT.INT": 100
+      },
+      "AudioStartupUnmute": {
+        "CPT.VHF1": true,
+        "CPT.INT": true
+      }
+    }
+  },
+  "PMDG.B777.zip": {
+    "Id": "PMDG.B777",
+    "SettingId": "PMDG.777",
+    "Type": 0,
+    "Filename": "Pmdg777Interface.dll",
+    "Aircraft": "PMDG B777 (All Variants)",
+    "Author": "Fragtality",
+    "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
+    "VersionPlugin": "0.4.2",
+    "VersionApp": "0.4.2",
+    "Capabilities": {
+      "HasFobSaveRestore": true,
+      "FuelSync": 8,
+      "CanSetPayload": true,
+      "PayloadSync": 8,
+      "DoorHandling": 10,
+      "DoorsSynced": 30,
+      "DoorsCloseAll": true,
+      "GroundEquipmentHandling": 38,
+      "HasSmartButton": true,
+      "VolumeControl": false,
+      "CockpitNotifications": 0
+    },
+    "Settings": [
+      {
+        "Key": "PMDG.777.Option.ClearVehicles",
+        "Type": 1,
+        "DefaultValue": true,
+        "Description": "Clear PMDG Vehicles",
+        "Tooltip": "Automatically remove all PMDG Vehicles as they appear."
+      },
+      {
+        "Key": "PMDG.777.Option.ChangePowerType",
+        "Type": 1,
+        "DefaultValue": true,
+        "Description": "Set GPU Plug Type",
+        "Tooltip": "Automatically change Power Plug Type between GPU and Jetway depending on the Gate used."
+      },
+      {
+        "Key": "PMDG.777.Option.CargoLights",
+        "Type": 1,
+        "DefaultValue": true,
+        "Description": "Toggle Cargo Lights",
+        "Tooltip": "Automatically toggle the Cargo Lights on the 777F when the Doors are operated or GSX becomes active."
+      },
+      {
+        "Key": "PMDG.777.Option.OperateBulk",
+        "Type": 1,
+        "DefaultValue": true,
+        "Description": "Use Bulk Cargo Door",
+        "Tooltip": "Also Open or Close the Bulk Cargo Door when the other Cargo Doors are operated (Pax/Cargo)."
+      },
+      {
+        "Key": "PMDG.777.Option.FrontCatering",
+        "Type": 5,
+        "DefaultValue": -1,
+        "EnumValues": {
+          "-1": "Default",
+          "1": "Door 1R",
+          "3": "Door 2R"
+        },
+        "Description": "Catering: Front Door Mapping",
+        "Tooltip": "Configure which PMDG Door is operated when GSX requests Service Door 1 (Front Catering Truck).\nPer Default the 200's and Freighter will use 1R and the 300 the 2R Door.\nNote: Selecting a specific Door here applies to all Variants - so different Profiles for each Variant are needed then."
+      },
+      {
+        "Key": "PMDG.777.Option.FixChocks",
+        "Type": 1,
+        "DefaultValue": true,
+        "Description": "Fix Chocks in Walkaround",
+        "Tooltip": "The Plugin will set the PMDG Chocks via L-Var in Walkaround before the Plugin Connection is established.\nThis should prevent the GSX Menu not opening/getting Ready without Brakes or Chocks."
+      },
+      {
+        "Key": "Generic.Var.Engine1.Name",
+        "Type": 4,
+        "DefaultValue": "ENG COMBUSTION:1"
+      },
+      {
+        "Key": "Generic.Var.Engine1.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.Engine2.Name",
+        "Type": 4,
+        "DefaultValue": "ENG COMBUSTION:2"
+      },
+      {
+        "Key": "Generic.Var.Engine2.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Option.Aircraft.InitDelay",
+        "Type": 2,
+        "DefaultValue": 2000
+      }
+    ],
+    "HideGenericSettings": [
+      "Generic.Option.Aircraft.IsCargo",
+      "Generic.Option.Aircraft.GsxGpu",
+      "Generic.Var.PowerAvionic.Name",
+      "Generic.Var.PowerAvionic.Unit",
+      "Generic.Var.ExtAvail.Name",
+      "Generic.Var.ExtAvail.Unit",
+      "Generic.Var.ExtConn.Name",
+      "Generic.Var.ExtConn.Unit",
+      "Generic.Var.ApuRunning.Name",
+      "Generic.Var.ApuRunning.Unit",
+      "Generic.Var.ApuBleedOn.Name",
+      "Generic.Var.ApuBleedOn.Unit",
+      "Generic.Var.LightNav.Name",
+      "Generic.Var.LightNav.Unit",
+      "Generic.Var.LightBeacon.Name",
+      "Generic.Var.LightBeacon.Unit",
+      "Generic.Var.ParkBrake.Name",
+      "Generic.Var.ParkBrake.Unit",
+      "Generic.Var.DepartTrigger.Name",
+      "Generic.Var.DepartTrigger.Unit",
+      "Generic.Var.DepartTrigger.Comp",
+      "Generic.Var.DepartTrigger.Value",
+      "Generic.Option.Aircraft.InitDelay"
+    ],
+    "InstallUsageNotes": "IMPORTANT: DataBroadcast needs to be enabled in the 777_Options.ini File (for each Variant and Simulator)!\r\nConsult the PMDG_777_MSFS_SDK Manual in the Aircraft's Documentation\\SDK Folder.\r\n\r\nRECOMMENDED: Use the internal/GSX provided Aircraft Profiles.\r\nYou eventually need to delete the gsx.cfg File in the SimObjects\\Airplanes\\PMDG 777... Folder.\r\n\r\nNOTAMs:\r\n• The Departure Services will start when the Flightplan is imported in the UFT\r\n• The SmartButton is mapped to the MIC/INT Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
+    "PluginDefaultProfile": {
+      "PluginId": "PMDG.B777",
+      "ProfileMatches": [
+        {
+          "MatchData": 4,
+          "MatchOperation": 3,
+          "MatchString": "PMDG 777"
+        }
+      ],
+      "RunAutomationService": true,
+      "PluginSettings": {
+        "Generic.Option.Aircraft.RefuelStair": true
+      }
+    }
+  },
+  "INI.A340.zip": {
+    "Id": "INI.A340",
+    "SettingId": "INI.340",
+    "Type": 1,
+    "Filename": "INI.A340.lua",
+    "ChannelFile": "INI.A340.json",
+    "AircraftProfileEntries": [
+      "inibuilds-a340"
+    ],
+    "Aircraft": "iniBuilds A340 (All Variants)",
+    "Author": "Fragtality",
+    "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
+    "VersionPlugin": "0.4.2",
+    "VersionApp": "0.4.0",
+    "Capabilities": {
+      "HasFobSaveRestore": true,
+      "FuelSync": 8,
+      "CanSetPayload": true,
+      "PayloadSync": 8,
+      "DoorHandling": 4,
+      "DoorsSynced": 1,
+      "DoorsCloseAll": false,
+      "GroundEquipmentHandling": 54,
+      "HasSmartButton": true,
+      "VolumeControl": true,
+      "CockpitNotifications": 0
+    },
+    "Settings": [
+      {
+        "Key": "INI.340.Option.Covers.RemoveStartup",
+        "Type": 1,
+        "DefaultValue": true,
+        "Description": "Remove Covers",
+        "Tooltip": "The Covers on the Aircraft will be removed on Session Start."
+      },
+      {
+        "Key": "INI.340.Option.Fix.PayloadReset",
+        "Type": 1,
+        "DefaultValue": true,
+        "Description": "Try to fix Payload Reset",
+        "Tooltip": "Try to fix the resetting Payload after Boarding"
+      },
+      {
+        "Key": "Generic.Var.ExtAvail.Name",
+        "Type": 4,
+        "DefaultValue": "L:INI_GPU_AVAIL"
+      },
+      {
+        "Key": "Generic.Var.Engine1.Name",
+        "Type": 4,
+        "DefaultValue": "ENG COMBUSTION:1"
+      },
+      {
+        "Key": "Generic.Var.Engine1.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.Engine2.Name",
+        "Type": 4,
+        "DefaultValue": "ENG COMBUSTION:2"
+      },
+      {
+        "Key": "Generic.Var.Engine2.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.PowerAvionic.Name",
+        "Type": 4,
+        "DefaultValue": "L:INI_AC_LIGHTS_FAILURE"
+      },
+      {
+        "Key": "Generic.Var.PowerAvionic.Unit",
+        "Type": 4,
+        "DefaultValue": "number"
+      },
+      {
+        "Key": "Generic.Var.ApuRunning.Name",
+        "Type": 4,
+        "DefaultValue": "L:INI_APU_AVAILABLE"
+      },
+      {
+        "Key": "Generic.Var.ApuRunning.Unit",
+        "Type": 4,
+        "DefaultValue": "number"
+      },
+      {
+        "Key": "Generic.Var.ApuBleedOn.Name",
+        "Type": 4,
+        "DefaultValue": "L:INI_AIR_BLEED_APU"
+      },
+      {
+        "Key": "Generic.Var.ApuBleedOn.Unit",
+        "Type": 4,
+        "DefaultValue": "number"
+      },
+      {
+        "Key": "Generic.Var.LightBeacon.Name",
+        "Type": 4,
+        "DefaultValue": "LIGHT BEACON ON"
+      },
+      {
+        "Key": "Generic.Var.LightBeacon.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.LightNav.Name",
+        "Type": 4,
+        "DefaultValue": "LIGHT NAV ON"
+      },
+      {
+        "Key": "Generic.Var.LightNav.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.ParkBrake.Name",
+        "Type": 4,
+        "DefaultValue": "BRAKE PARKING POSITION"
+      },
+      {
+        "Key": "Generic.Var.ParkBrake.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      }
+    ],
+    "HideGenericSettings": [
+      "Generic.Option.Aircraft.GsxGpu",
+      "Generic.Option.Aircraft.IsCargo",
+      "Generic.Var.Engine1.Name",
+      "Generic.Var.Engine1.Unit",
+      "Generic.Var.Engine2.Name",
+      "Generic.Var.Engine2.Unit",
+      "Generic.Var.PowerAvionic.Name",
+      "Generic.Var.PowerAvionic.Unit",
+      "Generic.Var.ExtAvail.Name",
+      "Generic.Var.ExtAvail.Unit",
+      "Generic.Var.ExtConn.Name",
+      "Generic.Var.ExtConn.Unit",
+      "Generic.Var.ApuRunning.Name",
+      "Generic.Var.ApuRunning.Unit",
+      "Generic.Var.ApuBleedOn.Name",
+      "Generic.Var.ApuBleedOn.Unit",
+      "Generic.Var.LightBeacon.Name",
+      "Generic.Var.LightBeacon.Unit",
+      "Generic.Var.LightNav.Name",
+      "Generic.Var.LightNav.Unit",
+      "Generic.Var.ParkBrake.Name",
+      "Generic.Var.ParkBrake.Unit",
+      "Generic.Var.DepartTrigger.Name",
+      "Generic.Var.DepartTrigger.Unit",
+      "Generic.Var.DepartTrigger.Comp",
+      "Generic.Var.DepartTrigger.Value"
+    ],
+    "InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used is configured in the following Way (if the bundled Profiles are not installed):\r\n• The Option 'Default Fuel System' is NOT checked!\r\n• The Preferred Exit is set to (L)2\r\n• Lavatory Position corrected\r\n\r\nNOTAMS:\r\n• Disable all GSX Options in the EFB and do NOT use 'load via GSX' in the EFB!\r\n• The Departure Services are started by importing (Init Request) the Flightplan into the MCDU (with the Nav Lights being on)\r\n• Simbrief Payload NEEDS to be imported in the EFB (Payload & Fueling -> Import all from Simbrief)\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request\r\n• Engine/Pitot Covers will automatically be removed on Session Start (configurable)\r\n• KNOWN ISSUE: GSX sometimes disconnects the Hose although Refuel is still running - the Refuel Process will continue (unless configured otherwise in the App)",
+    "PluginDefaultProfile": {
+      "PluginId": "INI.A340",
+      "ChannelFileId": "INI.A340",
+      "ProfileMatches": [
+        {
+          "MatchData": 4,
+          "MatchOperation": 3,
+          "MatchString": "inibuilds-a340"
+        }
+      ],
+      "RunAutomationService": true,
+      "RunAudioService": true,
+      "FuelResetBaseKg": 3800,
+      "FuelRoundUp100": false,
+      "RandomizePax": false,
+      "ApplyPaxToCargo": false,
+      "AudioMappings": [
+        {
+          "Channel": "CPT.VHF1",
+          "Device": "",
+          "Binary": "vPilot",
+          "UseLatch": false
+        },
+        {
+          "Channel": "CPT.INT",
+          "Device": "",
+          "Binary": "Couatl64_MSFS2024",
+          "UseLatch": true
+        },
+        {
+          "Channel": "CPT.INT",
+          "Device": "",
+          "Binary": "Couatl64_MSFS",
+          "UseLatch": true
+        }
+      ],
+      "AudioStartupVolumes": {
+        "CPT.VHF1": 100,
+        "CPT.INT": 100
+      },
+      "AudioStartupUnmute": {
+        "CPT.VHF1": true,
+        "CPT.INT": true
+      }
+    }
+  },
+  "FNX.A320.zip": {
+    "Id": "FNX.A320",
+    "Type": 0,
+    "Filename": "FenixCeoPlugin.dll",
+    "ChannelFile": "FNX.A320.json",
+    "Aircraft": "Fenix A320 Family",
+    "Author": "Fragtality",
+    "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
+    "VersionPlugin": "0.4.2",
+    "VersionApp": "0.4.2",
+    "Capabilities": {
+      "HasFobSaveRestore": true,
+      "FuelSync": 8,
+      "CanSetPayload": true,
+      "PayloadSync": 8,
+      "DoorHandling": 10,
+      "DoorsSynced": 30,
+      "DoorsCloseAll": true,
+      "GroundEquipmentHandling": 38,
+      "HasSmartButton": true,
+      "VolumeControl": true,
+      "CockpitNotifications": 15
+    },
+    "Settings": [
+      {
+        "Key": "FNX.A320.Option.UseRefuelPanel",
+        "Type": 1,
+        "DefaultValue": false,
+        "Description": "Use Refuel Panel",
+        "Tooltip": "Use the simulated Panel to refuel the Plane.\nThe Rate is set by the EFB, the Rate Settings in the App are ignored by this Mode.\nNOTE: Does not support Defuel! Disable this Option to let the Plugin sync the Fuel."
+      },
+      {
+        "Key": "FNX.A320.Option.InterceptGpuAndChocksOnBeacon",
+        "Type": 1,
+        "DefaultValue": true,
+        "Description": "Intercept GPU and Chocks",
+        "Tooltip": "GPU and Chocks will be removed on Arrival while the Beacon is still on."
+      },
+      {
+        "Key": "FNX.A320.Option.NumChockFlashes",
+        "Type": 2,
+        "DefaultValue": 10,
+        "Description": "Chock Indication Duration",
+        "DescUnit": "s",
+        "Tooltip": "How long to flash the MECH Button on the ACP after the Chocks were placed."
+      },
+      {
+        "Key": "FNX.A320.Option.AnswerCabinCallGround",
+        "Type": 1,
+        "DefaultValue": true,
+        "Description": "Answer Ground Cabin Call",
+        "Tooltip": "Automatically answer the Cabin-Ready Call before Takeoff."
+      },
+      {
+        "Key": "FNX.A320.Option.DelayCabinCallGround",
+        "Type": 2,
+        "DefaultValue": 8000,
+        "Description": "Ground Call Reset Delay",
+        "DescUnit": "ms",
+        "Tooltip": "The Delay before the ACP Panel is reset, after the Ground Call was accepted."
+      },
+      {
+        "Key": "FNX.A320.Option.AnswerCabinCallAir",
+        "Type": 1,
+        "DefaultValue": true,
+        "Description": "Answer Air Cabin Call",
+        "Tooltip": "Automatically answer the Cabin-Ready Call on Approach."
+      },
+      {
+        "Key": "FNX.A320.Option.DelayCabinCallAir",
+        "Type": 2,
+        "DefaultValue": 6000,
+        "Description": "Air Call Reset Delay",
+        "DescUnit": "ms",
+        "Tooltip": "The Delay before the ACP Panel is reset, after the Air Call was accepted."
+      },
+      {
+        "Key": "FNX.A320.Option.DoorStairIncludeL2",
+        "Type": 1,
+        "DefaultValue": false,
+        "Description": "Operate L2 Door for Stairs",
+        "Tooltip": "Open/Close the L2 Door when GSX Stairs are attached/removed."
+      },
+      {
+        "Key": "FNX.A320.Option.ChancePerSeat",
+        "Type": 3,
+        "DefaultValue": 2.5,
+        "Description": "Chance per Seat",
+        "DescUnit": "%",
+        "Tooltip": "The Probability per Seat to 'flip' a Passenger (extra/no-show) for Randomization.\nThe Pax Difference is defined by the App up to its configured Limit - this Value only defines how that is applied to the Fenix."
+      },
+      {
+        "Key": "FNX.A320.Option.EfbCheckInterval",
+        "Type": 2,
+        "DefaultValue": 1500,
+        "Description": "EFB Check Interval",
+        "DescUnit": "ms",
+        "Tooltip": "The Interval in ms at which the EFB is checked for Changes (i.e. OFP, Equip, Payload).\nOnly applied on Ground - during Flight the Interval is set to 15s."
+      },
+      {
+        "Key": "FNX.A320.Option.CargoDistMain",
+        "Type": 3,
+        "DefaultValue": 0.423728813559322,
+        "Description": "Cargo Distribution Main",
+        "Tooltip": "The Factor/Scalar used for distgributing Cargo in the Forward and Aft Holds (applied per Hold).\nBulk and 2x Main should add up to ~1.0."
+      },
+      {
+        "Key": "FNX.A320.Option.CargoDistBulk",
+        "Type": 3,
+        "DefaultValue": 0.15254237288135594,
+        "Description": "Cargo Distribution Bulk",
+        "Tooltip": "The Factor/Scalar used for distgributing Cargo Bulk Hold.\nBulk and 2x Main should add up to ~1.0."
+      },
+      {
+        "Key": "Generic.Var.Engine1.Name",
+        "Type": 4,
+        "DefaultValue": "ENG COMBUSTION:1"
+      },
+      {
+        "Key": "Generic.Var.Engine1.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.Engine2.Name",
+        "Type": 4,
+        "DefaultValue": "ENG COMBUSTION:2"
+      },
+      {
+        "Key": "Generic.Var.Engine2.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.PowerAvionic.Name",
+        "Type": 4,
+        "DefaultValue": "L:B_ELEC_BUS_POWER_DC_ESS"
+      },
+      {
+        "Key": "Generic.Var.PowerAvionic.Unit",
+        "Type": 4,
+        "DefaultValue": "Number"
+      },
+      {
+        "Key": "Generic.Var.ExtAvail.Name",
+        "Type": 4,
+        "DefaultValue": "L:B_CONFIG_GPU"
+      },
+      {
+        "Key": "Generic.Var.ExtAvail.Unit",
+        "Type": 4,
+        "DefaultValue": "Number"
+      },
+      {
+        "Key": "Generic.Var.ExtConn.Name",
+        "Type": 4,
+        "DefaultValue": "L:I_OH_ELEC_EXT_PWR_L"
+      },
+      {
+        "Key": "Generic.Var.ExtConn.Unit",
+        "Type": 4,
+        "DefaultValue": "Number"
+      },
+      {
+        "Key": "Generic.Var.ApuRunning.Name",
+        "Type": 4,
+        "DefaultValue": "L:I_OH_ELEC_APU_START_U"
+      },
+      {
+        "Key": "Generic.Var.ApuRunning.Unit",
+        "Type": 4,
+        "DefaultValue": "Number"
+      },
+      {
+        "Key": "Generic.Var.ApuBleedOn.Name",
+        "Type": 4,
+        "DefaultValue": "L:S_OH_PNEUMATIC_APU_BLEED"
+      },
+      {
+        "Key": "Generic.Var.ApuBleedOn.Unit",
+        "Type": 4,
+        "DefaultValue": "Number"
+      },
+      {
+        "Key": "Generic.Var.LightNav.Name",
+        "Type": 4,
+        "DefaultValue": "L:S_OH_EXT_LT_NAV_LOGO"
+      },
+      {
+        "Key": "Generic.Var.LightNav.Unit",
+        "Type": 4,
+        "DefaultValue": "Number"
+      },
+      {
+        "Key": "Generic.Var.LightBeacon.Name",
+        "Type": 4,
+        "DefaultValue": "L:S_OH_EXT_LT_BEACON"
+      },
+      {
+        "Key": "Generic.Var.LightBeacon.Unit",
+        "Type": 4,
+        "DefaultValue": "Number"
+      },
+      {
+        "Key": "Generic.Var.ParkBrake.Name",
+        "Type": 4,
+        "DefaultValue": "L:S_MIP_PARKING_BRAKE"
+      },
+      {
+        "Key": "Generic.Var.ParkBrake.Unit",
+        "Type": 4,
+        "DefaultValue": "Number"
+      },
+      {
+        "Key": "Generic.Option.Aircraft.InitDelay",
+        "Type": 2,
+        "DefaultValue": 2000
+      }
+    ],
+    "HideGenericSettings": [
+      "Generic.Option.Aircraft.GsxGpu",
+      "Generic.Var.Engine1.Name",
+      "Generic.Var.Engine1.Unit",
+      "Generic.Var.Engine2.Name",
+      "Generic.Var.Engine2.Unit",
+      "Generic.Var.PowerAvionic.Name",
+      "Generic.Var.PowerAvionic.Unit",
+      "Generic.Var.ExtAvail.Name",
+      "Generic.Var.ExtAvail.Unit",
+      "Generic.Var.ExtConn.Name",
+      "Generic.Var.ExtConn.Unit",
+      "Generic.Var.ApuRunning.Name",
+      "Generic.Var.ApuRunning.Unit",
+      "Generic.Var.ApuBleedOn.Name",
+      "Generic.Var.ApuBleedOn.Unit",
+      "Generic.Var.LightNav.Name",
+      "Generic.Var.LightNav.Unit",
+      "Generic.Var.LightBeacon.Name",
+      "Generic.Var.LightBeacon.Unit",
+      "Generic.Var.ParkBrake.Name",
+      "Generic.Var.ParkBrake.Unit",
+      "Generic.Var.DepartTrigger.Name",
+      "Generic.Var.DepartTrigger.Unit",
+      "Generic.Var.DepartTrigger.Comp",
+      "Generic.Var.DepartTrigger.Value",
+      "Generic.Option.Aircraft.InitDelay"
+    ],
+    "InstallUsageNotes": "RECOMMENDED: Use the Developer-provided Profile included with the Fenix A320.\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing the Flightplan in the EFB\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request\r\n• DO NOT use the 'Load Aircraft' in the EFB\r\n• Planned Weights in the EFB can be changed before the respective Service starts",
+    "PluginDefaultProfile": {
+      "PluginId": "FNX.A320",
+      "ChannelFileId": "FNX.A320",
+      "ProfileMatches": [
+        {
+          "MatchData": 4,
+          "MatchOperation": 3,
+          "MatchString": "FNX_3"
+        }
+      ],
+      "RunAutomationService": true,
+      "RunAudioService": true,
+      "AudioMappings": [
+        {
+          "Channel": "CPT.INT",
+          "Device": "",
+          "Binary": "Couatl64_MSFS2024",
+          "UseLatch": true,
+          "OnlyActive": true
+        },
+        {
+          "Channel": "CPT.INT",
+          "Device": "",
+          "Binary": "Couatl64_MSFS",
+          "UseLatch": true,
+          "OnlyActive": true
+        },
+        {
+          "Channel": "CPT.CAB",
+          "Device": "",
+          "Binary": "FlightSimulator",
+          "UseLatch": true,
+          "OnlyActive": true
+        },
+        {
+          "Channel": "CPT.CAB",
+          "Device": "",
+          "Binary": "FlightSimulator2024",
+          "UseLatch": true,
+          "OnlyActive": true
+        },
+        {
+          "Channel": "CPT.VHF1",
+          "Device": "",
+          "Binary": "vPilot",
+          "UseLatch": false,
+          "OnlyActive": true
+        },
+        {
+          "Channel": "CPT.VHF1",
+          "Device": "",
+          "Binary": "BeyondATC",
+          "UseLatch": false,
+          "OnlyActive": true
+        }
+      ],
+      "AudioStartupVolumes": {
+        "CPT.VHF1": 1,
+        "CPT.INT": 1,
+        "CPT.CAB": 1
+      },
+      "AudioStartupUnmute": {
+        "CPT.VHF1": true,
+        "CPT.INT": true,
+        "CPT.CAB": true
+      }
+    }
+  }
 }

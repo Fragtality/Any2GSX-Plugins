@@ -14,7 +14,7 @@
 	"Aircraft": "iniBuilds A300-600 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.4.0",
+	"VersionPlugin": "0.4.1",
 	"VersionApp": "0.4.0",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
@@ -61,16 +61,6 @@
 			"Description": "Cargo: Remove at (Deboarding)",
 			"DescUnit": "%",
 			"Tooltip": "The Cargo unloaded Percentage (as reported by GSX) at which the Model is removed."
-		},
-		{
-			"Key": "Generic.Option.Aircraft.RefuelStair",
-			"Type": 1,
-			"DefaultValue": false
-		},
-		{
-			"Key": "Generic.Option.Aircraft.FuelDialog",
-			"Type": 1,
-			"DefaultValue": false
 		},
 		{
 			"Key": "Generic.Var.Engine1.Name",
@@ -154,13 +144,28 @@
 		}
 	],
 	"HideGenericSettings": [
+		"Generic.Option.Aircraft.GsxGpu",
 		"Generic.Option.Aircraft.IsCargo",
+		"Generic.Var.Engine1.Name",
+		"Generic.Var.Engine1.Unit",
+		"Generic.Var.Engine2.Name",
+		"Generic.Var.Engine2.Unit",
 		"Generic.Var.PowerAvionic.Name",
 		"Generic.Var.PowerAvionic.Unit",
 		"Generic.Var.ExtAvail.Name",
 		"Generic.Var.ExtAvail.Unit",
 		"Generic.Var.ExtConn.Name",
 		"Generic.Var.ExtConn.Unit",
+		"Generic.Var.ApuRunning.Name",
+		"Generic.Var.ApuRunning.Unit",
+		"Generic.Var.ApuBleedOn.Name",
+		"Generic.Var.ApuBleedOn.Unit",
+		"Generic.Var.LightBeacon.Name",
+		"Generic.Var.LightBeacon.Unit",
+		"Generic.Var.LightNav.Name",
+		"Generic.Var.LightNav.Unit",
+		"Generic.Var.ParkBrake.Name",
+		"Generic.Var.ParkBrake.Unit",
 		"Generic.Var.DepartTrigger.Name",
 		"Generic.Var.DepartTrigger.Unit",
 		"Generic.Var.DepartTrigger.Comp",

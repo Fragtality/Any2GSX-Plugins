@@ -8,7 +8,7 @@
 	"Aircraft": "iniBuilds A350 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.4.0",
+	"VersionPlugin": "0.4.1",
 	"VersionApp": "0.4.0",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
@@ -37,12 +37,7 @@
 			"DefaultValue": true,
 			"Description": "Override native Payload Sync",
 			"Tooltip": "The Plugin will override the GSX State Variables for Boarding/Deboarding to disable the native Payload-Sync (and instead use the Plugin to sync the Payload with GSX)."
-		},
-		{
-			"Key": "Generic.Option.Aircraft.FuelDialog",
-			"Type": 1,
-			"DefaultValue": false
-		},				
+		},			
 		{
 			"Key": "Generic.Var.PowerAvionic.Name",
 			"Type": 4,
@@ -115,7 +110,11 @@
 		}
 	],
 	"HideGenericSettings": [
-		"Generic.Option.Aircraft.IsCargo",
+		"Generic.Option.Aircraft.GsxGpu",
+		"Generic.Var.Engine1.Name",
+		"Generic.Var.Engine1.Unit",
+		"Generic.Var.Engine2.Name",
+		"Generic.Var.Engine2.Unit",
 		"Generic.Var.PowerAvionic.Name",
 		"Generic.Var.PowerAvionic.Unit",
 		"Generic.Var.ExtAvail.Name",
@@ -126,6 +125,12 @@
 		"Generic.Var.ApuRunning.Unit",
 		"Generic.Var.ApuBleedOn.Name",
 		"Generic.Var.ApuBleedOn.Unit",
+		"Generic.Var.LightBeacon.Name",
+		"Generic.Var.LightBeacon.Unit",
+		"Generic.Var.LightNav.Name",
+		"Generic.Var.LightNav.Unit",
+		"Generic.Var.ParkBrake.Name",
+		"Generic.Var.ParkBrake.Unit",
 		"Generic.Var.DepartTrigger.Name",
 		"Generic.Var.DepartTrigger.Unit",
 		"Generic.Var.DepartTrigger.Comp",
