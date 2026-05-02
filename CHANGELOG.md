@@ -1,5 +1,7 @@
 # Changelog
 
+## [08f391e] - 2026-05-02
+
 ### PMDG.B777
 - Workaround for PMDG Chocks not applied in Walkaround
 - Open Doors for Stairs on Preparation Phase (i.e. Stairs where connected in Walkaround)
@@ -39,6 +41,7 @@
 - Fixed UseFuelDialog being reset when Profile is loaded again
 - Hide preconfigured Generic Plugin Variables
 
+<br/><br/>
 
 ## [2b2a6d3] - 2026-04-30
 
