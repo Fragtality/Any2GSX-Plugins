@@ -1,5 +1,8 @@
 # Changelog
 
+### ALL
+- Preset/Override new Prog Refuel Plugin Option 
+
 ## [08f391e] - 2026-05-02
 
 ### PMDG.B777

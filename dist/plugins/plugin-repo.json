@@ -15,8 +15,8 @@
     "Aircraft": "iniBuilds A300-600 (All Variants)",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.1",
-    "VersionApp": "0.4.0",
+    "VersionPlugin": "0.4.3",
+    "VersionApp": "0.4.3",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
@@ -142,6 +142,11 @@
         "Key": "Generic.Var.ParkBrake.Unit",
         "Type": 4,
         "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Option.Aircraft.GsxProgFuel",
+        "Type": 1,
+        "DefaultValue": false
       }
     ],
     "HideGenericSettings": [
@@ -170,7 +175,8 @@
       "Generic.Var.DepartTrigger.Name",
       "Generic.Var.DepartTrigger.Unit",
       "Generic.Var.DepartTrigger.Comp",
-      "Generic.Var.DepartTrigger.Value"
+      "Generic.Var.DepartTrigger.Value",
+      "Generic.Option.Aircraft.GsxProgFuel"
     ],
     "InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Default Fuel System' checked! (if not using the included GSX Aircraft Profiles)\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing the Flightplan into the MCDU via ACARS\r\n• The SmartButton is mapped to the Voice Ident Switch on the ACP (Captain and FO) - move to Ident Position to trigger a Request",
     "PluginDefaultProfile": {
@@ -225,8 +231,8 @@
     "Aircraft": "Microsoft/iniBuilds A330 (All Variants)",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.1",
-    "VersionApp": "0.4.0",
+    "VersionPlugin": "0.4.3",
+    "VersionApp": "0.4.3",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
@@ -335,6 +341,11 @@
         "Key": "Generic.Var.ParkBrake.Unit",
         "Type": 4,
         "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Option.Aircraft.GsxProgFuel",
+        "Type": 1,
+        "DefaultValue": false
       }
     ],
     "HideGenericSettings": [
@@ -363,7 +374,8 @@
       "Generic.Var.DepartTrigger.Name",
       "Generic.Var.DepartTrigger.Unit",
       "Generic.Var.DepartTrigger.Comp",
-      "Generic.Var.DepartTrigger.Value"
+      "Generic.Var.DepartTrigger.Value",
+      "Generic.Option.Aircraft.GsxProgFuel"
     ],
     "InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Default Fuel System' checked! Use of the internal GSX Profile adviced.\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing (Init Request) the Flightplan into the MCDU\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
     "PluginDefaultProfile": {
@@ -421,8 +433,8 @@
     "Aircraft": "iniBuilds A350 (All Variants)",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.1",
-    "VersionApp": "0.4.0",
+    "VersionPlugin": "0.4.3",
+    "VersionApp": "0.4.3",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
@@ -520,6 +532,11 @@
         "Key": "Generic.Var.ParkBrake.Unit",
         "Type": 4,
         "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Option.Aircraft.GsxProgFuel",
+        "Type": 1,
+        "DefaultValue": false
       }
     ],
     "HideGenericSettings": [
@@ -547,7 +564,8 @@
       "Generic.Var.DepartTrigger.Name",
       "Generic.Var.DepartTrigger.Unit",
       "Generic.Var.DepartTrigger.Comp",
-      "Generic.Var.DepartTrigger.Value"
+      "Generic.Var.DepartTrigger.Value",
+      "Generic.Option.Aircraft.GsxProgFuel"
     ],
     "InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Default Fuel System' checked!\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing (FPLAN REQUEST) the Flightplan into the MCDU\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
     "PluginDefaultProfile": {
@@ -600,8 +618,8 @@
     "Aircraft": "PMDG B777 (All Variants)",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.2",
-    "VersionApp": "0.4.2",
+    "VersionPlugin": "0.4.3",
+    "VersionApp": "0.4.3",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
@@ -687,6 +705,11 @@
         "Key": "Generic.Option.Aircraft.InitDelay",
         "Type": 2,
         "DefaultValue": 2000
+      },
+      {
+        "Key": "Generic.Option.Aircraft.GsxProgFuel",
+        "Type": 1,
+        "DefaultValue": false
       }
     ],
     "HideGenericSettings": [
@@ -712,7 +735,8 @@
       "Generic.Var.DepartTrigger.Unit",
       "Generic.Var.DepartTrigger.Comp",
       "Generic.Var.DepartTrigger.Value",
-      "Generic.Option.Aircraft.InitDelay"
+      "Generic.Option.Aircraft.InitDelay",
+      "Generic.Option.Aircraft.GsxProgFuel"
     ],
     "InstallUsageNotes": "IMPORTANT: DataBroadcast needs to be enabled in the 777_Options.ini File (for each Variant and Simulator)!\r\nConsult the PMDG_777_MSFS_SDK Manual in the Aircraft's Documentation\\SDK Folder.\r\n\r\nRECOMMENDED: Use the internal/GSX provided Aircraft Profiles.\r\nYou eventually need to delete the gsx.cfg File in the SimObjects\\Airplanes\\PMDG 777... Folder.\r\n\r\nNOTAMs:\r\n• The Departure Services will start when the Flightplan is imported in the UFT\r\n• The SmartButton is mapped to the MIC/INT Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
     "PluginDefaultProfile": {
@@ -742,8 +766,8 @@
     "Aircraft": "iniBuilds A340 (All Variants)",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.2",
-    "VersionApp": "0.4.0",
+    "VersionPlugin": "0.4.3",
+    "VersionApp": "0.4.3",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
@@ -856,6 +880,11 @@
         "Key": "Generic.Var.ParkBrake.Unit",
         "Type": 4,
         "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Option.Aircraft.GsxProgFuel",
+        "Type": 1,
+        "DefaultValue": false
       }
     ],
     "HideGenericSettings": [
@@ -884,7 +913,8 @@
       "Generic.Var.DepartTrigger.Name",
       "Generic.Var.DepartTrigger.Unit",
       "Generic.Var.DepartTrigger.Comp",
-      "Generic.Var.DepartTrigger.Value"
+      "Generic.Var.DepartTrigger.Value",
+      "Generic.Option.Aircraft.GsxProgFuel"
     ],
     "InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used is configured in the following Way (if the bundled Profiles are not installed):\r\n• The Option 'Default Fuel System' is NOT checked!\r\n• The Preferred Exit is set to (L)2\r\n• Lavatory Position corrected\r\n\r\nNOTAMS:\r\n• Disable all GSX Options in the EFB and do NOT use 'load via GSX' in the EFB!\r\n• The Departure Services are started by importing (Init Request) the Flightplan into the MCDU (with the Nav Lights being on)\r\n• Simbrief Payload NEEDS to be imported in the EFB (Payload & Fueling -> Import all from Simbrief)\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request\r\n• Engine/Pitot Covers will automatically be removed on Session Start (configurable)\r\n• KNOWN ISSUE: GSX sometimes disconnects the Hose although Refuel is still running - the Refuel Process will continue (unless configured otherwise in the App)",
     "PluginDefaultProfile": {
@@ -941,8 +971,8 @@
     "Aircraft": "Fenix A320 Family",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.2",
-    "VersionApp": "0.4.2",
+    "VersionPlugin": "0.4.3",
+    "VersionApp": "0.4.3",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
@@ -1150,6 +1180,11 @@
         "Key": "Generic.Option.Aircraft.InitDelay",
         "Type": 2,
         "DefaultValue": 2000
+      },
+      {
+        "Key": "Generic.Option.Aircraft.GsxProgFuel",
+        "Type": 1,
+        "DefaultValue": false
       }
     ],
     "HideGenericSettings": [
@@ -1178,7 +1213,8 @@
       "Generic.Var.DepartTrigger.Unit",
       "Generic.Var.DepartTrigger.Comp",
       "Generic.Var.DepartTrigger.Value",
-      "Generic.Option.Aircraft.InitDelay"
+      "Generic.Option.Aircraft.InitDelay",
+      "Generic.Option.Aircraft.GsxProgFuel"
     ],
     "InstallUsageNotes": "RECOMMENDED: Use the Developer-provided Profile included with the Fenix A320.\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing the Flightplan in the EFB\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request\r\n• DO NOT use the 'Load Aircraft' in the EFB\r\n• Planned Weights in the EFB can be changed before the respective Service starts",
     "PluginDefaultProfile": {
