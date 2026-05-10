@@ -54,11 +54,12 @@ It is recommended to disable the App Options to round up Fuel and randomize Pax 
 | Fenix A320 | Fragtality | CPT and FO ACP from VHF1 to PA |
 | FlyByWire A32NX | Fragtality | CPT and FO ACP with VHF, VOR and MKR |
 | FlyByWire A380X | Fragtality | CPT and FO ACP from VHF1 over TEL to PA |
-| iFly 737 | FatGingerHead | CPT and FO ACP from VHF1 to PA |
+| iFly B737 | FatGingerHead | CPT and FO ACP from VHF1 to PA |
 | iniBuilds A300-600 | Fragtality | CPT and FO ACP from VHF1 to PA |
 | iniBuilds A330 | Fragtality | CPT and FO ACP from VHF1 to PA |
 | iniBuilds A340 | Fragtality | CPT and FO ACP from VHF1 to PA |
 | iniBuilds A350 | Fragtality | CPT and FO ACP from VHF1 over TEL to CAB |
+| PMDG B737 | FatGingerHead | CPT and FO ACP from VHF1 to PA (excl. INOPs) |
 
 <br/><br/>
 
@@ -67,10 +68,10 @@ It is recommended to disable the App Options to round up Fuel and randomize Pax 
 | Aircraft | Author | Description |
 | :-------------- | :---------: | :----------- |
 | Fenix A320 Native | Fragtality | Profile to enhance Fenix native Integration (so use the EFB to load via GSX!) and Volume Control (not using the FNX.A320 Plugin) |
-| Fenix A320 PilotsDeck | Fragtality | Profile only enabling PilotsDeck Integration on the Fenix |
 | FlyByWire A32NX | Fragtality | Profile enabling GSX Automation & Volume Control for the A320. Fuel, Payload and Equipment is perfectly handled by the Aircraft itself! (All other Aircraft Developers: Do *THAT* first, then build the Automation on Top) |
 | FlyByWire A380X | Fragtality | Profile enabling GSX Automation & Volume Control for the A380. Fuel, Payload and Equipment is perfectly handled by the Aircraft itself! (All other Aircraft Developers: Do *THAT* first, then build the Automation on Top) |
-| iFly 737 | FatGingerHead | Profile for Automation and Volume-Control for the iFLY B737. It has 0 Integration, Fuel and Payload need to be set manually and separately (!!) when the GSX Services run. |
+| iFly B737 | FatGingerHead | Profile for Automation and Volume-Control for the iFLY B737. It has 0 Integration, Fuel and Payload need to be set manually and separately (!!) when the GSX Services run. |
+| PMDG B737 | FatGingerHead | Profile for Automation and Volume-Control for the PMDG B737. |
 
 <br/><br/>
 
@@ -78,7 +79,7 @@ It is recommended to disable the App Options to round up Fuel and randomize Pax 
 
 ### PMDG B737
 
-Don't have any Hope about that. To develop a Plugin for that Aircraft I would need Access to it. And PMDG **consistently refuses to answer any Questions / Requests** for a free (time-limited) Copy - you don't even get an Answer at all. After 1 Forum-PM and two Support Tickets that is (it's not that I didn't try)!<br/>
+Don't have any Hope about that. To develop a Plugin for that Aircraft I would need Access to it. And PMDG **consistently refuses to answer any Questions / Requests** for a free (time-limited) Copy - you don't even get an Answer at all. After 1 Forum-PM and two Support Tickets (it's not that I didn't try)!<br/>
 And I on the other Side refuse to take a 737 as Donation - it just isn't right that existing Customers need to buy the Aircraft again from their own Money to support a Freeware Developer doing something for the Community.
 
 <br/><br/>

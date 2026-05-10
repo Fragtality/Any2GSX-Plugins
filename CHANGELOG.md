@@ -1,5 +1,8 @@
 # Changelog
 
+### PMDG.B737
+- Added PMDG 737 Profile for Automation & Volume-Control (Contributed by FatGingerHead)
+
 ## [55b5d09] - 2026-05-07
 
 ### ALL
