@@ -1,7 +1,11 @@
 # Changelog
 
+## [a9a4be2] - 2026-05-10
+
 ### PMDG.B737
 - Added PMDG 737 Profile for Automation & Volume-Control (Contributed by FatGingerHead)
+
+<br/><br/>
 
 ## [55b5d09] - 2026-05-07
 
