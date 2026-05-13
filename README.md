@@ -59,7 +59,7 @@ It is recommended to disable the App Options to round up Fuel and randomize Pax 
 | iniBuilds A330 | Fragtality | CPT and FO ACP from VHF1 to PA |
 | iniBuilds A340 | Fragtality | CPT and FO ACP from VHF1 to PA |
 | iniBuilds A350 | Fragtality | CPT and FO ACP from VHF1 over TEL to CAB |
-| PMDG B737 | FatGingerHead | CPT and FO ACP from VHF1 to PA (excl. INOPs) |
+| PMDG B737 | FatGingerHead | CPT and FO ACP from VHF1 to PA (incl. INOPs like HF1, HF2) |
 
 <br/><br/>
 
