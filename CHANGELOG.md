@@ -1,5 +1,7 @@
 # Changelog
 
+## [38af399] - 2026-05-15
+
 ### FNX.A320
 - Fixed Payload-Sync on Deboard (maybe finally? :sob:)
 - Added Option to enabled/disable Suppression of Deboard Dialog (and Arrival ACARS)
@@ -8,6 +10,8 @@
 
 ### PMDG.B777
 - Updated PluginInterface
+
+<br/><br/>
 
 <br/><br/>
 
