@@ -1,5 +1,16 @@
 # Changelog
 
+### FNX.A320
+- Fixed Payload-Sync on Deboard (maybe finally? :sob:)
+- Added Option to enabled/disable Suppression of Deboard Dialog (and Arrival ACARS)
+- Fixed Deserialization of EFB Timestamp
+- Updated PluginInterface
+
+### PMDG.B777
+- Updated PluginInterface
+
+<br/><br/>
+
 ## [a9a4be2] - 2026-05-10
 
 ### PMDG.B737

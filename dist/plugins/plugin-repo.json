@@ -618,8 +618,8 @@
     "Aircraft": "PMDG B777 (All Variants)",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.3",
-    "VersionApp": "0.4.3",
+    "VersionPlugin": "0.4.4",
+    "VersionApp": "0.4.5",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
@@ -971,8 +971,8 @@
     "Aircraft": "Fenix A320 Family",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.3",
-    "VersionApp": "0.4.3",
+    "VersionPlugin": "0.4.4",
+    "VersionApp": "0.4.5",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
@@ -993,6 +993,13 @@
         "DefaultValue": false,
         "Description": "Use Refuel Panel",
         "Tooltip": "Use the simulated Panel to refuel the Plane.\nThe Rate is set by the EFB, the Rate Settings in the App are ignored by this Mode.\nNOTE: Does not support Defuel! Disable this Option to let the Plugin sync the Fuel."
+      },
+      {
+        "Key": "FNX.A320.Option.SuppressDeboardDialog",
+        "Type": 1,
+        "DefaultValue": false,
+        "Description": "Suppress Deboard Dialog",
+        "Tooltip": "The Plugin will suppress the Deboard Dialog in the EFB by setting the Flight Phase to 'Completed' when both Engines are shut down.\nBUT: that also suppresses the Arrival ACARS Message. If the Option is disabled, do NOT answer the Dialog! (Or Answer it with 'Dismiss' if it should stay during Deboarding)"
       },
       {
         "Key": "FNX.A320.Option.InterceptGpuAndChocksOnBeacon",
