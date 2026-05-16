@@ -102,7 +102,7 @@ namespace Pmdg777Interface
                 variant = "300";
 
                 if (mapping != 1 && mapping != 3)
-                    DoorMapping[GsxDoor.ServiceDoor1] = PmdgDoorIndex.Pax1R;
+                    DoorMapping[GsxDoor.ServiceDoor1] = PmdgDoorIndex.Pax2R;
                 else
                     DoorMapping[GsxDoor.ServiceDoor1] = (PmdgDoorIndex)mapping;
                 Doors[PmdgDoorIndex.CargoMain].IsAvailable = false;

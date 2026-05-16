@@ -618,8 +618,8 @@
     "Aircraft": "PMDG B777 (All Variants)",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.4",
-    "VersionApp": "0.4.5",
+    "VersionPlugin": "0.4.5",
+    "VersionApp": "0.4.6",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
@@ -738,7 +738,7 @@
       "Generic.Option.Aircraft.InitDelay",
       "Generic.Option.Aircraft.GsxProgFuel"
     ],
-    "InstallUsageNotes": "IMPORTANT: DataBroadcast needs to be enabled in the 777_Options.ini File (for each Variant and Simulator)!\r\nConsult the PMDG_777_MSFS_SDK Manual in the Aircraft's Documentation\\SDK Folder.\r\n\r\nRECOMMENDED: Use the internal/GSX provided Aircraft Profiles.\r\nYou eventually need to delete the gsx.cfg File in the SimObjects\\Airplanes\\PMDG 777... Folder.\r\n\r\nNOTAMs:\r\n• The Departure Services will start when the Flightplan is imported in the UFT\r\n• The SmartButton is mapped to the MIC/INT Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
+    "InstallUsageNotes": "IMPORTANT: DataBroadcast needs to be enabled in the 777_Options.ini File (for each Variant and Simulator)!\r\nConsult the PMDG_777_MSFS_SDK Manual in the Aircraft's Documentation\\SDK Folder.\r\n\r\nRECOMMENDED: Use the internal/GSX provided Aircraft Profiles.\r\nCHECK if the preferred Door is set correctly (=the Door the Jetway connects), if not set the Door in the 3D-Editor to preferred!\r\nYou eventually need to delete the gsx.cfg File in the SimObjects\\Airplanes\\PMDG 777... Folder.\r\n\r\nNOTAMs:\r\n• The Departure Services will start when the Flightplan is imported in the UFT\r\n• The SmartButton is mapped to the MIC/INT Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
     "PluginDefaultProfile": {
       "PluginId": "PMDG.B777",
       "ProfileMatches": [
@@ -971,8 +971,8 @@
     "Aircraft": "Fenix A320 Family",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.4",
-    "VersionApp": "0.4.5",
+    "VersionPlugin": "0.4.5",
+    "VersionApp": "0.4.6",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
@@ -1045,13 +1045,6 @@
         "Description": "Air Call Reset Delay",
         "DescUnit": "ms",
         "Tooltip": "The Delay before the ACP Panel is reset, after the Air Call was accepted."
-      },
-      {
-        "Key": "FNX.A320.Option.DoorStairIncludeL2",
-        "Type": 1,
-        "DefaultValue": false,
-        "Description": "Operate L2 Door for Stairs",
-        "Tooltip": "Open/Close the L2 Door when GSX Stairs are attached/removed."
       },
       {
         "Key": "FNX.A320.Option.ChancePerSeat",

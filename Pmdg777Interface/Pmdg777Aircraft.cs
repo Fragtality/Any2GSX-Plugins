@@ -1,6 +1,7 @@
 ﻿using Any2GSX.PluginInterface;
 using Any2GSX.PluginInterface.Interfaces;
 using CFIT.AppLogger;
+using CFIT.SimConnectLib.SimEvents;
 using CFIT.SimConnectLib.SimResources;
 using System;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace Pmdg777Interface
         public virtual Pmdg777DoorManager DoorManager { get; }
         public virtual PMDG_777X_Data PMDG_777X_Data => Module?.PMDG_777X_Data ?? new();
         public virtual ISimResourceSubscription SubRotorBrake { get; protected set; }
+        public virtual ISimResourceSubscription SubBatteryAltn { get; protected set; }
         public virtual AutomationState AutomationState => GsxController.IAutomationController.State;
         public virtual bool DoorArmTarget { get; protected set; } = true;
         protected virtual bool MicIntSwitchTriggered { get; set; } = false;
@@ -30,10 +32,10 @@ namespace Pmdg777Interface
         public virtual bool IsWeightInKg => PMDG_777X_Data.WeightInKg != 0;
         public virtual bool IsCargo => AircraftString?.Contains("PMDG 777F", StringComparison.InvariantCultureIgnoreCase) ?? false;
         public virtual bool AvionicsPowered => SimStore[PmdgConstants.VarAircraftPowered]?.GetNumber() > 0;
-        public virtual bool PowerAvailable => PMDG_777X_Data.ELEC_annunExtPowr_AVAIL[0] > 0 || PMDG_777X_Data.ELEC_annunExtPowr_AVAIL[1] > 0;
-        public new bool PowerConnected => PMDG_777X_Data.ELEC_annunExtPowr_ON[0] > 0 || PMDG_777X_Data.ELEC_annunExtPowr_ON[1] > 0;
-        public virtual bool BrakesSet => PMDG_777X_Data.BRAKES_ParkingBrakeLeverOn > 0;
-        public virtual bool EquipChocks => PMDG_777X_Data.WheelChocksSet > 0;
+        public virtual bool PowerAvailable => PMDG_777X_Data!.ELEC_annunExtPowr_AVAIL?[0] > 0 || PMDG_777X_Data!.ELEC_annunExtPowr_AVAIL?[1] > 0;
+        public new bool PowerConnected => PMDG_777X_Data!.ELEC_annunExtPowr_ON?[0] > 0 || PMDG_777X_Data!.ELEC_annunExtPowr_ON?[1] > 0;
+        public virtual bool BrakesSet => PMDG_777X_Data!.BRAKES_ParkingBrakeLeverOn > 0;
+        public virtual bool EquipChocks => PMDG_777X_Data!.WheelChocksSet > 0;
         public virtual bool EquipPca => SimStore[PmdgConstants.VarEquipAirCond]?.GetNumber() > 0;
         public new bool ApuRunning => PMDG_777X_Data.APURunning > 0;
         public new bool ApuBleedOn => PMDG_777X_Data.AIR_annunAPUBleedAirOFF == 0 && PMDG_777X_Data.AIR_APUBleedAir_Sw_AUTO > 0;
@@ -71,6 +73,7 @@ namespace Pmdg777Interface
             SimStore.AddVariable(PmdgConstants.VarAircraftPowered);
 
             SubRotorBrake = SimStore.AddEvent("ROTOR_BRAKE");
+            SubBatteryAltn = SimStore.AddEvent("TOGGLE_MASTER_BATTERY_ALTERNATOR");
             SimStore.AddEvent(PmdgConstants.EvtToggleLightTest); //Light Test
 
             foreach (var door in DoorManager.Doors)
@@ -99,6 +102,7 @@ namespace Pmdg777Interface
             SimStore.Remove(PmdgConstants.VarAircraftPowered);
 
             SubRotorBrake?.Unsubscribe();
+            SubBatteryAltn?.Unsubscribe();
 
             foreach (var door in DoorManager.Doors)
                 SimStore.Remove(GetEventName(door.Value.EventCode));
@@ -120,6 +124,12 @@ namespace Pmdg777Interface
             if (FirstRun)
             {
                 DoorManager.InitDoors();
+                Logger.Debug($"Fix Cabin Lights");
+                try
+                {
+                    (SubBatteryAltn as SimEventSubscription)?.WriteValues([0]);
+                }
+                catch { }
                 FirstRun = false;
             }
 

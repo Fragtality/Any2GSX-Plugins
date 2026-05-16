@@ -1,5 +1,13 @@
 # Changelog
 
+### PMDG.B777
+- Added Battery-Alternator Workaround for Cabin Lights
+- Fixed wrong default Mapping for Front Catering Truck on the 300
+
+### FNX.A320
+- Removed Option for L2 Door on Stairs - now detected automatically through Stair Vehicle State
+
+
 ## [38af399] - 2026-05-15
 
 ### FNX.A320
@@ -10,8 +18,6 @@
 
 ### PMDG.B777
 - Updated PluginInterface
-
-<br/><br/>
 
 <br/><br/>
 
