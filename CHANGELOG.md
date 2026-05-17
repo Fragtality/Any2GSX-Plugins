@@ -1,5 +1,12 @@
 # Changelog
 
+### PMDG.B777
+- Updated Plugin Interface
+
+### FNX.A320
+- Updated Plugin Interface
+
+
 ## [341feed] - 2026-05-16
 
 ### PMDG.B777
