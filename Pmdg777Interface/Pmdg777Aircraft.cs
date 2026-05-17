@@ -384,6 +384,11 @@ namespace Pmdg777Interface
                 return Task.CompletedTask;
         }
 
+        public override Task OnStairVehicleChange(GsxVehicleStair stair, GsxVehicleStairState state, bool paxDoorAllowed)
+        {
+            return DoorManager.OnStairVehicleChange(stair, state, paxDoorAllowed);
+        }
+
         protected virtual Task OnBoardState(IGsxService boardService)
         {
             return DoorManager.OnBoardState(boardService);

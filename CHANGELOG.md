@@ -1,5 +1,11 @@
 # Changelog
 
+### PMDG.B777
+- Automatically detecting available Stairs for Door Control
+  - Mapping continues to be fixed: L1 => Front, L2 => Middle, L4 (200) / L5 (300) => Rear
+- Added GSX Aircraft Profile for 200 Variants, fixing wrong preferred Exit in internal Profile
+
+
 ## [83e59d3] - 2026-05-17
 
 ### PMDG.B777

@@ -618,7 +618,7 @@
     "Aircraft": "PMDG B777 (All Variants)",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.6",
+    "VersionPlugin": "0.4.7",
     "VersionApp": "0.4.7",
     "Capabilities": {
       "HasFobSaveRestore": true,
@@ -633,6 +633,9 @@
       "VolumeControl": false,
       "CockpitNotifications": 0
     },
+    "AircraftProfileEntries": [
+      "pmdg 777-200er"
+    ],
     "Settings": [
       {
         "Key": "PMDG.777.Option.ClearVehicles",
