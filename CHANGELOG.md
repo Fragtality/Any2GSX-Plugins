@@ -1,11 +1,14 @@
 # Changelog
 
+## [335fe12] - 2026-05-23
+
 ### PMDG.B777
 - Updated Plugin Interface
 
 ### FNX.A320
 - Updated Plugin Interface
 
+<br/><br/>
 
 ## [e55ba15] - 2026-05-17
 
