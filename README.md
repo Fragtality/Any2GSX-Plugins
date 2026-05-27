@@ -33,6 +33,17 @@ Generally other Addons that read/use GSX' Total (Target) Passenger Number (`FSDT
 
 <br/>
 
+#### FNX.A320
+
+If the Automation doesn't start (i.e. Aircraft Interface doesn't connect) try if it works with the default Fenix Livery (or some other Fenix Livery installed through their Installer). Some Liveries (especially Stuff from HUES) likes to break Stuff in strange Ways!<br/>
+There is a possible Fix for such "breaking" Liveries, shared by BlackMamba in Discord:
+> Go into the livery's folder and then into `SimObjects\Airplanes\FNX_32X\liveries\fnx\[registration]` <br/>
+And then open the livery.cfg file. <br/>
+Under the very first line named "SELECTION", make sure the `required_tags` part has all the correct tags - for example `required_tags = "A320,CFM,WF"` or `required_tags = "A320,IAE,SL"`. Save it and if you're having the same issue I had maybe that'll fix it.  <br/>
+Mine was just "A320,CFM" so I added the ',WF' at the end and now it works.
+
+<br/>
+
 #### INI.A306
 
 The iniBuilds EFB won't Update the MACZFW when Fuel/Payload is synced through the Plugin. There is no Workaround available and no Solution in sight.
