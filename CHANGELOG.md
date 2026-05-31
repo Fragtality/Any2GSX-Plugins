@@ -1,5 +1,7 @@
 # Changelog
 
+## [a3c51f5] - 2026-05-31
+
 ### PMDG.B777
 - Updated Plugin Interface
 
@@ -7,6 +9,7 @@
 - Updated Plugin Interface
 - Added Sync of Fuel & Pax Planned from App to EFB
 
+<br/><br/>
 
 ## [335fe12] - 2026-05-23
 
