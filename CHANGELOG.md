@@ -1,5 +1,9 @@
 # Changelog
 
+### FNX.A320
+- Fixed Pax Diff Sync via API
+
+
 ## [a3c51f5] - 2026-05-31
 
 ### PMDG.B777
