@@ -1,8 +1,11 @@
 # Changelog
 
+## [65df5f4] - 2026-06-08
+
 ### FNX.A320
 - Fixed Pax Diff Sync via API
 
+<br/><br/>
 
 ## [a3c51f5] - 2026-05-31
 
