@@ -28,6 +28,7 @@ Use the Plugin View ('Available from GitHub') of the Any2GSX App to install Plug
 
 #### PMDG.B777
 
+The Plugin might use the Test Light Switch to trigger Updates of PMDG's Cliend Data Area (aka SDK). If that doesn't stop (and the Interface isn't connecting) the DataBroadcast isn't working <br/>
 In some Cases the DataBroadcast wasn't enabled although configured in the 777_Options.ini File (e.g. after an Update for the Aircraft). Try to remove it, load the Sim/Aircraft and and then reenable it in the ini File (after closing the Sim).<br/>
 Generally other Addons that read/use GSX' Total (Target) Passenger Number (`FSDT_GSX_NUMPASSENGERS`) may show weird Behavior or Numbers - PMDG is still writing to this GSX Variable in a non-standard Way. No Workaround - it has to be solved by PMDG being consistent about removing their GSX Integration.
 
@@ -35,7 +36,10 @@ Generally other Addons that read/use GSX' Total (Target) Passenger Number (`FSDT
 
 #### FNX.A320
 
-If the Automation doesn't start (i.e. Aircraft Interface doesn't connect) try if it works with the default Fenix Livery (or some other Fenix Livery installed through their Installer). Some Liveries (especially Stuff from HUES) likes to break Stuff in strange Ways!<br/>
+Ensure the Aircraft is powered to start Automation by importing the OFP (according to SOPs - so don't forget the Nav Lights).<br/>
+Check that the OFP was imported fully in Fenix EFB, i.e. Departure/Flight Times are shown there. If that isn't the Case the Automation won't start.<br/><br/>
+
+If the Automation still doesn't start (i.e. Aircraft Interface doesn't connect) try if it works with the default Fenix Livery (or some other Fenix Livery installed through their Installer). Some Liveries (especially Stuff from HUES) likes to break Stuff in strange Ways!<br/>
 There is a possible Fix for such "breaking" Liveries, shared by BlackMamba in Discord:
 > Go into the livery's folder and then into `SimObjects\Airplanes\FNX_32X\liveries\fnx\[registration]` <br/>
 And then open the livery.cfg file. <br/>
