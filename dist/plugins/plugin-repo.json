@@ -618,8 +618,8 @@
     "Aircraft": "PMDG B777 (All Variants)",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.9",
-    "VersionApp": "0.4.9",
+    "VersionPlugin": "0.4.10",
+    "VersionApp": "0.4.10",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
@@ -974,8 +974,8 @@
     "Aircraft": "Fenix A320 Family",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.9",
-    "VersionApp": "0.4.9",
+    "VersionPlugin": "0.4.10",
+    "VersionApp": "0.4.10",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
