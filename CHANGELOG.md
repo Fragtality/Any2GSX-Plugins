@@ -1,11 +1,14 @@
 # Changelog
 
+## [f72e989] - 2026-06-11
+
 ### PMDG.B777
 - Updated NuGet Packages / Plugin Interface
 
 ### FNX.A320
 - Updated NuGet Packages / Plugin Interface
 
+<br/><br/>
 
 ## [65df5f4] - 2026-06-08
 
