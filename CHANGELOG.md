@@ -1,7 +1,11 @@
 # Changelog
 
+## [fffd959] - 2026-07-12
+
 ### PMDG.B737
 - Profile Updated (GRD CALL for Departure Trigger, R/T I/C for SmartButton)
+
+<br/><br/>
 
 ## [f72e989] - 2026-06-11
 
