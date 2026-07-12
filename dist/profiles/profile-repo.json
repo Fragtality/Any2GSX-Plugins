@@ -32,11 +32,11 @@
     "VersionProfile": "0.1.0"
   },
   "PMDG.737-Profile.json": {
-    "Author": "FatGingerHead",
-    "Description": "Profile for Automation and Volume-Control for the PMDG B737.\\r\\nIMPORTANT: Usage of GSX' internal Aircraft Profile is adviced.\\r\\nNOTE: The SmartButton is mapped to the 'GRD CALL' Button in the Overhead.",
+    "VersionApp": "0.4.10",
     "Name": "PMDG 737",
-    "VersionProfile": "0.1.0",
-    "VersionApp": "0.4.3",
-    "Aircraft": "PMDG 737 (All Variants)"
+    "Author": "FatGingerHead",
+    "Aircraft": "PMDG 737 (All Variants)",
+    "Description": "Profile for Automation and Volume-Control for the PMDG B737.\\r\\nIMPORTANT: Usage of GSX' internal Aircraft Profile is adviced.\\r\\nNOTE: Use 'GRD CALL' Button to trigger Departure Services (after the Aircraft is powered and NAV Lights on)!\\r\\nThe SmartButton is now mapped to the R/T I/C switch on the Radio Panel!",
+    "VersionProfile": "0.2.0"
   }
 }

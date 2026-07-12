@@ -25,12 +25,12 @@
 	"NotifyChocksPlaced": true,
 	"NotifyTurnReady": true,
 	"PluginSettings": {
-		"Generic.Var.SmartButton.Name": "L:switch_106_73X",
+		"Generic.Var.SmartButton.Name": "L:switch_752_73X",
 		"Generic.Var.SmartButton.Unit": "number",
 		"Generic.Var.SmartButton.Comp": 5,
 		"Generic.Var.SmartButton.Value": 0,
 		"Generic.Var.SmartButton.Reset": "",
-		"Generic.Var.DepartTrigger.Name": "",
+		"Generic.Var.DepartTrigger.Name": "L:switch_106_73X",
 		"Generic.Var.DepartTrigger.Unit": "number",
 		"Generic.Var.DepartTrigger.Comp": 5,
 		"Generic.Var.DepartTrigger.Value": 0,
@@ -126,9 +126,9 @@
 	"EnableMenuForSelection": true,
 	"DepartureServices": {
 		"0": {
-			"ServiceType": 9,
+			"ServiceType": 13,
 			"ServiceActivation": 2,
-			"ServiceConstraint": 0,
+			"ServiceConstraint": 2,
 			"MinimumFlightDuration": "00:00:00",
 			"MaxTimeBeforeDeparture": "00:00:00",
 			"MaxRunTime": "00:00:00",
@@ -136,28 +136,8 @@
 			"CallOnCargo": false
 		},
 		"1": {
-			"ServiceType": 10,
-			"ServiceActivation": 2,
-			"ServiceConstraint": 2,
-			"MinimumFlightDuration": "00:00:00",
-			"MaxTimeBeforeDeparture": "00:00:00",
-			"MaxRunTime": "00:00:00",
-			"CallDelay": "00:00:00",
-			"CallOnCargo": false
-		},
-		"2": {
-			"ServiceType": 13,
-			"ServiceActivation": 2,
-			"ServiceConstraint": 2,
-			"MinimumFlightDuration": "00:00:00",
-			"MaxTimeBeforeDeparture": "00:00:00",
-			"MaxRunTime": "00:03:00",
-			"CallDelay": "00:00:00",
-			"CallOnCargo": false
-		},
-		"3": {
 			"ServiceType": 2,
-			"ServiceActivation": 5,
+			"ServiceActivation": 2,
 			"ServiceConstraint": 0,
 			"MinimumFlightDuration": "00:00:00",
 			"MaxTimeBeforeDeparture": "00:00:00",
@@ -165,11 +145,31 @@
 			"CallDelay": "00:00:00",
 			"CallOnCargo": true
 		},
-		"4": {
+		"2": {
 			"ServiceType": 3,
 			"ServiceActivation": 2,
-			"ServiceConstraint": 3,
-			"MinimumFlightDuration": "01:30:00",
+			"ServiceConstraint": 0,
+			"MinimumFlightDuration": "00:00:00",
+			"MaxTimeBeforeDeparture": "00:00:00",
+			"MaxRunTime": "00:00:00",
+			"CallDelay": "00:00:00",
+			"CallOnCargo": false
+		},
+		"3": {
+			"ServiceType": 10,
+			"ServiceActivation": 0,
+			"ServiceConstraint": 0,
+			"MinimumFlightDuration": "00:00:00",
+			"MaxTimeBeforeDeparture": "00:00:00",
+			"MaxRunTime": "00:00:00",
+			"CallDelay": "00:00:00",
+			"CallOnCargo": false
+		},
+		"4": {
+			"ServiceType": 9,
+			"ServiceActivation": 0,
+			"ServiceConstraint": 0,
+			"MinimumFlightDuration": "00:00:00",
 			"MaxTimeBeforeDeparture": "00:00:00",
 			"MaxRunTime": "00:00:00",
 			"CallDelay": "00:00:00",
@@ -177,7 +177,7 @@
 		},
 		"5": {
 			"ServiceType": 4,
-			"ServiceActivation": 2,
+			"ServiceActivation": 6,
 			"ServiceConstraint": 0,
 			"MinimumFlightDuration": "00:00:00",
 			"MaxTimeBeforeDeparture": "00:00:00",
