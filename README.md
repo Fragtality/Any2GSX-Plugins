@@ -46,6 +46,9 @@ And then open the livery.cfg file. <br/>
 Under the very first line named "SELECTION", make sure the `required_tags` part has all the correct tags - for example `required_tags = "A320,CFM,WF"` or `required_tags = "A320,IAE,SL"`. Save it and if you're having the same issue I had maybe that'll fix it.  <br/>
 Mine was just "A320,CFM" so I added the ',WF' at the end and now it works.
 
+For some Liveries, the `atc_id` needs to be corrected (shared by Coppo in Discord):
+> ok, so I set an atc_id value ("HA-LTA") and now the livery works with Any2GSX. Another livery from the pack which I did not edit the atc_id still doesn't work, so it is that field that causes it.
+
 <br/>
 
 #### INI.A306
