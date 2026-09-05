@@ -1,7 +1,11 @@
 # Changelog
 
+## [002b0b5] - 2026-09-05
+
 ### SYN.A220
 - Added Plugin for Synaptics/iniBuilds A220 (Contributed by bork)
+
+<br/><br/>
 
 ## [c9e8915] - 2026-08-24
 
