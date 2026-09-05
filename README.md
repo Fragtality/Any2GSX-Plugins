@@ -21,6 +21,7 @@ Use the Plugin View ('Available from GitHub') of the Any2GSX App to install Plug
 | iniBuilds A340 | Fragtality | Complete & progressive Fuel, Payload and Equipment Sync. Door-Sync through GSX. |
 | iniBuilds A350 | Fragtality | Complete & progressive Fuel, Payload and Equipment Sync (overriding iniBuilds' Integration). Door-Sync for L2. |
 | PMDG B777 | Fragtality | Complete & progressive Fuel, Payload, Door and Equipment Sync. Also controls Cargo Bay Lights on the Freigher. |
+| Synaptic A220 | bork | Complete & progressive Fuel, Payload, Door and Equipment Sync. |
 
 <br/><br/>
 

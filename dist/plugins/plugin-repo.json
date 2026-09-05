@@ -1287,5 +1287,181 @@
         "CPT.CAB": true
       }
     }
+  },
+  "SYN.A220.zip": {
+    "Id": "SYN.A22X",
+    "SettingId": "SYN.22X",
+    "Type": 1,
+    "Filename": "SYN.A22X.lua",
+    "ChannelFile": "SYN.A22X.json",
+    "AircraftProfileEntries": [
+      "synaptic_a220"
+    ],
+    "Aircraft": "Synaptic A220",
+    "Author": "bork",
+    "Url": "",
+    "VersionPlugin": "0.1.0",
+    "VersionApp": "0.4.12",
+    "Capabilities": {
+      "HasFobSaveRestore": true,
+      "FuelSync": 8,
+      "CanSetPayload": true,
+      "PayloadSync": 8,
+      "DoorHandling": 12,
+      "DoorsSynced": 1,
+      "DoorsCloseAll": true,
+      "GroundEquipmentHandling": 22,
+      "HasSmartButton": true,
+      "VolumeControl": true,
+      "CockpitNotifications": 0
+    },
+    "Settings": [
+      {
+        "Key": "SYN.22X.Option.Covers.RemoveStartup",
+        "Type": 1,
+        "DefaultValue": true,
+        "Description": "Remove Engine Covers",
+        "Tooltip": "Engine covers will be removed on session start"
+      },
+      {
+        "Key": "Generic.Var.Engine1.Name",
+        "Type": 4,
+        "DefaultValue": "L:A22X Engine 1 Master"
+      },
+      {
+        "Key": "Generic.Var.Engine1.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.Engine2.Name",
+        "Type": 4,
+        "DefaultValue": "L:A22X Engine 2 Master"
+      },
+      {
+        "Key": "Generic.Var.Engine2.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.ExtAvail.Name",
+        "Type": 4,
+        "DefaultValue": "L:INI_GPU_AVAIL"
+      },
+      {
+        "Key": "Generic.Var.ExtAvail.Unit",
+        "Type": 4,
+        "DefaultValue": "Number"
+      },
+      {
+        "Key": "Generic.Var.ExtConn.Name",
+        "Type": 4,
+        "DefaultValue": "L:A22X External Power In Use"
+      },
+      {
+        "Key": "Generic.Var.ExtConn.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.LightNav.Name",
+        "Type": 4,
+        "DefaultValue": "L:A22X Nav Lights"
+      },
+      {
+        "Key": "Generic.Var.LightNav.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.LightBeacon.Name",
+        "Type": 4,
+        "DefaultValue": "L:A22X Beacon Lights"
+      },
+      {
+        "Key": "Generic.Var.LightBeacon.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.ParkBrake.Name",
+        "Type": 4,
+        "DefaultValue": "L:A22X Parking Brake"
+      },
+      {
+        "Key": "Generic.Var.ParkBrake.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Option.Aircraft.IsCargo",
+        "Type": 1,
+        "DefaultValue": false
+      },
+      {
+        "Key": "Generic.Option.Aircraft.RefuelStair",
+        "Type": 1,
+        "DefaultValue": false
+      },
+      {
+        "Key": "Generic.Option.Aircraft.FuelDialog",
+        "Type": 1,
+        "DefaultValue": false
+      },
+      {
+        "Key": "Generic.Option.Aircraft.GsxGpu",
+        "Type": 5,
+        "DefaultValue": 0
+      },
+      {
+        "Key": "Generic.Option.Aircraft.GsxProgFuel",
+        "Type": 1,
+        "DefaultValue": false
+      }
+    ],
+    "HideGenericSettings": [
+      "Generic.Var.Engine1.Name",
+      "Generic.Var.Engine1.Unit",
+      "Generic.Var.Engine2.Name",
+      "Generic.Var.Engine2.Unit",
+      "Generic.Var.PowerAvionic.Name",
+      "Generic.Var.PowerAvionic.Unit",
+      "Generic.Var.ExtAvail.Name",
+      "Generic.Var.ExtAvail.Unit",
+      "Generic.Var.ExtConn.Name",
+      "Generic.Var.ExtConn.Unit",
+      "Generic.Var.ApuRunning.Name",
+      "Generic.Var.ApuRunning.Unit",
+      "Generic.Var.ApuBleedOn.Name",
+      "Generic.Var.ApuBleedOn.Unit",
+      "Generic.Var.LightNav.Name",
+      "Generic.Var.LightNav.Unit",
+      "Generic.Var.LightBeacon.Name",
+      "Generic.Var.LightBeacon.Unit",
+      "Generic.Var.ParkBrake.Name",
+      "Generic.Var.ParkBrake.Unit",
+      "Generic.Var.DepartTrigger.Name",
+      "Generic.Var.DepartTrigger.Unit",
+      "Generic.Var.DepartTrigger.Comp",
+      "Generic.Var.DepartTrigger.Value",
+      "Generic.Option.Aircraft.IsCargo",
+      "Generic.Option.Aircraft.RefuelStair",
+      "Generic.Option.Aircraft.GsxGpu",
+      "Generic.Option.Aircraft.GsxProgFuel"
+    ],
+    "InstallUsageNotes": "To auto-start Departure Services, trigger an EXEC - modify your FLPN, activate SEC, etc.\r\nThe SmartButton is mapped to the MECH CALL on the OVHD.\r\nUse the default Passenger Weight on Simbrief (175 lbs) to get an accurate PAX number in the EFB.\r\nThe aircraft cannot be fueled when cold & dark, so your saved FOB will not be applied until there is power (battery+).\r\nThere is a 7 second delay before the plugin removes the external power to avoid transient faults.\r\nOnly 3 audio channels are available and these are synced across the CPT, FO, and OBS ACP. All the audio knobs are individual and turnable, but other than VHF1,2,3 their positions are not synced to the existing LVars.\r\nThere is no way to pull/push the ACP knobs (even though this exists in the real aircraft), so mute functionality is INOP.",
+    "PluginDefaultProfile": {
+      "PluginId": "SYN.A22X",
+      "ChannelFileId": "SYN.A22X",
+      "ProfileMatches": [
+        {
+          "MatchData": 4,
+          "MatchOperation": 3,
+          "MatchString": "a220"
+        }
+      ],
+      "RunAutomationService": true,
+      "RunAudioService": true
+    }
   }
 }

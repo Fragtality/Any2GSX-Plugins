@@ -1663,5 +1663,35 @@
         "UnmutedValue": 100
       }
     ]
+  },
+  "SYN.A22X.json": {
+    "Id": "SYN.A22X",
+    "Aircraft": "Synaptic A220",
+    "Author": "bork",
+    "VersionChannel": "0.1.0",
+    "VersionApp": "0.4.12",
+    "ChannelDefinitions": [
+      {
+        "Name": "ALL.VHF1",
+        "VolumeVariable": "L:A22X ACP VHF1 Volume",
+        "VolumeUnit": "Number",
+        "MinValue": 0,
+        "MaxValue": 1
+      },
+      {
+        "Name": "ALL.VHF2",
+        "VolumeVariable": "L:A22X ACP VHF2 Volume",
+        "VolumeUnit": "Number",
+        "MinValue": 0,
+        "MaxValue": 1
+      },
+      {
+        "Name": "ALL.VHF3",
+        "VolumeVariable": "L:A22X ACP VHF3 Volume",
+        "VolumeUnit": "Number",
+        "MinValue": 0,
+        "MaxValue": 1
+      }
+    ]
   }
 }

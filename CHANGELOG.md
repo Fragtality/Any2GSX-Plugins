@@ -1,5 +1,8 @@
 # Changelog
 
+### SYN.A220
+- Added Plugin for Synaptics/iniBuilds A220 (Contributed by bork)
+
 ## [c9e8915] - 2026-08-24
 
 ### PMDG.B777
