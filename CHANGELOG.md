@@ -1,5 +1,12 @@
 # Changelog
 
+### PMDG.B777
+- Updated NuGet Packages / Plugin Interface
+
+### FNX.A320
+- Updated NuGet Packages / Plugin Interface
+
+
 ## [002b0b5] - 2026-09-05
 
 ### SYN.A220
