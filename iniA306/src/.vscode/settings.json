@@ -24,6 +24,8 @@
         "GetSetting",
         "GetSettingProfile",
         "GetPluginSetting",
-        "GetAircraftPlugin"
+        "GetAircraftPlugin",
+        "WriteEvent",
+        "UseEvent"
     ]
 }

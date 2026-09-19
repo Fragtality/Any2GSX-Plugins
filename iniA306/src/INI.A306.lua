@@ -3,9 +3,10 @@ UseVar("L:INI_DEP_ICAO_EFB", "Number")
 UseVar("L:INI_ARR_ICAO_EFB", "Number")
 UseVar("L:INI_MAIN_CARGO_DOOR_TGT", "Number")
 SubVar("L:INI_MAIN_CARGO_DOOR", "OnMainCargoDoor", "Number")
-UseVar("L:A300_MAIN_CARGO_LOADER_LIGHTS_CMD", "Number")
-UseVar("L:INI_FUEL_REQ", "Number")
+UseVar("L:INI_POTENTIOMETER_93", "Number")
 UseVar("L:INI_FUEL_ON_BOARD", "Number")
+UseVar("L:INI_IS_REFUELING", "Number")
+UseVar("L:INI_Fuel_Panel", "Number")
 UseVar("L:INI_IS_PAX", "Number")
 UseVar("L:FSDT_GSX_SETTINGS_PROGRESS_REFUEL", "Number")
 UseVar("L:FSDT_GSX_SET_PROGRESS_REFUEL", "Number")
@@ -36,6 +37,8 @@ UseVar("L:INI_LOAD_POSTAL_SHOW", "Number")
 UseVar("L:INI_LOAD_RACING_SHOW", "Number")
 UseVar("L:INI_LOAD_HORSES_SHOW", "Number")
 UseVar("INTERACTIVE POINT GOAL:10", "percent over 100") --Bulk @ Pax
+UseVar("L:INI_REFUEL_TGT", "Number")
+UseEvent("INIB.SET_FUEL")
 
 function GetIsCargo()
     return ReadVar("L:INI_IS_PAX") == 0 and ReadVar("L:INI_FUEL_ON_BOARD") > 0
@@ -127,12 +130,17 @@ function OnDoorTrigger(door, trigger)
     end
 end
 
-local MainCargoDoorLights = false
+local CargoLoaderLights = false
 
 function SetMainCargoDoorLights(target)
+    CargoLoaderLights = ReadVar("L:INI_POTENTIOMETER_93") ~= 0
     if MainCargoDoorLights ~= target then
-        Log("Cargo Lights Toggle")
-       WriteVar("L:A300_MAIN_CARGO_LOADER_LIGHTS_CMD", 1)
+       Log("Cargo Lights Toggle")
+       if target then
+            WriteVar("L:INI_POTENTIOMETER_93", 100)
+       else
+            WriteVar("L:INI_POTENTIOMETER_93", 0)
+       end
        MainCargoDoorLights = target
     end
 end
@@ -145,8 +153,29 @@ function OnMainCargoDoor(position)
     end
 end
 
+function SetPanelRefuel(target)
+    if target then
+        WriteVar("L:INI_IS_REFUELING", 1)
+    else
+        WriteVar("L:INI_IS_REFUELING", 0)
+    end
+end
+
+function RefuelActive()
+    WriteVar("L:INI_Fuel_Panel", 1)
+end
+
+
+function RefuelCompleted()
+    WriteVar("L:INI_Fuel_Panel", 0)
+end
+
+function RefuelStart(fuelTargetKg)
+    WriteVar("L:INI_REFUEL_TGT", fuelTargetKg)
+end
+
 function SetFuelOnBoardKg(fuelOnBoardKg, targetKg)
-    WriteVar("L:INI_FUEL_REQ", fuelOnBoardKg)
+    WriteEvent("INIB.SET_FUEL", fuelOnBoardKg)
 end
 
 local payloadPaxKg = 0
@@ -172,6 +201,8 @@ function OnAutomationStateChange(state)
     if state == 0 then
         RemoveCovers()
     elseif state == 1 then
+        RemoveCovers()
+        OnMainCargoDoor(ReadVar("L:INI_MAIN_CARGO_DOOR"))
         payloadPaxKg = 0
         payloadCargoKg = 0
     end
@@ -238,6 +269,7 @@ end
 function BoardActive(paxTarget, cargoTargetKg)
     payloadPaxKg = 0
     payloadCargoKg = 0
+    OnMainCargoDoor(ReadVar("L:INI_MAIN_CARGO_DOOR"))
     RemoveCargoModel()
 end
 
@@ -280,6 +312,10 @@ function BoardCompleted(paxTarget, weightPerPaxKg, cargoTargetKg)
             WriteVar("L:INI_MAIN_CARGO_DOOR_TGT", 0)
         end
     end
+end
+
+function DeboardActive()
+    OnMainCargoDoor(ReadVar("L:INI_MAIN_CARGO_DOOR"))
 end
 
 function DeboardChangePax(paxOnBoard, gsxTotal, weightPerPaxKg)

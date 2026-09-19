@@ -10,7 +10,7 @@
   "Aircraft": "Synaptic A220",
   "Author": "bork",
   "Url": "",
-  "VersionPlugin": "0.1.0",
+  "VersionPlugin": "1.1.0",
   "VersionApp": "0.4.12",
   "Capabilities": {
     "HasFobSaveRestore": true,
@@ -18,7 +18,7 @@
     "CanSetPayload": true,
     "PayloadSync": 8,
     "DoorHandling": 12,
-    "DoorsSynced": 1,
+    "DoorsSynced": 22,
     "DoorsCloseAll": true,
     "GroundEquipmentHandling": 22,
     "HasSmartButton": true,
@@ -31,7 +31,14 @@
       "Type": 1,
       "DefaultValue": true,
       "Description": "Remove Engine Covers",
-      "Tooltip": "Engine covers will be removed on session start"
+      "Tooltip": "Engine covers will be removed on session start (MSFS24 only!)."
+    },
+    {
+      "Key": "SYN.22X.Option.ExtPwr.FaultProtection",
+      "Type": 1,
+      "DefaultValue": true,
+      "Description": "Ext Pwr Fault Protection",
+      "Tooltip": "Adds a 7 second delay between external power disconnection and removal to prevent transient faults during AC BUS 1 transfer from GPU -> APU."
     },
     {
       "Key": "Generic.Var.Engine1.Name",
@@ -159,7 +166,7 @@
     "Generic.Option.Aircraft.GsxGpu",
     "Generic.Option.Aircraft.GsxProgFuel"
   ],
-  "InstallUsageNotes": "To auto-start Departure Services, trigger an EXEC - modify your FLPN, activate SEC, etc.\r\nThe SmartButton is mapped to the MECH CALL on the OVHD.\r\nUse the default Passenger Weight on Simbrief (175 lbs) to get an accurate PAX number in the EFB.\r\nThe aircraft cannot be fueled when cold & dark, so your saved FOB will not be applied until there is power (battery+).\r\nThere is a 7 second delay before the plugin removes the external power to avoid transient faults.\r\nOnly 3 audio channels are available and these are synced across the CPT, FO, and OBS ACP. All the audio knobs are individual and turnable, but other than VHF1,2,3 their positions are not synced to the existing LVars.\r\nThere is no way to pull/push the ACP knobs (even though this exists in the real aircraft), so mute functionality is INOP.",
+  "InstallUsageNotes": "- To start Departure Services, trigger an EXEC - modify your FLPN, activate SEC, etc\r\n- The SmartButton is mapped to the MECH CALL on the OVHD\r\n- The passenger count in the EFB may not match the number in the app and GSX\r\n- The aircraft cannot be fueled when cold & dark, so the initial FOB will not be set until the aircraft has power (battery+)",
   "PluginDefaultProfile": {
     "PluginId": "SYN.A22X",
     "ChannelFileId": "SYN.A22X",
