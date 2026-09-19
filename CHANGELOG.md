@@ -1,5 +1,9 @@
 # Changelog
 
+### SYN.A220
+- Added Override Pax Weight option (ensures Pax Count on EFB matches Any2GSX and GSX)
+
+
 ## [131cc2e] - 2026-09-19
 
 ### INI.A306

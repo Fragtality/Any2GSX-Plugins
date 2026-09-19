@@ -312,7 +312,14 @@ function SetPayloadEmpty()
 end
 
 function SetPaxOnBoard(paxOnBoard, weightPerPaxKg, paxTarget)
-    SetPaxStations(paxOnBoard, paxOnBoard * weightPerPaxKg)
+    local paxWeightKg = 0
+    if GetPluginSetting("PaxWeight.OvrdPaxWeight") then
+        paxWeightKg = 79.3786
+    else
+        paxWeightKg = weightPerPaxKg
+    end
+
+    SetPaxStations(paxOnBoard, paxOnBoard * paxWeightKg)
 end
 
 function SetCargoOnBoard(cargoOnBoardKg, cargoTargetKg)

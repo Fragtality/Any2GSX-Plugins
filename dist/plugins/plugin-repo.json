@@ -1300,7 +1300,7 @@
     "Aircraft": "Synaptic A220",
     "Author": "bork",
     "Url": "",
-    "VersionPlugin": "1.1.0",
+    "VersionPlugin": "1.1.1",
     "VersionApp": "0.4.12",
     "Capabilities": {
       "HasFobSaveRestore": true,
@@ -1329,6 +1329,13 @@
         "DefaultValue": true,
         "Description": "Ext Pwr Fault Protection",
         "Tooltip": "Adds a 7 second delay between external power disconnection and removal to prevent transient faults during AC BUS 1 transfer from GPU -> APU."
+      },
+      {
+        "Key": "SYN.22X.Option.PaxWeight.OvrdPaxWeight",
+        "Type": 1,
+        "DefaultValue": true,
+        "Description": "Override Pax Weight",
+        "Tooltip": "Overrides Simbrief's \"Passenger Weight\" value and uses 175 Lbs / pax instead, so that the pax count on the EFB matches the value in Any2GSX and GSX."
       },
       {
         "Key": "Generic.Var.Engine1.Name",
@@ -1456,7 +1463,7 @@
       "Generic.Option.Aircraft.GsxGpu",
       "Generic.Option.Aircraft.GsxProgFuel"
     ],
-    "InstallUsageNotes": "- To start Departure Services, trigger an EXEC - modify your FLPN, activate SEC, etc\r\n- The SmartButton is mapped to the MECH CALL on the OVHD\r\n- The passenger count in the EFB may not match the number in the app and GSX\r\n- The aircraft cannot be fueled when cold & dark, so the initial FOB will not be set until the aircraft has power (battery+)",
+    "InstallUsageNotes": "- To start Departure Services, trigger an EXEC - modify your FLPN, activate SEC, etc\r\n- The SmartButton is mapped to the MECH CALL on the OVHD\r\n- The aircraft cannot be fueled when cold & dark, so the initial FOB will not be set until the aircraft has power (battery+)",
     "PluginDefaultProfile": {
       "PluginId": "SYN.A22X",
       "ChannelFileId": "SYN.A22X",
