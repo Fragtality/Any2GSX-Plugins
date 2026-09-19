@@ -1,5 +1,7 @@
 # Changelog
 
+## [131cc2e] - 2026-09-19
+
 ### INI.A306
 - Changed Cargo Loader Light Handling on Freighter
 - Toggle Refuel Cover and Panel during Refueling
@@ -10,6 +12,8 @@
 - Added door sync for 1L & cargo doors
 - Added option to toggle ExtPwr fault protection
 - Updated channel definitions to allow mute functionality (aircraft v.1.0.9a or above required)
+
+<br/><br/>
 
 ## [0c543bd] - 2026-09-13
 
