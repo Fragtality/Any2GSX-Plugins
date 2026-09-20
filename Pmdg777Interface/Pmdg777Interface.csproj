@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="pwsh -ExecutionPolicy Unrestricted -file &quot;$(ProjectDir)CopyToApp.ps1&quot; $(Configuration) $(SolutionDir) $(ProjectDir) &quot;Any2GSX&quot;&#xD;&#xA;pwsh -ExecutionPolicy Unrestricted -file &quot;$(ProjectDir)CopyOutput.ps1&quot; $(Configuration) $(SolutionDir) $(ProjectDir) &quot;Any2GSX&quot;&#xD;&#xA;pwsh -ExecutionPolicy Unrestricted -file &quot;$(SolutionDir)PackagePluginToDist.ps1&quot; $(Configuration) $(SolutionDir) $(ProjectDir) &quot;PMDG.B777&quot;" />
+    <Exec Command="pwsh -ExecutionPolicy Unrestricted -file &quot;$(ProjectDir)CopyToApp.ps1&quot; $(Configuration) $(SolutionDir) $(ProjectDir) &quot;Any2GSX&quot;&#xD;&#xA;pwsh -ExecutionPolicy Unrestricted -file &quot;$(ProjectDir)CopyOutput.ps1&quot; $(Configuration) $(SolutionDir) $(ProjectDir) &quot;Any2GSX&quot;&#xD;&#xA;pwsh -ExecutionPolicy Unrestricted -file &quot;$(SolutionDir)PackagePluginToDist.ps1&quot; $(Configuration) $(SolutionDir) $(ProjectDir) &quot;PMDG.B777&quot;&#xD;&#xA;pwsh -ExecutionPolicy Unrestricted -file &quot;$(ProjectDir)PublishChannel.ps1&quot;" />
   </Target>
 
 </Project>

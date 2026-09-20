@@ -1,0 +1,153 @@
+{
+  "Id": "PMDG.B777",
+  "Aircraft": "PMDG.B777",
+  "Author": "Fragtality",
+  "VersionChannel": "0.1.0",
+  "VersionApp": "0.1.0",
+  "ChannelDefinitions": [
+    {
+      "Name": "CPT.VHFL",
+      "VolumeVariable": "L:B777_VOL_CPT_VHF_L",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:switch_548_a",
+      "MuteStartupCode": "54801 (>K:ROTOR_BRAKE)",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+	{
+      "Name": "CPT.VHFC",
+      "VolumeVariable": "L:B777_VOL_CPT_VHF_C",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:switch_549_a",
+      "MuteStartupCode": "54901 (>K:ROTOR_BRAKE)",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+	{
+      "Name": "CPT.VHFR",
+      "VolumeVariable": "L:B777_VOL_CPT_VHF_R",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:switch_550_a",
+      "MuteStartupCode": "55001 (>K:ROTOR_BRAKE)",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+	{
+      "Name": "CPT.FLT",
+      "VolumeVariable": "L:B777_VOL_CPT_FLT",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:switch_551_a",
+      "MuteStartupCode": "55101 (>K:ROTOR_BRAKE)",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+    {
+      "Name": "CPT.CAB",
+      "VolumeVariable": "L:B777_VOL_CPT_CAB",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:switch_552_a",
+      "MuteStartupCode": "55201 (>K:ROTOR_BRAKE)",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+	{
+      "Name": "CPT.PA",
+      "VolumeVariable": "L:B777_VOL_CPT_PA",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:switch_553_a",
+      "MuteStartupCode": "55301 (>K:ROTOR_BRAKE)",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+	{
+      "Name": "FO.VHFL",
+      "VolumeVariable": "L:B777_VOL_FO_VHF_L",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:switch_791_a",
+      "MuteStartupCode": "79101 (>K:ROTOR_BRAKE)",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+	{
+      "Name": "FO.VHFC",
+      "VolumeVariable": "L:B777_VOL_FO_VHF_C",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:switch_790_a",
+      "MuteStartupCode": "79001 (>K:ROTOR_BRAKE)",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+	{
+      "Name": "FO.VHFR",
+      "VolumeVariable": "L:B777_VOL_FO_VHF_R",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:switch_789_a",
+      "MuteStartupCode": "78901 (>K:ROTOR_BRAKE)",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+	{
+      "Name": "FO.FLT",
+      "VolumeVariable": "L:B777_VOL_FO_FLT",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:switch_788_a",
+      "MuteStartupCode": "78801 (>K:ROTOR_BRAKE)",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+    {
+      "Name": "FO.CAB",
+      "VolumeVariable": "L:B777_VOL_FO_CAB",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:switch_787_a",
+      "MuteStartupCode": "78701 (>K:ROTOR_BRAKE)",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+	{
+      "Name": "FO.PA",
+      "VolumeVariable": "L:B777_VOL_FO_PA",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:switch_786_a",
+      "MuteStartupCode": "78601 (>K:ROTOR_BRAKE)",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    }
+  ]
+}

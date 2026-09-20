@@ -23,6 +23,7 @@ try {
 	Copy-Item -Path $dllPath -Destination $destPath -Force | Out-Null
 	Copy-Item -Path $manifestPath -Destination $destPath -Force | Out-Null
 	Copy-Item -Path "Profile\pmdg 777-200er" -Destination $destPath -Force -Recurse -ErrorAction SilentlyContinue | Out-Null
+	Copy-Item -Path "Channel\PMDG.B777.json" -Destination $destPath -Force -Recurse -ErrorAction SilentlyContinue | Out-Null
 
 	Write-Host "SUCCESS: Copy complete!"
 	exit 0
