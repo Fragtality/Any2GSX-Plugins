@@ -1,9 +1,13 @@
 # Changelog
 
+## [e19593d] - 2026-09-20
+
 ### PMDG.B777
 - Added Channel File for Audio Control (CPT, FO)
 - Volume via custom L-Vars (so only controllable through external Apps, i.e. PilotsDeck)
 - Mute uses Cockpit Controls
+
+<br/><br/>
 
 ## [b38811d] - 2026-09-19
 
