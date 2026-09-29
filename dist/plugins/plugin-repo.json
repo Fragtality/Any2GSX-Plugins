@@ -1350,7 +1350,7 @@
     "Aircraft": "Synaptic A220",
     "Author": "bork",
     "Url": "",
-    "VersionPlugin": "1.1.1",
+    "VersionPlugin": "1.1.2",
     "VersionApp": "0.4.12",
     "Capabilities": {
       "HasFobSaveRestore": true,
