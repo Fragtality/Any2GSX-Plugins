@@ -1,5 +1,7 @@
 # Changelog
 
+## [38a8367] - 2026-10-13
+
 ### FNX.A320
 - Updated for new Plugin Interface
   - Some of the Door Logic removed - now commonly handled in the App
@@ -63,6 +65,8 @@
 - Improved Detection of FMS Flightplan Import
 - Removed L1 Door Inhibition
 - Improved Workaround for the EFB ignoring Simbrief Weights for Pax and Empty
+
+<br/><br/>
 
 ## [e19593d] - 2026-09-20
 
