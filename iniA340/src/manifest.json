@@ -10,20 +10,19 @@
 	"Aircraft": "iniBuilds A340 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.4.3",
-	"VersionApp": "0.4.3",
+	"VersionPlugin": "0.5.0",
+	"VersionApp": "0.5.0",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
 		"FuelSync": 8,
 		"CanSetPayload": true,
 		"PayloadSync": 8,
 		"DoorHandling": 4,
-		"DoorsSynced": 1,
-		"DoorsCloseAll": false,
+		"DoorsSynced": 33,
 		"GroundEquipmentHandling": 54,
 		"HasSmartButton": true,
 		"VolumeControl": true,
-		"CockpitNotifications": 0
+		"CockpitNotifications": 1
 	},
 	"Settings": [
 		{
@@ -37,8 +36,8 @@
 			"Key": "INI.340.Option.Fix.PayloadReset",
 			"Type": 1,
 			"DefaultValue": true,
-			"Description": "Try to fix Payload Reset",
-			"Tooltip": "Try to fix the resetting Payload after Boarding"
+			"Description": "Fix Fuel/Payload Reset",
+			"Tooltip": "Try to fix the Airplane resetting its Fuel or Payload after GSX Services complete."
 		},		
 		{
 			"Key": "Generic.Var.ExtAvail.Name",
@@ -160,7 +159,7 @@
 			"Generic.Var.DepartTrigger.Value",
 			"Generic.Option.Aircraft.GsxProgFuel"
 	],
-	"InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used is configured in the following Way (if the bundled Profiles are not installed):\r\n• The Option 'Default Fuel System' is NOT checked!\r\n• The Preferred Exit is set to (L)2\r\n• Lavatory Position corrected\r\n\r\nNOTAMS:\r\n• Disable all GSX Options in the EFB and do NOT use 'load via GSX' in the EFB!\r\n• The Departure Services are started by importing (Init Request) the Flightplan into the MCDU (with the Nav Lights being on)\r\n• Simbrief Payload NEEDS to be imported in the EFB (Payload & Fueling -> Import all from Simbrief)\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request\r\n• Engine/Pitot Covers will automatically be removed on Session Start (configurable)\r\n• KNOWN ISSUE: GSX sometimes disconnects the Hose although Refuel is still running - the Refuel Process will continue (unless configured otherwise in the App)",
+	"InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used is configured in the following Way (if the bundled Profiles are not installed):\r\n• The Option 'Default Fuel System' is NOT checked!\r\n• The Preferred Exit is set to (L)2\r\n• Lavatory Position corrected\r\n\r\nNOTAMS:\r\n• Disable all GSX Options in the EFB and do NOT use 'load via GSX' in the EFB!\r\n• Simbrief Payload NEEDS to be imported in the EFB (My Flight and Payload & Fueling -> Import all from Simbrief) before starting Departure Services\r\n• The Departure Services are started by importing (Init Request) the Flightplan into the MCDU (with the Nav Lights being on)\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request\r\n• Engine/Pitot Covers will automatically be removed on Session Start (configurable)\r\n• KNOWN ISSUE: GSX sometimes disconnects the Hose although Refuel is still running - the Refuel Process will continue (unless configured otherwise in the App)\r\n• KNOWN ISSUE: The A340 likes to reset Fuel or Payload occasionally - the Plugin corrects that but you (or your Tracker!) might notice",
 	"PluginDefaultProfile": {
 		"PluginId": "INI.A340",
 		"ChannelFileId": "INI.A340",
@@ -204,6 +203,9 @@
 		"AudioStartupUnmute": {
 			"CPT.VHF1": true,
 			"CPT.INT": true
+		},
+		"PluginSettings": {
+			"Generic.Option.Aircraft.DoorPreferred": 2
 		}
 	}
 }

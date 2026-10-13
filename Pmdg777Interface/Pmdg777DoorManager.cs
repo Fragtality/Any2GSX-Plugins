@@ -1,8 +1,11 @@
 ﻿using Any2GSX.PluginInterface.Interfaces;
+using Any2GSX.PluginInterface.Interfaces.GSX;
 using CFIT.AppFramework.ResourceStores;
 using CFIT.AppLogger;
 using CFIT.AppTools;
+using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -36,6 +39,9 @@ namespace Pmdg777Interface
             { PmdgDoorIndex.Avionics, new(aircraft, PmdgDoorIndex.Avionics, 14025) },
             { PmdgDoorIndex.EEAccess, new(aircraft, PmdgDoorIndex.EEAccess, 14026) },
         };
+        public virtual ConcurrentDictionary<PmdgDoorIndex, bool> DoorTargetMonitor { get; } = [];
+        public virtual DateTime NextDoorCheck { get; protected set; } = DateTime.MaxValue;
+        public const int DoorInterval = 15000;
         public virtual ConcurrentDictionary<PmdgCargoLight, Pmdg777CargoLight> CargoLights { get; } = new()
         {
             { PmdgCargoLight.Ceiling, new(aircraft,PmdgCargoLight.Ceiling) },
@@ -43,34 +49,60 @@ namespace Pmdg777Interface
             { PmdgCargoLight.ExtCam, new(aircraft, PmdgCargoLight.ExtCam) },
             { PmdgCargoLight.SillLoad, new(aircraft, PmdgCargoLight.SillLoad, 0) },
         };
-        public virtual ConcurrentDictionary<GsxDoor, PmdgDoorIndex> DoorMapping { get; } = new()
+        public virtual ConcurrentDictionary<AircraftDoor, PmdgDoorIndex> DoorMappingPmdg { get; } = new()
         {
-            { GsxDoor.PaxDoor1, PmdgDoorIndex.Pax1L },
-            { GsxDoor.PaxDoor2, PmdgDoorIndex.Pax2L },
-            { GsxDoor.PaxDoor3, PmdgDoorIndex.Pax4L },
-            { GsxDoor.PaxDoor4, PmdgDoorIndex.Pax5L },
-            { GsxDoor.ServiceDoor1, PmdgDoorIndex.Pax2R },
-            { GsxDoor.ServiceDoor2, PmdgDoorIndex.Pax5R },
-            { GsxDoor.CargoDoor1, PmdgDoorIndex.CargoFwd },
-            { GsxDoor.CargoDoor2, PmdgDoorIndex.CargoAft },
-            { GsxDoor.CargoDoor3Main, PmdgDoorIndex.CargoBulk },
+            { AircraftDoor.L1, PmdgDoorIndex.Pax1L },
+            { AircraftDoor.L2, PmdgDoorIndex.Pax2L },
+            { AircraftDoor.L3, PmdgDoorIndex.Pax3L },
+            { AircraftDoor.L4, PmdgDoorIndex.Pax4L },
+            { AircraftDoor.L5, PmdgDoorIndex.Pax5L },
+            { AircraftDoor.R1, PmdgDoorIndex.Pax1R },
+            { AircraftDoor.R2, PmdgDoorIndex.Pax2R },
+            { AircraftDoor.R3, PmdgDoorIndex.Pax3R },
+            { AircraftDoor.R4, PmdgDoorIndex.Pax4R },
+            { AircraftDoor.R5, PmdgDoorIndex.Pax5R },
+            { AircraftDoor.CargoFront, PmdgDoorIndex.CargoFwd },
+            { AircraftDoor.CargoRear, PmdgDoorIndex.CargoAft },
+            { AircraftDoor.CargoMain, PmdgDoorIndex.CargoMain },
+            { AircraftDoor.CargoBulk, PmdgDoorIndex.CargoBulk },
         };
-        public virtual ConcurrentDictionary<GsxVehicleStair, bool> StairsAvailable { get; } = new()
+        public virtual ConcurrentDictionary<GsxVehicleLocation, bool> StairsAvailable { get; } = new()
         {
-            { GsxVehicleStair.Front, false },
-            { GsxVehicleStair.Middle, false },
-            { GsxVehicleStair.Rear, false },
+            { GsxVehicleLocation.Front, false },
+            { GsxVehicleLocation.Middle, false },
+            { GsxVehicleLocation.Rear, false },
         };
 
-        public virtual Pmdg777Door GetDoor(GsxDoor door)
+        public virtual Pmdg777Door GetDoor(AircraftDoor aircraftDoor)
         {
-            return Doors[DoorMapping[door]];
+            return Doors[DoorMappingPmdg[aircraftDoor]];
+        }
+
+        public virtual async Task<AircraftDoor> GetDefaultDoor(GsxDoor gsxDoor)
+        {
+            if (Aircraft.AircraftString.Contains("300", System.StringComparison.InvariantCultureIgnoreCase))
+            {
+                return gsxDoor switch
+                {
+                    GsxDoor.PaxDoor1 => AircraftDoor.L1,
+                    GsxDoor.PaxDoor2 => AircraftDoor.L2,
+                    GsxDoor.PaxDoor3 => AircraftDoor.L4,
+                    GsxDoor.PaxDoor4 => AircraftDoor.L5,
+                    GsxDoor.ServiceDoor1 => AircraftDoor.R2,
+                    GsxDoor.ServiceDoor2 => AircraftDoor.R5,
+                    GsxDoor.CargoDoor1 => AircraftDoor.CargoFront,
+                    GsxDoor.CargoDoor2 => AircraftDoor.CargoRear,
+                    GsxDoor.CargoDoor3Main => AircraftDoor.CargoBulk,
+                    _ => AircraftDoor.L1,
+                };
+            }
+            else
+                return await Aircraft.MapDoorDefaults(gsxDoor);
         }
 
         public virtual void InitDoors()
         {
             string variant = "";
-            int mapping = Aircraft.ISettingProfile.GetSetting(PmdgSettings.FrontCatering);
             if (Aircraft.IsCargo)
             {
                 variant = "777F";
@@ -80,25 +112,17 @@ namespace Pmdg777Interface
                 Doors[PmdgDoorIndex.Pax4L].IsAvailable = false;
                 Doors[PmdgDoorIndex.Pax5L].IsAvailable = false;
 
-                DoorMapping[GsxDoor.ServiceDoor1] = PmdgDoorIndex.Pax1R;
                 Doors[PmdgDoorIndex.Pax2R].IsAvailable = false;
                 Doors[PmdgDoorIndex.Pax3R].IsAvailable = false;
                 Doors[PmdgDoorIndex.Pax4R].IsAvailable = false;
                 Doors[PmdgDoorIndex.Pax5R].IsAvailable = false;
-
-                DoorMapping[GsxDoor.CargoDoor3Main] = PmdgDoorIndex.CargoMain;
             }
             else if (Aircraft.AircraftString.Contains("200", System.StringComparison.InvariantCultureIgnoreCase))
             {
                 variant = "200";
-                DoorMapping[GsxDoor.PaxDoor4] = PmdgDoorIndex.Pax4L;
+
                 Doors[PmdgDoorIndex.Pax5L].IsAvailable = false;
 
-                if (mapping != 1 && mapping != 3)
-                    DoorMapping[GsxDoor.ServiceDoor1] = PmdgDoorIndex.Pax1R;
-                else
-                    DoorMapping[GsxDoor.ServiceDoor1] = (PmdgDoorIndex)mapping;
-                DoorMapping[GsxDoor.ServiceDoor2] = PmdgDoorIndex.Pax4R;
                 Doors[PmdgDoorIndex.Pax5R].IsAvailable = false;
 
                 Doors[PmdgDoorIndex.CargoMain].IsAvailable = false;
@@ -107,14 +131,10 @@ namespace Pmdg777Interface
             {
                 variant = "300";
 
-                if (mapping != 1 && mapping != 3)
-                    DoorMapping[GsxDoor.ServiceDoor1] = PmdgDoorIndex.Pax2R;
-                else
-                    DoorMapping[GsxDoor.ServiceDoor1] = (PmdgDoorIndex)mapping;
                 Doors[PmdgDoorIndex.CargoMain].IsAvailable = false;
             }
 
-            Logger.Information($"Mapped Doors for Variant: {variant}");
+            Logger.Information($"Configured Doors for Variant: {variant}");
         }
 
         public virtual async Task CheckDoors()
@@ -127,6 +147,9 @@ namespace Pmdg777Interface
 
             if (IsCargo)
                 await SyncCargoLights();
+
+            if (Aircraft.GsxController.IsOnGround)
+                await CheckDoorMonitor();
         }
 
         protected virtual bool IsLightSyncAllowed()
@@ -170,14 +193,42 @@ namespace Pmdg777Interface
             return EfbManager.SendRequest("close_all", "doors");
         }
 
-        public virtual async Task SetCargoDoors(bool state, bool force = false)
+        public virtual async Task CheckDoorMonitor()
         {
-            await Doors[PmdgDoorIndex.CargoFwd].SetDoor(state);
-            await Doors[PmdgDoorIndex.CargoAft].SetDoor(state);
-            if (Aircraft.ISettingProfile.GetSetting(PmdgSettings.OperateBulk))
-                await Doors[PmdgDoorIndex.CargoBulk].SetDoor(state);
-            if (IsCargo)
-                await Doors[PmdgDoorIndex.CargoMain].SetDoor(state);
+            if (NextDoorCheck < DateTime.Now)
+            {
+                List<PmdgDoorIndex> removeList = [];
+                foreach (var doorTarget in DoorTargetMonitor)
+                {
+                    var door = Doors[doorTarget.Key];
+                    if ((door.IsClosed && doorTarget.Value) || (door.IsOpen && !doorTarget.Value))
+                    {
+                        Logger.Information($"Toogle Door {door.Index} - not at expected Target State");
+                        await door.ToggleDoor();
+                    }
+                    else
+                        removeList.Add(doorTarget.Key);
+                }
+
+                foreach (var door in removeList)
+                    DoorTargetMonitor.TryRemove(door, out _);
+
+                if (!DoorTargetMonitor.IsEmpty)
+                    NextDoorCheck = DateTime.Now + TimeSpan.FromMilliseconds(DoorInterval);
+                else
+                    NextDoorCheck = DateTime.MaxValue;
+            }
+        }
+
+        public virtual Task SetDoor(AircraftDoor aircraftDoor, bool target)
+        {
+            var index = DoorMappingPmdg[aircraftDoor];
+
+            if (!DoorTargetMonitor.TryAdd(index, target))
+                DoorTargetMonitor[index] = target;
+            NextDoorCheck = DateTime.Now + TimeSpan.FromMilliseconds(DoorInterval);
+
+            return Doors[index].SetDoor(target);
         }
 
         public virtual bool HasArmedDoors()
@@ -201,6 +252,9 @@ namespace Pmdg777Interface
             {
                 if (boardService.IsRunning)
                 {
+                    if (HasArmedDoors())
+                        await Aircraft.DoorDisarmAll();
+
                     await CargoLights[PmdgCargoLight.Ceiling].TurnOn();
                     await CargoLights[PmdgCargoLight.ExtCam].TurnOn();
                 }
@@ -222,6 +276,9 @@ namespace Pmdg777Interface
             {
                 if (deboardService.IsRunning)
                 {
+                    if (HasArmedDoors())
+                        await Aircraft.DoorDisarmAll();
+
                     await CargoLights[PmdgCargoLight.Ceiling].TurnOn();
                     await CargoLights[PmdgCargoLight.ExtCam].TurnOn();
                 }
@@ -235,98 +292,6 @@ namespace Pmdg777Interface
                     }
                 }
             }
-        }
-
-        public virtual async Task OnCateringState(IGsxService cateringService)
-        {
-            if (SettingProfile.DoorServiceHandling && !cateringService.IsRunning && IsStateValid)
-            {
-                Pmdg777Door pmdgDoor = GetDoor(GsxDoor.ServiceDoor1);
-                if (pmdgDoor.IsOpen && !pmdgDoor.IsMoving)
-                    await pmdgDoor.SetDoor(PmdgDoorState.Closed);
-
-                pmdgDoor = GetDoor(GsxDoor.ServiceDoor2);
-                if (pmdgDoor.IsOpen && !pmdgDoor.IsMoving)
-                    await pmdgDoor.SetDoor(PmdgDoorState.Closed);
-            }
-        }
-
-        public virtual async Task OnDoorTrigger(GsxDoor door, bool trigger)
-        {
-            if (!IsStateValid)
-                return;
-
-            Pmdg777Door pmdgDoor = GetDoor(door);
-            if (trigger && !IGsxController.IsCargoDoor(door))
-            {
-                if (IGsxController.IsPaxDoor(door))
-                {
-                    if (GsxController.HasGateJetway && door == GsxDoor.PaxDoor2 && pmdgDoor.IsClosed && GsxController.JetwayState == GsxServiceState.Active)
-                        await pmdgDoor.ToggleDoor();
-                    else if (!GsxController.HasGateJetway && IGsxController.IsPaxDoor(door) && pmdgDoor.IsClosed && GsxController.StairsState == GsxServiceState.Active)
-                        await pmdgDoor.ToggleDoor();
-                }
-                else
-                    await pmdgDoor.ToggleDoor();
-            }
-        }
-
-        public virtual Task OnLoaderAttached(GsxDoor door, bool attached)
-        {
-            if (!IsStateValid)
-                return Task.CompletedTask;
-
-            Pmdg777Door pmdgDoor = GetDoor(door);
-
-            return pmdgDoor.SetDoor(attached ? PmdgDoorState.Open : PmdgDoorState.Closed);
-        }
-
-        public virtual Task OnJetwayStateChange(GsxServiceState state, bool paxDoorAllowed)
-        {
-            if (!IsCargo && paxDoorAllowed)
-            {
-                if (state == GsxServiceState.Active)
-                    return GetDoor(GsxDoor.PaxDoor2).SetDoor(PmdgDoorState.Open);
-                else
-                    return GetDoor(GsxDoor.PaxDoor2).SetDoor(PmdgDoorState.Closed);
-            }
-
-            return Task.CompletedTask;
-        }
-
-        public virtual async Task OnStairStateChange(GsxServiceState state, bool paxDoorAllowed)
-        {
-            if (!IsStateValid || !paxDoorAllowed)
-                return;
-
-            if (HasArmedDoors() && state == GsxServiceState.Active)
-                await Aircraft.DoorDisarmAll();
-
-            var target = state == GsxServiceState.Active ? PmdgDoorState.Open : PmdgDoorState.Closed;
-            if (!IsCargo)
-            {
-                if (StairsAvailable[GsxVehicleStair.Rear] || target == PmdgDoorState.Closed)
-                    await GetDoor(GsxDoor.PaxDoor4).SetDoor(target);
-
-                if (!Aircraft.GsxController.HasGateJetway)
-                {
-                    if (StairsAvailable[GsxVehicleStair.Front] || target == PmdgDoorState.Closed)
-                        await GetDoor(GsxDoor.PaxDoor1).SetDoor(target);
-                    if (StairsAvailable[GsxVehicleStair.Middle] || target == PmdgDoorState.Closed)
-                        await GetDoor(GsxDoor.PaxDoor2).SetDoor(target);
-                }
-            }
-            else
-            {
-                await GetDoor(GsxDoor.PaxDoor1).SetDoor(target);
-            }
-        }
-
-        public Task OnStairVehicleChange(GsxVehicleStair stair, GsxVehicleStairState state, bool paxDoorAllowed)
-        {
-            StairsAvailable[stair] = state >= GsxVehicleStairState.Approaching;
-
-            return Task.CompletedTask;
         }
     }
 }

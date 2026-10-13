@@ -30,6 +30,17 @@
         "Info",
         "SendInput",
         "MatchAircraftString",
-        "FuelWeightKgPerGallon"
+        "FuelWeightKgPerGallon",
+        "WriteInput",
+        "UseInput",
+        "WriteEvent",
+        "UseEvent",
+        "SendBus",
+        "SubBus",
+        "RunAfter",
+        "SetGenericSetting",
+        "UnsubBus",
+        "SubInput",
+        "ReadInput"
     ]
 }

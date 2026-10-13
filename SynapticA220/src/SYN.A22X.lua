@@ -1,35 +1,34 @@
 UseVar("L:INI_GPU_AVAIL", "Number")
 UseVar("L:INI_CHOCKS_ENABLED", "Number")
 UseVar("L:A22X AC Ess Bus Voltage", "Volts")
-UseVar("L:A22X Flight Plan Modified", "Number")
 UseVar("L:A22X APU RPM", "Number")
 UseVar("L:A22X APU Bleed Off", "Number")
 UseVar("L:A22X Passenger Count", "Number")
 UseVar("L:A22X Mech Call", "Number")
+UseVar("L:A22X RDC Powered", "Number")
 UseVar("PAYLOAD STATION WEIGHT:3", "Kilograms") --FWD Pax
 UseVar("PAYLOAD STATION WEIGHT:4", "Kilograms") --FWD Cargo
 UseVar("PAYLOAD STATION WEIGHT:5", "Kilograms") --AFT Pax
 UseVar("PAYLOAD STATION WEIGHT:6", "Kilograms") --AFT Cargo
+local aircraft = GetAircraftPlugin()
+aircraft.InteractivePointAdd(0)                 --L1
+aircraft.InteractivePointAdd(4)                 --AFT Cargo
+aircraft.InteractivePointAdd(5)                 --FWD Cargo
+
 for i = 0, 7 do
     UseVar("COVER ON:" .. tostring(i), "Bool")
-    UseVar("INTERACTIVE POINT GOAL:" .. tostring(i), "Percent over 100") --1L/1R/2L/2R/AC/FC/OWL/OWR
 end
 
 SubVar("L:A22X RDC Powered", "MonitorRDCPower", "Number")
 SubVar("L:A22X External Power In Use", "MonitorExtPower", "Number")
-SubVar("INTERACTIVE POINT GOAL:0", "MonitorDoor1L", "Percent over 100")
-SubVar("INTERACTIVE POINT GOAL:4", "MonitorDoorAftCargo", "Percent over 100")
-SubVar("INTERACTIVE POINT GOAL:5", "MonitorDoorFwdCargo", "Percent over 100")
 
 local gsxController = GetGsxController()
-local aircraft = GetAircraftPlugin()
-local RDCPowered = false
+local RDCPowered = ReadVar("L:A22X RDC Powered") == 1
 local fuelCorrected = true
-local fuelCorrectedAmountKg = 0
+local fuelToCorrectAmountKg = 0
 local safeToRemoveExtPower = true
-local inhibitDoor1L = false
-local inhibitDoorCargoAft = false
-local inhibitDoorCargoFwd = false
+local flightplanRequested = false
+local subbedToFlightplanCommBusEvent = false
 
 function RemoveCovers()
     if not (GetPluginSetting("Covers.RemoveStartup") and gsxController.IsMsfs2024) then
@@ -41,14 +40,6 @@ function RemoveCovers()
             WriteVar("COVER ON:" .. tostring(i), 0)
         end
     end
-end
-
-function GetInteractivePoint(index)
-    return ReadVar("INTERACTIVE POINT GOAL:" .. tostring(index))
-end
-
-function SetInteractivePoint(index, value)
-    return WriteVar("INTERACTIVE POINT GOAL:" .. tostring(index), value)
 end
 
 function SetPaxStations(paxCount, payloadPaxKg)
@@ -66,7 +57,8 @@ function MonitorRDCPower(RDCState)
     if RDCState == 1 then
         RDCPowered = true
         if not fuelCorrected then
-            SetFuelOnBoardKg(fuelCorrectedAmountKg, fuelCorrectedAmountKg)
+            Log("Setting fuel on power-up")
+            SetFuelOnBoardKg(fuelToCorrectAmountKg, fuelToCorrectAmountKg)
             fuelCorrected = true
         end
     else
@@ -88,50 +80,50 @@ function MonitorExtPower(extPwrState)
     if extPwrState == 1 then
         safeToRemoveExtPower = false
     else
+        Log("Blocking External Power removal for 7 seconds")
         RunAfter(7000, "CheckExtPowerSafe()")
     end
 end
 
-function InhibitDoor(door, state)
-    if (door & 0x1) ~= 0 then
-        inhibitDoorCargoAft = state
-    end
-    if (door & 0x2) ~= 0 then
-        inhibitDoorCargoFwd = state
-    end
-    if (door & 0x4) ~= 0 then
-        inhibitDoor1L = state
+function SubToFlightplanCommBusEvent()
+    if not subbedToFlightplanCommBusEvent and not flightplanRequested then
+        Log("Subscribed to Flightplan CommBus Event")
+        subbedToFlightplanCommBusEvent = true
+        SubBus("A220.Flight Plan Request", 2, "OnFlightplanRequest")
     end
 end
 
-function MonitorDoor1L(state)
-    if state < 1 and inhibitDoor1L then
-        SetInteractivePoint(0, 1)
+function UnsubFromFlightplanCommBusEvent()
+    if subbedToFlightplanCommBusEvent then
+        Log("Unsubscribed from Flightplan CommBus Event")
+        subbedToFlightplanCommBusEvent = false
+        UnsubBus("A220.Flight Plan Request")
     end
 end
 
-function MonitorDoorAftCargo(state)
-    if state < 1 and inhibitDoorCargoAft then
-        SetInteractivePoint(4, 1)
-    end
-end
-
-function MonitorDoorFwdCargo(state)
-    if state < 1 and inhibitDoorCargoFwd then
-        SetInteractivePoint(5, 1)
+function OnFlightplanRequest(evt, data)
+    -- Log("Received CommBus Event: " .. evt .. " with data: " .. data)
+    if string.find(data, "UplinkFlightPlan", 1, true) then
+        Log("Flightplan Uplink requested")
+        flightplanRequested = true
+        UnsubFromFlightplanCommBusEvent()
     end
 end
 
 function OnAutomationStateChange(state)
-    if state == 1 or state == 2 then
+    if state == 1 then --Prep phase
         RemoveCovers()
-    elseif state > 3 and state < 7 then
-        InhibitDoor(7, false)
+        SubToFlightplanCommBusEvent()
+    elseif state == 2 or state == 3 then --Departure/Pushback phase
+        UnsubFromFlightplanCommBusEvent()
+    elseif state == 7 then               --Arrival phase
+        flightplanRequested = false
+        SubToFlightplanCommBusEvent()
     end
 end
 
 function GetReadyDepartureServices()
-    return GetAvionicPowered() and aircraft.LightNav and ReadVar("L:A22X Flight Plan Modified") > 0
+    return GetAvionicPowered() and aircraft.LightNav and flightplanRequested
 end
 
 function GetSmartButtonRequest()
@@ -151,7 +143,7 @@ function GetApuRunning()
 end
 
 function GetApuBleedOn()
-    return ReadVar("L:A22X APU RPM") > 99 and ReadVar("L:A22X APU Bleed Off") == 0
+    return GetApuRunning() and ReadVar("L:A22X APU Bleed Off") == 0
 end
 
 function GetHasFobSaveRestore()
@@ -178,23 +170,7 @@ function GetEquipmentChocks()
     return ReadVar("L:INI_CHOCKS_ENABLED") > 0
 end
 
-function SetExternalPowerAvailable(state)
-    if aircraft.PowerConnected and not state then
-        return
-    end
-
-    if state then
-        WriteVar("L:INI_GPU_AVAIL", 1)
-    elseif safeToRemoveExtPower then
-        WriteVar("L:INI_GPU_AVAIL", 0)
-    end
-end
-
 function SetEquipmentPower(state, force)
-    if aircraft.PowerConnected and not state and not force then
-        return
-    end
-
     if state then
         WriteVar("L:INI_GPU_AVAIL", 1)
     elseif safeToRemoveExtPower or force then
@@ -203,10 +179,6 @@ function SetEquipmentPower(state, force)
 end
 
 function SetEquipmentChocks(state, force)
-    if not aircraft.ParkingBrake and not state and not force then
-        return
-    end
-
     if state then
         WriteVar("L:INI_CHOCKS_ENABLED", 1)
     else
@@ -214,91 +186,52 @@ function SetEquipmentChocks(state, force)
     end
 end
 
-function GetHasOpenDoors()
-    for i = 0, 7 do
-        if GetInteractivePoint(i) > 0 then
-            return true
-        end
-    end
-
-    return false
-end
-
-function SetCargoDoors(state, force)
-    if state then
-        if GetInteractivePoint(4) ~= 1 then
-            SetInteractivePoint(4, 1)
-        end
-        if GetInteractivePoint(5) ~= 1 then
-            SetInteractivePoint(5, 1)
-        end
+function IsDoorCustom(gsxDoor)
+    if gsxDoor == 1 or gsxDoor >= 7 then
+        return true
     else
-        if GetInteractivePoint(4) ~= 0 then
-            InhibitDoor(1, false)
-            SetInteractivePoint(4, 0)
-        end
-        if GetInteractivePoint(5) ~= 0 then
-            InhibitDoor(2, false)
-            SetInteractivePoint(5, 0)
-        end
+        return false
     end
 end
 
-function DoorsAllClose()
-    InhibitDoor(7, false)
-    for i = 0, 7 do
-        if GetInteractivePoint(i) > 0 then
-            SetInteractivePoint(i, 0)
-        end
+function SetDoorCustom(aircraftDoor, target)
+    local index = -1
+    if aircraftDoor == 1 then      --L1
+        index = 0
+    elseif aircraftDoor == 17 then --FWD Cargo
+        index = 5
+    elseif aircraftDoor == 18 then --AFT Cargo
+        index = 4
+    end
+
+    if index >= 0 then
+        Log("Setting " .. aircraftDoor .. " door to " .. (target and "Open" or "Closed"))
+        aircraft.SetInteractivePoint(index, target)
     end
 end
 
-function OnLoaderAttached(door, attached)
-    --door{8,7}->index{4,5}
-    local index = 12 - door
-    local inhibitIndex = index - 3
+function GetDoorCustom(aircraftDoor)
+    local index = -1
+    if aircraftDoor == 1 then      --L1
+        index = 0
+    elseif aircraftDoor == 17 then --FWD Cargo
+        index = 5
+    elseif aircraftDoor == 18 then --AFT Cargo
+        index = 4
+    end
 
-    if attached then
-        InhibitDoor(inhibitIndex, true)
-        SetInteractivePoint(index, 1)
+    if index >= 0 then
+        return aircraft.GetInteractivePoint(index)
     else
-        InhibitDoor(inhibitIndex, false)
-        SetInteractivePoint(index, 0)
-    end
-end
-
-function OnJetwayStateChange(state, DoorPaxHandling)
-    if not DoorPaxHandling then
-        return
-    end
-
-    if state == 5 then
-        InhibitDoor(4, true)
-        SetInteractivePoint(0, 1)
-    else
-        InhibitDoor(4, false)
-        SetInteractivePoint(0, 0)
-    end
-end
-
-function OnStairStateChange(state, DoorStairHandling)
-    if not DoorStairHandling then
-        return
-    end
-
-    if state == 5 then
-        InhibitDoor(4, true)
-        SetInteractivePoint(0, 1)
-    else
-        InhibitDoor(4, false)
-        SetInteractivePoint(0, 0)
+        return false
     end
 end
 
 function SetFuelOnBoardKg(fuelOnBoardKg, targetKg)
     if not RDCPowered then
+        Log("Deferred FuelEvent")
         fuelCorrected = false
-        fuelCorrectedAmountKg = fuelOnBoardKg
+        fuelToCorrectAmountKg = fuelOnBoardKg
         return
     end
 
@@ -312,14 +245,7 @@ function SetPayloadEmpty()
 end
 
 function SetPaxOnBoard(paxOnBoard, weightPerPaxKg, paxTarget)
-    local paxWeightKg = 0
-    if GetPluginSetting("PaxWeight.OvrdPaxWeight") then
-        paxWeightKg = 79.3786
-    else
-        paxWeightKg = weightPerPaxKg
-    end
-
-    SetPaxStations(paxOnBoard, paxOnBoard * paxWeightKg)
+    SetPaxStations(paxOnBoard, paxOnBoard * weightPerPaxKg)
 end
 
 function SetCargoOnBoard(cargoOnBoardKg, cargoTargetKg)
@@ -328,4 +254,13 @@ end
 
 function BoardActive(paxTarget, cargoTargetKg)
     SetPayloadEmpty()
+end
+
+function OnFlightplanImport(ofp)
+    if GetPluginSetting("PaxWeight.OvrdPaxWeight") then
+        Log("Updated flightplan passenger weight")
+        aircraft.Flightplan.UpdatePassengerWeight(79.3786)
+        Log("Updated flightplan aircraft OEW")
+        aircraft.Flightplan.UpdateEmptyOperatingWeightKg(aircraft.Flightplan.AircraftEmptyOewKg + 154.22128)
+    end
 end

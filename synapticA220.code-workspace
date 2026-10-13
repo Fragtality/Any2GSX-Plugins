@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "SynapticA220/src"
+		}
+	],
+	"extensions": {
+		"recommendations": [
+			"sumneko.lua"
+		]
+	}
+}

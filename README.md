@@ -31,7 +31,7 @@ Use the Plugin View ('Available from GitHub') of the Any2GSX App to install Plug
 
 The Plugin might use the Test Light Switch to trigger Updates of PMDG's Cliend Data Area (aka SDK). If that doesn't stop (and the Interface isn't connecting) the DataBroadcast isn't working <br/>
 In some Cases the DataBroadcast wasn't enabled although configured in the 777_Options.ini File (e.g. after an Update for the Aircraft). Try to remove it, load the Sim/Aircraft and and then reenable it in the ini File (after closing the Sim).<br/>
-Generally other Addons that read/use GSX' Total (Target) Passenger Number (`FSDT_GSX_NUMPASSENGERS`) may show weird Behavior or Numbers - PMDG is still writing to this GSX Variable in a non-standard Way. No Workaround - it has to be solved by PMDG being consistent about removing their GSX Integration.
+Generally other Addons that read/use GSX' Total (Target) Passenger Number (`FSDT_GSX_NUMPASSENGERS`) may show weird Behavior or Numbers - PMDG is still writing to this GSX Variable in a non-standard Way. No Workaround - it has to be solved by PMDG being consistent about removing their GSX Integration. They have been informed, they do nothing.
 
 <br/>
 
@@ -44,7 +44,7 @@ If the Automation still doesn't start (i.e. Aircraft Interface doesn't connect) 
 There is a possible Fix for such "breaking" Liveries, shared by BlackMamba in Discord:
 > Go into the livery's folder and then into `SimObjects\Airplanes\FNX_32X\liveries\fnx\[registration]` <br/>
 And then open the livery.cfg file. <br/>
-Under the very first line named "SELECTION", make sure the `required_tags` part has all the correct tags - for example `required_tags = "A320,CFM,WF"` or `required_tags = "A320,IAE,SL"`. Save it and if you're having the same issue I had maybe that'll fix it.  <br/>
+Under the very first line named "SELECTION", make sure the `required_tags` part has all the correct tags - for example `required_tags = "A320,CFM,WF"` or `required_tags = "A320,IAE,SL"`. Save it and if you're having the same issue I had maybe that'll fix it.<br/>
 Mine was just "A320,CFM" so I added the ',WF' at the end and now it works.
 
 For some Liveries, the `atc_id` needs to be corrected (shared by Coppo in Discord):
@@ -54,15 +54,21 @@ For some Liveries, the `atc_id` needs to be corrected (shared by Coppo in Discor
 
 #### INI.A306
 
-The iniBuilds EFB won't Update the MACZFW when Fuel/Payload is synced through the Plugin. There is no Workaround available and no Solution in sight.
+The iniBuilds EFB won't Update the MACZFW when Fuel/Payload is synced through the Plugin. The only Workaround is to instant-load the Aircraft again after Boarding. A Solution is NOT in sight - No Answer from iniBuilds Support.
+
+<br/>
+
+#### INI.A330
+
+The iniBuilds EFB won't Update the MACZFW when Fuel/Payload is synced through the Plugin. The only Workaround is to instant-load the Aircraft again after Boarding.
 
 <br/>
 
 #### INI.A340
 
-Even when iniBuilds Integration is disabled in the EFB, it will still reset Fuel/Payload when the respective GSX Service is reported as completed.<br/>
 Simbrief Payload NEEDS to be imported in the EFB (Payload & Fueling -> Import all from Simbrief)!<br/>
-It is recommended to disable the App Options to round up Fuel and randomize Pax Numbers - the Aircraft will override them anyway.
+Even when iniBuilds Integration is disabled in the EFB, it will still reset Fuel/Payload when the respective GSX Service is reported as completed. The Plugin will correct that, but keep that it Mind for Flight-Trackers being picky about your FOB/Payload!<br/>
+
 
 <br/><br/>
 
@@ -79,6 +85,7 @@ It is recommended to disable the App Options to round up Fuel and randomize Pax 
 | iniBuilds A340 | Fragtality | CPT and FO ACP from VHF1 to PA |
 | iniBuilds A350 | Fragtality | CPT and FO ACP from VHF1 over TEL to CAB |
 | PMDG B737 | FatGingerHead | CPT and FO ACP from VHF1 to PA (incl. INOPs like HF1, HF2) |
+| Synaptic A220 | bork | CPT from VHF1 to VHF3 |
 
 <br/><br/>
 
@@ -105,7 +112,7 @@ And I on the other Side refuse to take a 737 as Donation - it just isn't right t
 
 ### Deeper Integration with iniBuilds Aircrafts
 
-Don't hope for anything. Or count on the Fact that I can continue "trick" the native Integration of the A350 in the Future. (so far, so good - knock on wood!)<br/>
+Don't hope for anything. Or count on the Fact that an Update to the A350/A340 won't the existing Sync.<br/>
 iniBuilds just doesn't show any Interest for an Exchange on a technical Developer-to-Developer Level. When asking how to get in Touch with the Developers, the Discord Mods send you to Support and Support then parks your Ticket and you never hear anything back. On 2 Attempts.
 
 <br/><br/>

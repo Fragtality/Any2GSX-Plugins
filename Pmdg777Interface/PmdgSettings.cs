@@ -19,19 +19,15 @@ namespace Pmdg777Interface
             Key = "CargoLights",
             Type = PluginSettingType.Bool
         };
-        public static readonly PluginSetting OperateBulk = new()
-        {
-            Key = "OperateBulk",
-            Type = PluginSettingType.Bool
-        };
-        public static readonly PluginSetting FrontCatering = new()
-        {
-            Key = "FrontCatering",
-            Type = PluginSettingType.Enum
-        };
         public static readonly PluginSetting FixChocks = new()
         {
             Key = "FixChocks",
+            Type = PluginSettingType.Bool
+        };
+
+        public static readonly PluginSetting FixCabinLights = new()
+        {
+            Key = "FixCabinLights",
             Type = PluginSettingType.Bool
         };
     }

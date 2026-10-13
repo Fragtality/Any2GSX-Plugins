@@ -35,6 +35,12 @@
         "GetSettingProfile",
         "GetGsxController",
         "RunAfter",
-        "GetPluginSetting"
+        "GetPluginSetting",
+        "UseEvent",
+        "WriteEvent",
+        "WriteInput",
+        "UseInput",
+        "SendBus",
+        "FuelWeightKgPerGallon"
     ]
 }

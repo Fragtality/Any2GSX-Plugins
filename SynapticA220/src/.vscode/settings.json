@@ -1,0 +1,32 @@
+{
+    "Lua.diagnostics.globals": [
+        "GetAircraft",
+        "SimVar",
+        "SimRead",
+        "SimReadString",
+        "SimWrite",
+        "SimCommand",
+        "SimCalculator",
+        "SharpFormat",
+        "SharpFormatLocale",
+        "Sleep",
+        "UseLog",
+        "Log",
+        "RunSim",
+        "RunInterval",
+        "RunAircraft",
+        "RunEvent",
+        "MapImage",
+        "UseVar",
+        "SubVar",
+        "GetGsxController",
+        "GetAircraftPlugin",
+        "GetPluginSetting",
+        "WriteVar",
+        "ReadVar",
+        "RunAfter",
+        "SendBus",
+        "SubBus",
+        "UnsubBus"
+    ]
+}

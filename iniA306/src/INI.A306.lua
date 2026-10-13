@@ -2,16 +2,12 @@ local aircraft = GetAircraftPlugin()
 UseVar("L:INI_DEP_ICAO_EFB", "Number")
 UseVar("L:INI_ARR_ICAO_EFB", "Number")
 UseVar("L:INI_MAIN_CARGO_DOOR_TGT", "Number")
-SubVar("L:INI_MAIN_CARGO_DOOR", "OnMainCargoDoor", "Number")
+SubVar("L:INI_MAIN_CARGO_DOOR", "CheckMainCargoDoorLights", "Number")
 UseVar("L:INI_POTENTIOMETER_93", "Number")
 UseVar("L:INI_FUEL_ON_BOARD", "Number")
 UseVar("L:INI_IS_REFUELING", "Number")
 UseVar("L:INI_Fuel_Panel", "Number")
 UseVar("L:INI_IS_PAX", "Number")
-UseVar("L:FSDT_GSX_SETTINGS_PROGRESS_REFUEL", "Number")
-UseVar("L:FSDT_GSX_SET_PROGRESS_REFUEL", "Number")
-UseVar("L:FSDT_GSX_SETTINGS_DETECT_CUST_REFUEL", "Number")
-UseVar("L:FSDT_GSX_SET_DETECT_CUST_REFUEL", "Number")
 UseVar("L:INI_AC_ESSENTIAL_BUS_POWERED", "Number")
 UseVar("L:INI_dc_essential_on_battery", "Number")
 UseVar("L:INI_GPU_AVAIL", "Number")
@@ -36,16 +32,19 @@ UseVar("L:INI_LOAD_NORMAL_SHOW", "Number")
 UseVar("L:INI_LOAD_POSTAL_SHOW", "Number")
 UseVar("L:INI_LOAD_RACING_SHOW", "Number")
 UseVar("L:INI_LOAD_HORSES_SHOW", "Number")
-UseVar("INTERACTIVE POINT GOAL:10", "percent over 100") --Bulk @ Pax
 UseVar("L:INI_REFUEL_TGT", "Number")
 UseEvent("INIB.SET_FUEL")
+aircraft.InteractivePointAdd(10) --Bulk @ Pax
+aircraft.InteractivePointAdd(7) --Bulk @ Freighter
 
 function GetIsCargo()
     return ReadVar("L:INI_IS_PAX") == 0 and ReadVar("L:INI_FUEL_ON_BOARD") > 0
 end
 
+local lastArrivalIcao = 0
+
 function GetReadyDepartureServices()
-    return GetAvionicPowered() and aircraft.LightNav == true and ReadVar("L:INI_DEP_ICAO_EFB") > 0 and ReadVar("L:INI_ARR_ICAO_EFB") > 0
+    return GetAvionicPowered() and aircraft.LightNav == true and ReadVar("L:INI_DEP_ICAO_EFB") > 0 and ReadVar("L:INI_ARR_ICAO_EFB") > 0 and ReadVar("L:INI_ARR_ICAO_EFB") ~= lastArrivalIcao
 end
 
 function GetSmartButtonRequest()
@@ -117,12 +116,18 @@ function HandleWalkaroundEquipment()
     RemoveCovers()
 end
 
-function OnDoorTrigger(door, trigger)
-    local profile = GetSettingProfile()
-    if door == 9 and trigger == true and GetIsCargo() == true and profile.DoorCargoHandling == true then
-        Log("MainCargo trigger")
-        local target = ReadVar("L:INI_MAIN_CARGO_DOOR_TGT") > 0
-        if target == false then
+function IsDoorCustom(gsxDoor)
+    if gsxDoor == 9 and GetIsCargo() then
+        return true
+    else
+        return false
+    end
+end
+
+function SetDoorCustom(aircraftDoor, target)
+    if aircraftDoor == 20 and GetIsCargo() == true then
+        Log("MainCargo Door toggle")
+        if target then
             WriteVar("L:INI_MAIN_CARGO_DOOR_TGT", 1)
         else
             WriteVar("L:INI_MAIN_CARGO_DOOR_TGT", 0)
@@ -130,10 +135,33 @@ function OnDoorTrigger(door, trigger)
     end
 end
 
-local CargoLoaderLights = false
+function GetDoorCustom(aircraftDoor)
+    if aircraftDoor == 20 and GetIsCargo() == true then
+        return ReadVar("L:INI_MAIN_CARGO_DOOR_TGT") > 0
+    else
+        return false
+    end
+end
+
+function SetCargoDoorBulk(target)
+    local index = 10
+    if GetIsCargo() then
+        index = 7
+    end
+
+    aircraft.SetInteractivePoint(index, target)
+end
+
+function GetCargoDoorBulk()
+    local index = 10
+    if GetIsCargo() then
+        index = 7
+    end
+
+    return aircraft.GetInteractivePoint(index)
+end
 
 function SetMainCargoDoorLights(target)
-    CargoLoaderLights = ReadVar("L:INI_POTENTIOMETER_93") ~= 0
     if MainCargoDoorLights ~= target then
        Log("Cargo Lights Toggle")
        if target then
@@ -145,7 +173,8 @@ function SetMainCargoDoorLights(target)
     end
 end
 
-function OnMainCargoDoor(position)
+function CheckMainCargoDoorLights()
+    local position = ReadVar("L:INI_MAIN_CARGO_DOOR")
     if position > 0.68 then
         SetMainCargoDoorLights(true)
     elseif position < 0.67 then
@@ -153,21 +182,34 @@ function OnMainCargoDoor(position)
     end
 end
 
+function GetPanelRefuel()
+    return ReadVar("L:INI_IS_REFUELING") > 0
+end
+
 function SetPanelRefuel(target)
-    if target then
-        WriteVar("L:INI_IS_REFUELING", 1)
-    else
-        WriteVar("L:INI_IS_REFUELING", 0)
+    if GetPanelRefuel() ~= target then
+        local value = 0
+        if target then
+            value = 1
+        end
+        Log("Setting Refuel Panel to " .. value)
+        WriteVar("L:INI_IS_REFUELING", value)
     end
 end
 
-function RefuelActive()
-    WriteVar("L:INI_Fuel_Panel", 1)
+function GetPanelRefuelOperator()
+    return ReadVar("L:INI_Fuel_Panel") > 0
 end
 
-
-function RefuelCompleted()
-    WriteVar("L:INI_Fuel_Panel", 0)
+function SetPanelRefuelOperator(target)
+   if GetPanelRefuelOperator() ~= target then
+        local value = 0
+        if target then
+            value = 1
+        end
+        Log("Setting Refuel Operator Panel to " .. value)
+        WriteVar("L:INI_Fuel_Panel", value)
+    end
 end
 
 function RefuelStart(fuelTargetKg)
@@ -202,9 +244,11 @@ function OnAutomationStateChange(state)
         RemoveCovers()
     elseif state == 1 then
         RemoveCovers()
-        OnMainCargoDoor(ReadVar("L:INI_MAIN_CARGO_DOOR"))
+        CheckMainCargoDoorLights()
         payloadPaxKg = 0
         payloadCargoKg = 0
+    elseif state == 5 then
+        lastArrivalIcao = ReadVar("L:INI_ARR_ICAO_EFB")
     end
 end
 
@@ -245,10 +289,12 @@ function OnStairStateChange(state, paxDoorAllowed)
             WriteVar("L:INI_SLIDE_L4", 0)
         end
     end
+
+    return false
 end
 
 function OnJetwayStateChange(state, paxDoorAllowed)
-        if (state == 1 or state == 3 or state == 4 or state == 5) then
+    if (state == 1 or state == 3 or state == 4 or state == 5) then
         if ReadVar("L:INI_SLIDE_L1") > 0 then
             Log("Stowing Slides on L1")
             WriteVar("L:INI_SLIDE_L1", 0)
@@ -258,29 +304,29 @@ function OnJetwayStateChange(state, paxDoorAllowed)
             WriteVar("L:INI_SLIDE_L2", 0)
         end
     end
-end
 
-function SetCargoDoors(state, force)
-    if not GetIsCargo() and not state and ReadVar("INTERACTIVE POINT GOAL:10") > 0 then
-        WriteVar("INTERACTIVE POINT GOAL:10", 0)
-    end
+    return false
 end
 
 function BoardActive(paxTarget, cargoTargetKg)
     payloadPaxKg = 0
     payloadCargoKg = 0
-    OnMainCargoDoor(ReadVar("L:INI_MAIN_CARGO_DOOR"))
+    CheckMainCargoDoorLights()
     RemoveCargoModel()
 end
 
-function BoardChangePax(paxOnBoard, weightPerPaxKg, paxTarget)
+function SetPaxOnBoard(paxOnBoard, weightPerPaxKg, paxTarget)
     payloadPaxKg = paxOnBoard * weightPerPaxKg
     SetPayloadStations()
 end
 
-function BoardChangeCargo(progressLoad, cargoOnBoardKg, cargoPlannedKg)
+function SetCargoOnBoard(cargoOnBoardKg, cargoTargetKg)
     payloadCargoKg = cargoOnBoardKg
     SetPayloadStations()
+end
+
+function BoardChangeCargo(progressLoad, cargoOnBoardKg, cargoPlannedKg)
+    SetCargoOnBoard(cargoOnBoardKg, cargoPlannedKg)
     if GetIsCargo() and not cargoModelSet and progressLoad >= GetPluginSetting("CargoSetValue") then
         local modelTarget = GetPluginSetting("CargoModel")
         if modelTarget == 0 then
@@ -300,47 +346,13 @@ function BoardChangeCargo(progressLoad, cargoOnBoardKg, cargoPlannedKg)
     end
 end
 
-function BoardCompleted(paxTarget, weightPerPaxKg, cargoTargetKg)
-    payloadPaxKg = paxTarget * weightPerPaxKg
-    payloadCargoKg = cargoTargetKg
-    SetPayloadStations()
-
-    local profile = GetSettingProfile()
-    if GetIsCargo() == true and profile.DoorCargoHandling == true and not profile.DoorsCargoKeepOpenOnDetachBoard then
-        local door = ReadVar("L:INI_MAIN_CARGO_DOOR_TGT") > 0
-        if door == true then
-            WriteVar("L:INI_MAIN_CARGO_DOOR_TGT", 0)
-        end
-    end
-end
-
 function DeboardActive()
-    OnMainCargoDoor(ReadVar("L:INI_MAIN_CARGO_DOOR"))
-end
-
-function DeboardChangePax(paxOnBoard, gsxTotal, weightPerPaxKg)
-    payloadPaxKg = paxOnBoard * weightPerPaxKg
-    SetPayloadStations()
+    CheckMainCargoDoorLights()
 end
 
 function DeboardChangeCargo(progressUnload, cargoOnBoardKg)
-    payloadCargoKg = cargoOnBoardKg
-    SetPayloadStations()
+    SetCargoOnBoard(cargoOnBoardKg, 0)
     if GetIsCargo() and cargoModelSet and progressUnload <= GetPluginSetting("CargoUnsetValue") then
         RemoveCargoModel()
-    end
-end
-
-function DeboardCompleted()
-    payloadPaxKg = 0
-    payloadCargoKg = 0
-    SetPayloadStations()
-
-    local profile = GetSettingProfile()
-    if GetIsCargo() == true and profile.DoorCargoHandling == true and not profile.DoorsCargoKeepOpenOnDetachDeboard then
-        local door = ReadVar("L:INI_MAIN_CARGO_DOOR_TGT") > 0
-        if door == true then
-            WriteVar("L:INI_MAIN_CARGO_DOOR_TGT", 0)
-        end
     end
 end

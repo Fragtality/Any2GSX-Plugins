@@ -1,5 +1,6 @@
 ﻿using Any2GSX.PluginInterface;
 using Any2GSX.PluginInterface.Interfaces;
+using Any2GSX.PluginInterface.Interfaces.GSX;
 using CFIT.AppLogger;
 using CFIT.SimConnectLib.SimEvents;
 using CFIT.SimConnectLib.SimResources;
@@ -31,7 +32,6 @@ namespace Pmdg777Interface
 
         public virtual bool IsWeightInKg => PMDG_777X_Data.WeightInKg != 0;
         public virtual bool IsCargo => AircraftString?.Contains("PMDG 777F", StringComparison.InvariantCultureIgnoreCase) ?? false;
-        public virtual bool AvionicsPowered => SimStore[PmdgConstants.VarAircraftPowered]?.GetNumber() > 0;
         public virtual bool PowerAvailable => PMDG_777X_Data!.ELEC_annunExtPowr_AVAIL?[0] > 0 || PMDG_777X_Data!.ELEC_annunExtPowr_AVAIL?[1] > 0;
         public new bool PowerConnected => PMDG_777X_Data!.ELEC_annunExtPowr_ON?[0] > 0 || PMDG_777X_Data!.ELEC_annunExtPowr_ON?[1] > 0;
         public virtual bool BrakesSet => PMDG_777X_Data!.BRAKES_ParkingBrakeLeverOn > 0;
@@ -70,7 +70,9 @@ namespace Pmdg777Interface
             SimStore.AddVariable(PmdgConstants.VarEquipAirCond);
             SimStore.AddVariable(PmdgConstants.VarEquipGpu);
             SimStore.AddVariable(PmdgConstants.VarEquipChocks);
-            SimStore.AddVariable(PmdgConstants.VarAircraftPowered);
+            SimStore.AddVariable(PmdgConstants.VarPanelRefuel);
+            SimStore.AddVariable(PmdgConstants.VarPanelWater);
+            SimStore.AddVariable(PmdgConstants.VarPanelLavatory);
 
             SubRotorBrake = SimStore.AddEvent("ROTOR_BRAKE");
             SubBatteryAltn = SimStore.AddEvent("TOGGLE_MASTER_BATTERY_ALTERNATOR");
@@ -86,7 +88,6 @@ namespace Pmdg777Interface
 
             GsxController.GetService(GsxServiceType.Boarding).OnStateChanged += OnBoardState;
             GsxController.GetService(GsxServiceType.Deboarding).OnStateChanged += OnDeboardState;
-            GsxController.GetService(GsxServiceType.Catering).OnStateChanged += OnCateringState;
 
             return CommBus.RegisterCommBus("PlaneToTablet", BroadcastFlag.JS, EfbManager.OnCommBusEvent);
         }
@@ -99,7 +100,9 @@ namespace Pmdg777Interface
             SimStore.Remove(PmdgConstants.VarEquipAirCond);
             SimStore.Remove(PmdgConstants.VarEquipGpu);
             SimStore.Remove(PmdgConstants.VarEquipChocks);
-            SimStore.Remove(PmdgConstants.VarAircraftPowered);
+            SimStore.Remove(PmdgConstants.VarPanelRefuel);
+            SimStore.Remove(PmdgConstants.VarPanelWater);
+            SimStore.Remove(PmdgConstants.VarPanelLavatory);
 
             SubRotorBrake?.Unsubscribe();
             SubBatteryAltn?.Unsubscribe();
@@ -114,7 +117,6 @@ namespace Pmdg777Interface
 
             GsxController.GetService(GsxServiceType.Boarding).OnStateChanged -= OnBoardState;
             GsxController.GetService(GsxServiceType.Deboarding).OnStateChanged -= OnDeboardState;
-            GsxController.GetService(GsxServiceType.Catering).OnStateChanged -= OnCateringState;
 
             return CommBus.UnregisterCommBus("PlaneToTablet", BroadcastFlag.JS, EfbManager.OnCommBusEvent);
         }
@@ -124,12 +126,6 @@ namespace Pmdg777Interface
             if (FirstRun)
             {
                 DoorManager.InitDoors();
-                Logger.Debug($"Fix Cabin Lights");
-                try
-                {
-                    (SubBatteryAltn as SimEventSubscription)?.WriteValues([0]);
-                }
-                catch { }
                 FirstRun = false;
             }
 
@@ -181,6 +177,19 @@ namespace Pmdg777Interface
                 if (ex is not TaskCanceledException)
                     Logger.LogException(ex);
             }
+        }
+
+        protected virtual void FixCabinLights()
+        {
+            try
+            {
+                if (ISettingProfile.GetSetting(PmdgSettings.FixCabinLights) == true && GsxController.IsOnGround && !Engine1 && !Engine2)
+                {
+                    Logger.Debug($"Fix Cabin Lights");
+                    (SubBatteryAltn as SimEventSubscription)?.WriteValues([0]);
+                }
+            }
+            catch { }
         }
 
         public override Task<bool> GetSettingAdvAutomation()
@@ -237,23 +246,13 @@ namespace Pmdg777Interface
         {
             if (state == AutomationState.SessionStart)
             {
-                if (DoorManager.HasOpenDoors())
-                {
-                    await DoorManager.DoorsAllClose();
+                if (GsxController.IsOnGround && !await GetEngineRunning())
                     await DoorDisarmAll();
-                }
             }
             if (state == AutomationState.Preparation)
             {
+                FixCabinLights();
                 await DoorDisarmAll();
-                if (GsxController.HasGateJetway && GsxController.JetwayState == GsxServiceState.Active)
-                {
-                    if (DoorManager.GetDoor(GsxDoor.PaxDoor2).IsMoving)
-                        await Task.Delay(5000, Token);
-                    await DoorManager.OnJetwayStateChange(GsxServiceState.Active, ISettingProfile.DoorPaxHandling);
-                }
-                if (GsxController.StairsState == GsxServiceState.Active && ISettingProfile.DoorPaxHandling && ISettingProfile.DoorStairHandling)
-                    await OnStairStateChange(GsxServiceState.Active, true);
             }
             else if (state == AutomationState.Departure || state == AutomationState.Arrival)
             {
@@ -335,58 +334,76 @@ namespace Pmdg777Interface
             return Task.CompletedTask;
         }
 
-        public override Task<bool> GetHasOpenDoors()
+        public override Task<AircraftDoor> GetAircraftDefaultDoor(GsxDoor door)
+        {
+            return DoorManager.GetDefaultDoor(door);
+        }
+
+        public override Task SetDoorCustom(AircraftDoor aircraftDoor, bool target)
+        {
+            return DoorManager.SetDoor(aircraftDoor, target);
+        }
+
+        public override Task<bool> GetDoorCustom(AircraftDoor aircraftDoor)
+        {
+            return Task.FromResult(DoorManager.GetDoor(aircraftDoor).IsOpen);
+        }
+
+        public override Task<bool> CheckOpenDoors()
         {
             return Task.FromResult(DoorManager.HasOpenDoors());
         }
 
-        public override Task DoorsAllClose()
+        public override Task<bool> IsDoorCustom(GsxDoor gsxDoor)
         {
-            if (DoorManager.HasOpenDoors())
-            {
-                Logger.Debug($"DoorsAllClose");
-                return DoorManager.DoorsAllClose();
-            }
-            else
-                return Task.CompletedTask;
+            return Task.FromResult(true);
         }
 
-        public override Task SetCargoDoors(bool state, bool force = false)
+        public override Task SetCargoDoorBulk(bool target)
         {
-            return DoorManager.SetCargoDoors(state, force);
+            return DoorManager.SetDoor(AircraftDoor.CargoBulk, target);
         }
 
-        public override Task OnDoorTrigger(GsxDoor door, bool trigger)
+        public override Task<bool> GetCargoDoorBulk()
         {
-            return DoorManager.OnDoorTrigger(door, trigger);
+            return Task.FromResult(DoorManager.GetDoor(AircraftDoor.CargoBulk).IsOpen);
         }
 
-        public override Task OnLoaderAttached(GsxDoor door, bool attached)
+        public override async Task DoorsAllClose()
         {
-            return DoorManager.OnLoaderAttached(door, attached);
+            await base.DoorsAllClose();
+            await Task.Delay(500, Token);
+            await DoorManager.DoorsAllClose();
         }
 
-        public override Task OnJetwayStateChange(GsxServiceState state, bool paxDoorAllowed)
+        public override Task<bool> GetPanelRefuel()
         {
-            return DoorManager.OnJetwayStateChange(state, paxDoorAllowed);
+            return Task.FromResult(SimStore[PmdgConstants.VarPanelRefuel]?.GetNumber() != 0);
         }
 
-        public override Task OnStairStateChange(GsxServiceState state, bool paxDoorAllowed)
+        public override Task SetPanelRefuel(bool target)
         {
-            return DoorManager.OnStairStateChange(state, paxDoorAllowed);
+            return SimStore[PmdgConstants.VarPanelRefuel].WriteValue(target ? 1 : 0);
         }
 
-        public override Task OnStairOperationChange(GsxServiceState state, bool paxDoorAllowed)
+        public override Task<bool> GetPanelLavatory()
         {
-            if (state == GsxServiceState.Completing)
-                return DoorManager.OnStairStateChange(GsxServiceState.Requested, paxDoorAllowed);
-            else
-                return Task.CompletedTask;
+            return Task.FromResult(SimStore[PmdgConstants.VarPanelLavatory]?.GetNumber() != 0);
         }
 
-        public override Task OnStairVehicleChange(GsxVehicleStair stair, GsxVehicleStairState state, bool paxDoorAllowed)
+        public override Task SetPanelLavatory(bool target)
         {
-            return DoorManager.OnStairVehicleChange(stair, state, paxDoorAllowed);
+            return SimStore[PmdgConstants.VarPanelLavatory].WriteValue(target ? 1 : 0);
+        }
+
+        public override Task<bool> GetPanelWater()
+        {
+            return Task.FromResult(SimStore[PmdgConstants.VarPanelWater]?.GetNumber() != 0);
+        }
+
+        public override Task SetPanelWater(bool target)
+        {
+            return SimStore[PmdgConstants.VarPanelWater].WriteValue(target ? 1 : 0);
         }
 
         protected virtual Task OnBoardState(IGsxService boardService)
@@ -399,14 +416,9 @@ namespace Pmdg777Interface
             return DoorManager.OnDeboardState(deboardService);
         }
 
-        protected virtual Task OnCateringState(IGsxService cateringService)
-        {
-            return DoorManager.OnCateringState(cateringService);
-        }
-
         protected virtual bool IsAvionicsPowered()
         {
-            return AvionicsPowered || ApuRunning || PowerConnected || Engine1 || Engine2;
+            return ApuRunning || PowerConnected || Engine1 || Engine2;
         }
 
         public override Task<bool> GetAvionicPowered()
@@ -533,7 +545,7 @@ namespace Pmdg777Interface
 
         public override Task<bool> GetLightBeacon()
         {
-            return Task.FromResult(IsAvionicsPowered() && LightBeacon);
+            return Task.FromResult(IsAvionicsPowered() && LightBeacon && PMDG_777X_Data.LTS_IndLightsTestSw != 0);
         }
 
         public override Task<bool> GetReadyDepartureServices()

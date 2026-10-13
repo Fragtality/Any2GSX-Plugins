@@ -1,6 +1,73 @@
 # Changelog
 
+### FNX.A320
+- Updated for new Plugin Interface
+  - Some of the Door Logic removed - now commonly handled in the App
+  - Door Mapping adapted to generic Plugin Options
+- Added Condition to Ready Departure Check that the loaded OFP (EFB) has a different Id than the last (hopefully preventing external EFB Clients to trigger the Departure with the old/same OFP)
+
+### PMDG.B777
+- Updated for new Plugin Interface
+  - Some of the Door Logic removed - now commonly handled in the App
+  - Door Mapping adapted to generic Plugin Options
+  - Option for Front Catering removed - now handled by generic Plugin Options
+  - Option for Bulk Door removed - now handled by generic Plugin Option
+  - Added Handling of Refuel/Water/Lav Panels  
+- Added Door Monitor to retry Doors that did not open/close on the first Attempt
+- Added an Option for the Cabin Light Fix (via Battery Alternator Event) and moved it to be triggered in the Preparation Phase
+- Removed L:PowerOn from Avionic Powered Check (was redundant and triggered false-positives)
+- Fixed a possible Race-Condition where the Light-Test could trigger the Pushback Phase through Beacon On
+- Updated SimConnect SDK
+
+### INI.A306
+- Updated for new Plugin Interface
+  - Some of the Door Logic removed - now commonly handled in the App
+  - Improved Handling of Refuel Panels
+- Board/Deboard now use the SetPaxOnBoard and SetCargoOnBoard Methods (i.e. to set Payload when Boarding was completed early)
+- Added Condition to Ready Departure Check that the Arrival ICAO has to be different than the last 
+	
+### INI.A350
+- Updated for new Plugin Interface
+  - Some of the Door Logic removed - now commonly handled in the App
+  - Door Mapping adapted to generic Plugin Options
+  - Improved Handling of Refuel/Water/Lav Panels and Messages
+  - Added Handling of Bulk Cargo Door
+- Removed override Payload Plugin Option and Payload Sync on Boarding (native cannot be overwritten anymore)
+  - Payload Sync on Deboarding still provided through the Plugin
+- Added Call to iniBuilds' Start Turaround Variable once Deboard is completed to clear EFB SeatMap/Weights (and other Stuff)
+- Changed Payload Method to use iniBuild SimEvent
+- Changed Fuel Method to directly manipulating the Tanks, removing the Need to override GSX' Service State
+  - The Refuel Door is therefor now controlled through the Plane, opening when the Truck arrives and closing when completed
+- Added Fallback to send Loadsheet (if not happened through Boarding completed)
+- Added Condition to Ready Departure Check that the Arrival ICAO has to be different than the last 
+- Added Cockpit Notification when Preparation has finished (playing ATC MSG Sound)
+
+### INI.A340
+- Updated for new Plugin Interface
+  - Improved Handling of Refuel/Water/Lav Panels and Messages
+  - Added Handling of Bulk Cargo Door
+- Reworked Distribution Logic for Fuel-Sync
+- Added Condition to Ready Departure Check that the Arrival ICAO has to be different than the last 
+- Reworked Fuel/Payload Fixes (the A340 just loooooves to reset it)
+- Added Cockpit Notification when Preparation has finished (playing ATC MSG Sound)
+
+### INI.A330
+- Updated for new Plugin Interface
+  - Added Handling of Bulk Cargo Door
+  - Removed additional Door Checks
+- Changed Fuel and Payload Methods to use iniBuild SimEvents
+- Added Condition to Ready Departure Check that the Arrival ICAO has to be different than the last 
+
+### SYN.A220
+- Updated for new Plugin Interface
+- Improved Detection of FMS Flightplan Import
+- Removed L1 Door Inhibition
+- Improved Workaround for the EFB ignoring Simbrief Weights for Pax and Empty
+
 ## [e19593d] - 2026-09-20
+
+### SYN.A220
+- Updated included GSX Profile
 
 ### PMDG.B777
 - Added Channel File for Audio Control (CPT, FO)

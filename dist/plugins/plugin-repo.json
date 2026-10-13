@@ -15,8 +15,8 @@
     "Aircraft": "iniBuilds A300-600 (All Variants)",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.4",
-    "VersionApp": "0.4.3",
+    "VersionPlugin": "0.5.0",
+    "VersionApp": "0.5.0",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
@@ -24,7 +24,6 @@
       "PayloadSync": 8,
       "DoorHandling": 12,
       "DoorsSynced": 16,
-      "DoorsCloseAll": false,
       "GroundEquipmentHandling": 22,
       "HasSmartButton": true,
       "VolumeControl": true,
@@ -50,7 +49,7 @@
       {
         "Key": "INI.306.Option.CargoSetValue",
         "Type": 2,
-        "DefaultValue": 50,
+        "DefaultValue": 70,
         "Description": "Cargo: Set at (Boarding)",
         "DescUnit": "%",
         "Tooltip": "The Cargo loaded Percentage (as reported by GSX) at which the Model is set."
@@ -58,7 +57,7 @@
       {
         "Key": "INI.306.Option.CargoUnsetValue",
         "Type": 2,
-        "DefaultValue": 50,
+        "DefaultValue": 30,
         "Description": "Cargo: Remove at (Deboarding)",
         "DescUnit": "%",
         "Tooltip": "The Cargo unloaded Percentage (as reported by GSX) at which the Model is removed."
@@ -231,17 +230,16 @@
     "Aircraft": "Microsoft/iniBuilds A330 (All Variants)",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.3",
-    "VersionApp": "0.4.3",
+    "VersionPlugin": "0.5.0",
+    "VersionApp": "0.5.0",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
       "CanSetPayload": true,
       "PayloadSync": 8,
       "DoorHandling": 12,
-      "DoorsSynced": 6,
-      "DoorsCloseAll": false,
-      "GroundEquipmentHandling": 2,
+      "DoorsSynced": 1,
+      "GroundEquipmentHandling": 22,
       "HasSmartButton": true,
       "VolumeControl": true,
       "CockpitNotifications": 0
@@ -275,22 +273,12 @@
       {
         "Key": "Generic.Var.PowerAvionic.Name",
         "Type": 4,
-        "DefaultValue": "ELECTRICAL MAIN BUS VOLTAGE"
+        "DefaultValue": "L:INI_DC_ESSENTIAL_BUS_IS_POWERED"
       },
       {
         "Key": "Generic.Var.PowerAvionic.Unit",
         "Type": 4,
-        "DefaultValue": "volts"
-      },
-      {
-        "Key": "Generic.Var.ExtConn.Name",
-        "Type": 4,
-        "DefaultValue": "EXTERNAL POWER ON"
-      },
-      {
-        "Key": "Generic.Var.ExtConn.Unit",
-        "Type": 4,
-        "DefaultValue": "Bool"
+        "DefaultValue": "Number"
       },
       {
         "Key": "Generic.Var.ApuRunning.Name",
@@ -419,7 +407,7 @@
         "CPT.INT": true
       },
       "PluginSettings": {
-        "Generic.Option.Aircraft.RefuelStair": true
+        "Generic.Option.Aircraft.DoorPreferred": 2
       }
     }
   },
@@ -433,20 +421,19 @@
     "Aircraft": "iniBuilds A350 (All Variants)",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.3",
-    "VersionApp": "0.4.3",
+    "VersionPlugin": "0.5.0",
+    "VersionApp": "0.5.0",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
       "CanSetPayload": true,
-      "PayloadSync": 8,
+      "PayloadSync": 10,
       "DoorHandling": 12,
-      "DoorsSynced": 4,
-      "DoorsCloseAll": true,
+      "DoorsSynced": 33,
       "GroundEquipmentHandling": 54,
       "HasSmartButton": true,
       "VolumeControl": true,
-      "CockpitNotifications": 0
+      "CockpitNotifications": 1
     },
     "Settings": [
       {
@@ -455,13 +442,6 @@
         "DefaultValue": true,
         "Description": "Remove Covers",
         "Tooltip": "The Covers on the Aircraft will be removed on Session Start."
-      },
-      {
-        "Key": "INI.350.Option.Override.Payload",
-        "Type": 1,
-        "DefaultValue": true,
-        "Description": "Override native Payload Sync",
-        "Tooltip": "The Plugin will override the GSX State Variables for Boarding/Deboarding to disable the native Payload-Sync (and instead use the Plugin to sync the Payload with GSX)."
       },
       {
         "Key": "Generic.Var.PowerAvionic.Name",
@@ -567,7 +547,7 @@
       "Generic.Var.DepartTrigger.Value",
       "Generic.Option.Aircraft.GsxProgFuel"
     ],
-    "InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used does NOT have the Option 'Default Fuel System' checked!\r\n\r\nNOTAMS:\r\n• The Departure Services are started by importing (FPLAN REQUEST) the Flightplan into the MCDU\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
+    "InstallUsageNotes": "NOTAMS:\r\n• The Departure Services are started by importing (FPLAN REQUEST) the Flightplan into the MCDU\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
     "PluginDefaultProfile": {
       "PluginId": "INI.A350",
       "ChannelFileId": "INI.A350",
@@ -607,6 +587,9 @@
       "AudioStartupUnmute": {
         "CPT.VHF1": true,
         "CPT.INT": true
+      },
+      "PluginSettings": {
+        "Generic.Option.Aircraft.DoorPreferred": 2
       }
     }
   },
@@ -619,19 +602,18 @@
     "Aircraft": "PMDG B777 (All Variants)",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.14",
-    "VersionApp": "0.4.13",
+    "VersionPlugin": "0.5.0",
+    "VersionApp": "0.5.0",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
       "CanSetPayload": true,
       "PayloadSync": 8,
-      "DoorHandling": 10,
-      "DoorsSynced": 30,
-      "DoorsCloseAll": true,
+      "DoorHandling": 12,
+      "DoorsSynced": 62,
       "GroundEquipmentHandling": 38,
       "HasSmartButton": true,
-      "VolumeControl": false,
+      "VolumeControl": true,
       "CockpitNotifications": 0
     },
     "AircraftProfileEntries": [
@@ -660,30 +642,18 @@
         "Tooltip": "Automatically toggle the Cargo Lights on the 777F when the Doors are operated or GSX becomes active."
       },
       {
-        "Key": "PMDG.777.Option.OperateBulk",
-        "Type": 1,
-        "DefaultValue": true,
-        "Description": "Use Bulk Cargo Door",
-        "Tooltip": "Also Open or Close the Bulk Cargo Door when the other Cargo Doors are operated (Pax/Cargo)."
-      },
-      {
-        "Key": "PMDG.777.Option.FrontCatering",
-        "Type": 5,
-        "DefaultValue": -1,
-        "EnumValues": {
-          "-1": "Default",
-          "1": "Door 1R",
-          "3": "Door 2R"
-        },
-        "Description": "Catering: Front Door Mapping",
-        "Tooltip": "Configure which PMDG Door is operated when GSX requests Service Door 1 (Front Catering Truck).\nPer Default the 200's and Freighter will use 1R and the 300 the 2R Door.\nNote: Selecting a specific Door here applies to all Variants - so different Profiles for each Variant are needed then."
-      },
-      {
         "Key": "PMDG.777.Option.FixChocks",
         "Type": 1,
         "DefaultValue": true,
         "Description": "Fix Chocks in Walkaround",
         "Tooltip": "The Plugin will set the PMDG Chocks via L-Var in Walkaround before the Plugin Connection is established.\nThis should prevent the GSX Menu not opening/getting Ready without Brakes or Chocks."
+      },
+      {
+        "Key": "PMDG.777.Option.FixCabinLights",
+        "Type": 1,
+        "DefaultValue": true,
+        "Description": "Fix Cabin Lights on Start",
+        "Tooltip": "Trigger the SimEvent 'TOGGLE_MASTER_BATTERY_ALTERNATOR' to fix Cabin Lights (in Preparation Phase).\nOnly applied when on Ground and Engines not running."
       },
       {
         "Key": "Generic.Var.Engine1.Name",
@@ -742,7 +712,7 @@
       "Generic.Option.Aircraft.InitDelay",
       "Generic.Option.Aircraft.GsxProgFuel"
     ],
-    "InstallUsageNotes": "IMPORTANT: DataBroadcast needs to be enabled in the 777_Options.ini File (for each Variant and Simulator)!\r\nConsult the PMDG_777_MSFS_SDK Manual in the Aircraft's Documentation\\SDK Folder.\r\n\r\nRECOMMENDED: Use the internal/GSX provided Aircraft Profiles.\r\nCHECK if the preferred Door is set correctly (=the Door the Jetway connects), if not set the Door in the 3D-Editor to preferred!\r\nYou eventually need to delete the gsx.cfg File in the SimObjects\\Airplanes\\PMDG 777... Folder.\r\n\r\nNOTAMs:\r\n• The Departure Services will start when the Flightplan is imported in the UFT\r\n• The SmartButton is mapped to the MIC/INT Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
+    "InstallUsageNotes": "IMPORTANT: DataBroadcast needs to be enabled in the 777_Options.ini File (for each Variant and Simulator)!\r\nConsult the PMDG_777_MSFS_SDK Manual in the Aircraft's Documentation\\SDK Folder.\r\n\r\nRECOMMENDED: Use the internal/GSX provided Aircraft Profiles.\r\nIF the wrong Door opens when the Jetway connects, set the preferred Door manually in the Plugin Options!\r\nYou eventually need to delete the gsx.cfg File in the SimObjects\\Airplanes\\PMDG 777... Folder.\r\n\r\nNOTAMs:\r\n• The Departure Services will start when the Flightplan is imported in the UFT\r\n• The SmartButton is mapped to the MIC/INT Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
     "PluginDefaultProfile": {
       "PluginId": "PMDG.B777",
       "ChannelFileId": "PMDG.B777",
@@ -802,8 +772,9 @@
         "CPT.CAB": true
       },
       "RunAutomationService": true,
+      "RunAudioService": true,
       "PluginSettings": {
-        "Generic.Option.Aircraft.RefuelStair": false
+        "Generic.Option.Aircraft.ForceUnderground": true
       }
     }
   },
@@ -819,20 +790,19 @@
     "Aircraft": "iniBuilds A340 (All Variants)",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.3",
-    "VersionApp": "0.4.3",
+    "VersionPlugin": "0.5.0",
+    "VersionApp": "0.5.0",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
       "CanSetPayload": true,
       "PayloadSync": 8,
       "DoorHandling": 4,
-      "DoorsSynced": 1,
-      "DoorsCloseAll": false,
+      "DoorsSynced": 33,
       "GroundEquipmentHandling": 54,
       "HasSmartButton": true,
       "VolumeControl": true,
-      "CockpitNotifications": 0
+      "CockpitNotifications": 1
     },
     "Settings": [
       {
@@ -846,8 +816,8 @@
         "Key": "INI.340.Option.Fix.PayloadReset",
         "Type": 1,
         "DefaultValue": true,
-        "Description": "Try to fix Payload Reset",
-        "Tooltip": "Try to fix the resetting Payload after Boarding"
+        "Description": "Fix Fuel/Payload Reset",
+        "Tooltip": "Try to fix the Airplane resetting its Fuel or Payload after GSX Services complete."
       },
       {
         "Key": "Generic.Var.ExtAvail.Name",
@@ -969,7 +939,7 @@
       "Generic.Var.DepartTrigger.Value",
       "Generic.Option.Aircraft.GsxProgFuel"
     ],
-    "InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used is configured in the following Way (if the bundled Profiles are not installed):\r\n• The Option 'Default Fuel System' is NOT checked!\r\n• The Preferred Exit is set to (L)2\r\n• Lavatory Position corrected\r\n\r\nNOTAMS:\r\n• Disable all GSX Options in the EFB and do NOT use 'load via GSX' in the EFB!\r\n• The Departure Services are started by importing (Init Request) the Flightplan into the MCDU (with the Nav Lights being on)\r\n• Simbrief Payload NEEDS to be imported in the EFB (Payload & Fueling -> Import all from Simbrief)\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request\r\n• Engine/Pitot Covers will automatically be removed on Session Start (configurable)\r\n• KNOWN ISSUE: GSX sometimes disconnects the Hose although Refuel is still running - the Refuel Process will continue (unless configured otherwise in the App)",
+    "InstallUsageNotes": "IMPORTANT: Ensure that the Aircraft Profile used is configured in the following Way (if the bundled Profiles are not installed):\r\n• The Option 'Default Fuel System' is NOT checked!\r\n• The Preferred Exit is set to (L)2\r\n• Lavatory Position corrected\r\n\r\nNOTAMS:\r\n• Disable all GSX Options in the EFB and do NOT use 'load via GSX' in the EFB!\r\n• Simbrief Payload NEEDS to be imported in the EFB (My Flight and Payload & Fueling -> Import all from Simbrief) before starting Departure Services\r\n• The Departure Services are started by importing (Init Request) the Flightplan into the MCDU (with the Nav Lights being on)\r\n• The SmartButton is mapped to the INT/RAD Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request\r\n• Engine/Pitot Covers will automatically be removed on Session Start (configurable)\r\n• KNOWN ISSUE: GSX sometimes disconnects the Hose although Refuel is still running - the Refuel Process will continue (unless configured otherwise in the App)\r\n• KNOWN ISSUE: The A340 likes to reset Fuel or Payload occasionally - the Plugin corrects that but you (or your Tracker!) might notice",
     "PluginDefaultProfile": {
       "PluginId": "INI.A340",
       "ChannelFileId": "INI.A340",
@@ -1013,6 +983,9 @@
       "AudioStartupUnmute": {
         "CPT.VHF1": true,
         "CPT.INT": true
+      },
+      "PluginSettings": {
+        "Generic.Option.Aircraft.DoorPreferred": 2
       }
     }
   },
@@ -1024,16 +997,15 @@
     "Aircraft": "Fenix A320 Family",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.4.13",
-    "VersionApp": "0.4.13",
+    "VersionPlugin": "0.5.0",
+    "VersionApp": "0.5.0",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
       "CanSetPayload": true,
       "PayloadSync": 8,
-      "DoorHandling": 10,
-      "DoorsSynced": 30,
-      "DoorsCloseAll": true,
+      "DoorHandling": 12,
+      "DoorsSynced": 23,
       "GroundEquipmentHandling": 38,
       "HasSmartButton": true,
       "VolumeControl": true,
@@ -1350,8 +1322,8 @@
     "Aircraft": "Synaptic A220",
     "Author": "bork",
     "Url": "",
-    "VersionPlugin": "1.1.2",
-    "VersionApp": "0.4.12",
+    "VersionPlugin": "1.1.3",
+    "VersionApp": "0.5.0",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
@@ -1359,7 +1331,6 @@
       "PayloadSync": 8,
       "DoorHandling": 12,
       "DoorsSynced": 22,
-      "DoorsCloseAll": true,
       "GroundEquipmentHandling": 22,
       "HasSmartButton": true,
       "VolumeControl": true,
@@ -1377,15 +1348,15 @@
         "Key": "SYN.22X.Option.ExtPwr.FaultProtection",
         "Type": 1,
         "DefaultValue": true,
-        "Description": "Ext Pwr Fault Protection",
+        "Description": "External Power Fault Protection",
         "Tooltip": "Adds a 7 second delay between external power disconnection and removal to prevent transient faults during AC BUS 1 transfer from GPU -> APU."
       },
       {
         "Key": "SYN.22X.Option.PaxWeight.OvrdPaxWeight",
         "Type": 1,
         "DefaultValue": true,
-        "Description": "Override Pax Weight",
-        "Tooltip": "Overrides Simbrief's \"Passenger Weight\" value and uses 175 Lbs / pax instead, so that the pax count on the EFB matches the value in Any2GSX and GSX."
+        "Description": "Override Simbrief Pax Weight",
+        "Tooltip": "Overrides Simbrief's \"Passenger Weight\" value and uses 175 Lbs / pax so that the pax count on the EFB matches the value in Any2GSX and GSX."
       },
       {
         "Key": "Generic.Var.Engine1.Name",
@@ -1463,16 +1434,6 @@
         "DefaultValue": false
       },
       {
-        "Key": "Generic.Option.Aircraft.RefuelStair",
-        "Type": 1,
-        "DefaultValue": false
-      },
-      {
-        "Key": "Generic.Option.Aircraft.FuelDialog",
-        "Type": 1,
-        "DefaultValue": false
-      },
-      {
         "Key": "Generic.Option.Aircraft.GsxGpu",
         "Type": 5,
         "DefaultValue": 0
@@ -1509,11 +1470,10 @@
       "Generic.Var.DepartTrigger.Comp",
       "Generic.Var.DepartTrigger.Value",
       "Generic.Option.Aircraft.IsCargo",
-      "Generic.Option.Aircraft.RefuelStair",
       "Generic.Option.Aircraft.GsxGpu",
       "Generic.Option.Aircraft.GsxProgFuel"
     ],
-    "InstallUsageNotes": "- To start Departure Services, trigger an EXEC - modify your FLPN, activate SEC, etc\r\n- The SmartButton is mapped to the MECH CALL on the OVHD\r\n- The aircraft cannot be fueled when cold & dark, so the initial FOB will not be set until the aircraft has power (battery+)",
+    "InstallUsageNotes": "- Request a Flightplan Uplink in the FMS to start departure services\r\n- The SmartButton is mapped to the MECH CALL on the OVHD\r\n- The aircraft cannot be fueled when cold & dark, so fuel will not be set until the aircraft has some power\r\n- Set default fuel rate to 10 kg/s to better match real world values",
     "PluginDefaultProfile": {
       "PluginId": "SYN.A22X",
       "ChannelFileId": "SYN.A22X",
@@ -1525,7 +1485,8 @@
         }
       ],
       "RunAutomationService": true,
-      "RunAudioService": true
+      "RunAudioService": true,
+      "RefuelRateKgSec": 10
     }
   }
 }

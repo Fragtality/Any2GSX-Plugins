@@ -7,19 +7,18 @@
 	"Aircraft": "PMDG B777 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.4.14",
-	"VersionApp": "0.4.13",
+	"VersionPlugin": "0.5.0",
+	"VersionApp": "0.5.0",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
 		"FuelSync": 8,
 		"CanSetPayload": true,
 		"PayloadSync": 8,
-		"DoorHandling": 10,
-		"DoorsSynced": 30,
-		"DoorsCloseAll": true,
+		"DoorHandling": 12,
+		"DoorsSynced": 62,
 		"GroundEquipmentHandling": 38,
 		"HasSmartButton": true,
-		"VolumeControl": false,
+		"VolumeControl": true,
 		"CockpitNotifications": 0
 	},
 	"AircraftProfileEntries": [
@@ -48,30 +47,18 @@
 			"Tooltip": "Automatically toggle the Cargo Lights on the 777F when the Doors are operated or GSX becomes active."
 		},
 		{
-			"Key": "PMDG.777.Option.OperateBulk",
-			"Type": 1,
-			"DefaultValue": true,
-			"Description": "Use Bulk Cargo Door",
-			"Tooltip": "Also Open or Close the Bulk Cargo Door when the other Cargo Doors are operated (Pax/Cargo)."
-		},
-		{
-			"Key": "PMDG.777.Option.FrontCatering",
-			"Type": 5,
-			"DefaultValue": -1,
-			"EnumValues": {
-				"-1": "Default",
-				"1": "Door 1R",
-				"3": "Door 2R"
-			},
-			"Description": "Catering: Front Door Mapping",
-			"Tooltip": "Configure which PMDG Door is operated when GSX requests Service Door 1 (Front Catering Truck).\nPer Default the 200's and Freighter will use 1R and the 300 the 2R Door.\nNote: Selecting a specific Door here applies to all Variants - so different Profiles for each Variant are needed then."
-		},
-		{
 			"Key": "PMDG.777.Option.FixChocks",
 			"Type": 1,
 			"DefaultValue": true,
 			"Description": "Fix Chocks in Walkaround",
 			"Tooltip": "The Plugin will set the PMDG Chocks via L-Var in Walkaround before the Plugin Connection is established.\nThis should prevent the GSX Menu not opening/getting Ready without Brakes or Chocks."
+		},
+		{
+			"Key": "PMDG.777.Option.FixCabinLights",
+			"Type": 1,
+			"DefaultValue": true,
+			"Description": "Fix Cabin Lights on Start",
+			"Tooltip": "Trigger the SimEvent 'TOGGLE_MASTER_BATTERY_ALTERNATOR' to fix Cabin Lights (in Preparation Phase).\nOnly applied when on Ground and Engines not running."
 		},
 		{
 			"Key": "Generic.Var.Engine1.Name",
@@ -130,7 +117,7 @@
 		"Generic.Option.Aircraft.InitDelay",
 		"Generic.Option.Aircraft.GsxProgFuel"
 	],
-	"InstallUsageNotes": "IMPORTANT: DataBroadcast needs to be enabled in the 777_Options.ini File (for each Variant and Simulator)!\r\nConsult the PMDG_777_MSFS_SDK Manual in the Aircraft's Documentation\\SDK Folder.\r\n\r\nRECOMMENDED: Use the internal/GSX provided Aircraft Profiles.\r\nCHECK if the preferred Door is set correctly (=the Door the Jetway connects), if not set the Door in the 3D-Editor to preferred!\r\nYou eventually need to delete the gsx.cfg File in the SimObjects\\Airplanes\\PMDG 777... Folder.\r\n\r\nNOTAMs:\r\n• The Departure Services will start when the Flightplan is imported in the UFT\r\n• The SmartButton is mapped to the MIC/INT Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
+	"InstallUsageNotes": "IMPORTANT: DataBroadcast needs to be enabled in the 777_Options.ini File (for each Variant and Simulator)!\r\nConsult the PMDG_777_MSFS_SDK Manual in the Aircraft's Documentation\\SDK Folder.\r\n\r\nRECOMMENDED: Use the internal/GSX provided Aircraft Profiles.\r\nIF the wrong Door opens when the Jetway connects, set the preferred Door manually in the Plugin Options!\r\nYou eventually need to delete the gsx.cfg File in the SimObjects\\Airplanes\\PMDG 777... Folder.\r\n\r\nNOTAMs:\r\n• The Departure Services will start when the Flightplan is imported in the UFT\r\n• The SmartButton is mapped to the MIC/INT Switch on the ACP (Captain and FO) - move to INT Position to trigger a Request",
 	"PluginDefaultProfile": {
 		"PluginId": "PMDG.B777",
 		"ChannelFileId": "PMDG.B777",
@@ -190,8 +177,9 @@
 			"CPT.CAB": true
 		},
 		"RunAutomationService": true,
+		"RunAudioService": true,
 		"PluginSettings": {
-			"Generic.Option.Aircraft.RefuelStair": false
+			"Generic.Option.Aircraft.ForceUnderground": true
 		}
 	}
 }

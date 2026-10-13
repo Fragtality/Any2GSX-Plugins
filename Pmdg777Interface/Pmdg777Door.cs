@@ -57,14 +57,15 @@ namespace Pmdg777Interface
             return Aircraft.SimStore[evt]?.WriteValue(Pmdg777Aircraft.EvtLeftSingle);
         }
 
-        public virtual Task SetDoor(bool state)
+        public virtual Task SetDoor(bool target)
         {
-            return SetDoor(state ? PmdgDoorState.Open : PmdgDoorState.Closed);
+            return SetDoor(target ? PmdgDoorState.Open : PmdgDoorState.Closed);
         }
 
         public virtual Task SetDoor(PmdgDoorState target)
         {
-            if (IsMoving)
+            if ((target == PmdgDoorState.Closed && State == PmdgDoorState.Closing)
+                || (target == PmdgDoorState.Open && State == PmdgDoorState.Opening))
             {
                 Logger.Debug($"Door {Index} already moving");
             }

@@ -14,8 +14,8 @@
 	"Aircraft": "iniBuilds A300-600 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.4.4",
-	"VersionApp": "0.4.3",
+	"VersionPlugin": "0.5.0",
+	"VersionApp": "0.5.0",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
 		"FuelSync": 8,
@@ -23,7 +23,6 @@
 		"PayloadSync": 8,
 		"DoorHandling": 12,
 		"DoorsSynced": 16,
-		"DoorsCloseAll": false,
 		"GroundEquipmentHandling": 22,
 		"HasSmartButton": true,
 		"VolumeControl": true,
@@ -49,7 +48,7 @@
 		{
 			"Key": "INI.306.Option.CargoSetValue",
 			"Type": 2,
-			"DefaultValue": 50,
+			"DefaultValue": 70,
 			"Description": "Cargo: Set at (Boarding)",
 			"DescUnit": "%",
 			"Tooltip": "The Cargo loaded Percentage (as reported by GSX) at which the Model is set."
@@ -57,7 +56,7 @@
 		{
 			"Key": "INI.306.Option.CargoUnsetValue",
 			"Type": 2,
-			"DefaultValue": 50,
+			"DefaultValue": 30,
 			"Description": "Cargo: Remove at (Deboarding)",
 			"DescUnit": "%",
 			"Tooltip": "The Cargo unloaded Percentage (as reported by GSX) at which the Model is removed."

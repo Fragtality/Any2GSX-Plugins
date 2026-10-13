@@ -10,8 +10,8 @@
   "Aircraft": "Synaptic A220",
   "Author": "bork",
   "Url": "",
-  "VersionPlugin": "1.1.1",
-  "VersionApp": "0.4.12",
+  "VersionPlugin": "1.1.3",
+  "VersionApp": "0.5.0",
   "Capabilities": {
     "HasFobSaveRestore": true,
     "FuelSync": 8,
@@ -19,7 +19,6 @@
     "PayloadSync": 8,
     "DoorHandling": 12,
     "DoorsSynced": 22,
-    "DoorsCloseAll": true,
     "GroundEquipmentHandling": 22,
     "HasSmartButton": true,
     "VolumeControl": true,
@@ -37,15 +36,15 @@
       "Key": "SYN.22X.Option.ExtPwr.FaultProtection",
       "Type": 1,
       "DefaultValue": true,
-      "Description": "Ext Pwr Fault Protection",
+      "Description": "External Power Fault Protection",
       "Tooltip": "Adds a 7 second delay between external power disconnection and removal to prevent transient faults during AC BUS 1 transfer from GPU -> APU."
     },
     {
       "Key": "SYN.22X.Option.PaxWeight.OvrdPaxWeight",
       "Type": 1,
       "DefaultValue": true,
-      "Description": "Override Pax Weight",
-      "Tooltip": "Overrides Simbrief's \"Passenger Weight\" value and uses 175 Lbs / pax instead, so that the pax count on the EFB matches the value in Any2GSX and GSX."
+      "Description": "Override Simbrief Pax Weight",
+      "Tooltip": "Overrides Simbrief's \"Passenger Weight\" value and uses 175 Lbs / pax so that the pax count on the EFB matches the value in Any2GSX and GSX."
     },
     {
       "Key": "Generic.Var.Engine1.Name",
@@ -123,16 +122,6 @@
       "DefaultValue": false
     },
     {
-      "Key": "Generic.Option.Aircraft.RefuelStair",
-      "Type": 1,
-      "DefaultValue": false
-    },
-    {
-      "Key": "Generic.Option.Aircraft.FuelDialog",
-      "Type": 1,
-      "DefaultValue": false
-    },
-    {
       "Key": "Generic.Option.Aircraft.GsxGpu",
       "Type": 5,
       "DefaultValue": 0
@@ -169,11 +158,10 @@
     "Generic.Var.DepartTrigger.Comp",
     "Generic.Var.DepartTrigger.Value",
     "Generic.Option.Aircraft.IsCargo",
-    "Generic.Option.Aircraft.RefuelStair",
     "Generic.Option.Aircraft.GsxGpu",
     "Generic.Option.Aircraft.GsxProgFuel"
   ],
-  "InstallUsageNotes": "- To start Departure Services, trigger an EXEC - modify your FLPN, activate SEC, etc\r\n- The SmartButton is mapped to the MECH CALL on the OVHD\r\n- The aircraft cannot be fueled when cold & dark, so the initial FOB will not be set until the aircraft has power (battery+)",
+  "InstallUsageNotes": "- Request a Flightplan Uplink in the FMS to start departure services\r\n- The SmartButton is mapped to the MECH CALL on the OVHD\r\n- The aircraft cannot be fueled when cold & dark, so fuel will not be set until the aircraft has some power\r\n- Set default fuel rate to 10 kg/s to better match real world values",
   "PluginDefaultProfile": {
     "PluginId": "SYN.A22X",
     "ChannelFileId": "SYN.A22X",
@@ -185,6 +173,7 @@
       }
     ],
     "RunAutomationService": true,
-    "RunAudioService": true
+    "RunAudioService": true,
+    "RefuelRateKgSec": 10
   }
 }

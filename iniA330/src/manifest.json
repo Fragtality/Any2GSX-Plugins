@@ -7,17 +7,16 @@
 	"Aircraft": "Microsoft/iniBuilds A330 (All Variants)",
 	"Author": "Fragtality",
 	"Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-	"VersionPlugin": "0.4.3",
-	"VersionApp": "0.4.3",
+	"VersionPlugin": "0.5.0",
+	"VersionApp": "0.5.0",
 	"Capabilities": {
 		"HasFobSaveRestore": true,
 		"FuelSync": 8,
 		"CanSetPayload": true,
 		"PayloadSync": 8,
 		"DoorHandling": 12,
-		"DoorsSynced": 6,
-		"DoorsCloseAll": false,
-		"GroundEquipmentHandling": 2,
+		"DoorsSynced": 1,
+		"GroundEquipmentHandling": 22,
 		"HasSmartButton": true,
 		"VolumeControl": true,
 		"CockpitNotifications": 0
@@ -51,22 +50,12 @@
 		{
 			"Key": "Generic.Var.PowerAvionic.Name",
 			"Type": 4,
-			"DefaultValue": "ELECTRICAL MAIN BUS VOLTAGE"
+			"DefaultValue": "L:INI_DC_ESSENTIAL_BUS_IS_POWERED"
 		},
 		{
 			"Key": "Generic.Var.PowerAvionic.Unit",
 			"Type": 4,
-			"DefaultValue": "volts"
-		},
-		{
-			"Key": "Generic.Var.ExtConn.Name",
-			"Type": 4,
-			"DefaultValue": "EXTERNAL POWER ON"
-		},
-		{
-			"Key": "Generic.Var.ExtConn.Unit",
-			"Type": 4,
-			"DefaultValue": "Bool"
+			"DefaultValue": "Number"
 		},
 		{
 			"Key": "Generic.Var.ApuRunning.Name",
@@ -195,7 +184,7 @@
 			"CPT.INT": true
 		},
 		"PluginSettings": {
-			"Generic.Option.Aircraft.RefuelStair": true
+			"Generic.Option.Aircraft.DoorPreferred": 2
 		}
 	}
 }
