@@ -1,0 +1,185 @@
+{
+  "Id": "PMDG.737",
+  "Aircraft": "PMDG.737",
+  "Author": "FatGingerHead",
+  "VersionChannel": "0.1.0",
+  "VersionApp": "0.1.0",
+  "ChannelDefinitions": [
+    {
+      "Name": "CPT.VHF1",
+      "VolumeVariable": "L:CA_COM1_VOL_CONTROL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:SWITCH_739_73X",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+    {
+      "Name": "CPT.VHF2",
+      "VolumeVariable": "L:CA_COM2_VOL_CONTROL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:SWITCH_740_73X",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+    {
+      "Name": "CPT.VHF3",
+      "VolumeVariable": "L:CA_COM3_VOL_CONTROL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:SWITCH_741_73X",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+    {
+      "Name": "CPT.HF1",
+      "VolumeVariable": "L:CA_HF1_VOL_CONTROL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:SWITCH_742_73X",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+    {
+      "Name": "CPT.HF2",
+      "VolumeVariable": "L:CA_HF2_VOL_CONTROL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:SWITCH_880_73X",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+    {
+      "Name": "CPT.FLT",
+      "VolumeVariable": "L:CA_FLT_VOL_CONTROL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:SWITCH_743_73X",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+    {
+      "Name": "CPT.SVC",
+      "VolumeVariable": "L:CA_SVC_VOL_CONTROL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:SWITCH_744_73X",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+    {
+      "Name": "CPT.PA",
+      "VolumeVariable": "L:CA_PA_VOL_CONTROL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:SWITCH_745_73X",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+    {
+      "Name": "FO.VHF1",
+      "VolumeVariable": "L:FO_COM1_VOL_CONTROL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:SWITCH_855_73X",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+    {
+      "Name": "FO.VHF2",
+      "VolumeVariable": "L:FO_COM2_VOL_CONTROL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:SWITCH_856_73X",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+    {
+      "Name": "FO.VHF3",
+      "VolumeVariable": "L:FO_COM3_VOL_CONTROL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:SWITCH_857_73X",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+    {
+      "Name": "FO.HF1",
+      "VolumeVariable": "L:FO_HF1_VOL_CONTROL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:SWITCH_858_73X",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+    {
+      "Name": "FO.HF2",
+      "VolumeVariable": "L:FO_HF2_VOL_CONTROL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:SWITCH_884_73X",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+    {
+      "Name": "FO.FLT",
+      "VolumeVariable": "L:FO_FLT_VOL_CONTROL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:SWITCH_859_73X",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+    {
+      "Name": "FO.SVC",
+      "VolumeVariable": "L:FO_SVC_VOL_CONTROL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:SWITCH_860_73X",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    },
+    {
+      "Name": "FO.PA",
+      "VolumeVariable": "L:FO_PA_VOL_CONTROL",
+      "VolumeUnit": "Number",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "MuteVariable": "L:SWITCH_861_73X",
+      "MuteUnit": "Number",
+      "MutedValue": 0,
+      "UnmutedValue": 100
+    }
+  ]
+}

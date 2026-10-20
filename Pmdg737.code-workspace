@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "Pmdg737Interface/src"
+		}
+	],
+	"extensions": {
+		"recommendations": [
+			"sumneko.lua"
+		]
+	}
+}
