@@ -186,6 +186,24 @@ function SetEquipmentChocks(state, force)
     end
 end
 
+function GetAircraftDefaultDoor(gsxDoor)
+    if gsxDoor == GsxDoor.PaxDoor1 then
+        return AircraftDoor.L1
+    elseif gsxDoor == GsxDoor.PaxDoor4 then
+        return AircraftDoor.L2
+    elseif gsxDoor == GsxDoor.ServiceDoor1 then
+        return AircraftDoor.R1
+    elseif gsxDoor == GsxDoor.ServiceDoor2 then
+        return AircraftDoor.R2
+    elseif gsxDoor == GsxDoor.CargoDoor1 then
+        return AircraftDoor.CargoFront
+    elseif gsxDoor == GsxDoor.CargoDoor2 then
+        return AircraftDoor.CargoRear
+    else
+        return AircraftDoor.None
+    end
+end
+
 function IsDoorCustom(gsxDoor)
     if gsxDoor == 1 or gsxDoor >= 7 then
         return true

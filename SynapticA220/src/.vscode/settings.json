@@ -27,6 +27,8 @@
         "RunAfter",
         "SendBus",
         "SubBus",
-        "UnsubBus"
+        "UnsubBus",
+        "AircraftDoor",
+        "GsxDoor"
     ]
 }
