@@ -80,7 +80,19 @@ namespace Pmdg777Interface
 
         public virtual async Task<AircraftDoor> GetDefaultDoor(GsxDoor gsxDoor)
         {
-            if (Aircraft.AircraftString.Contains("300", System.StringComparison.InvariantCultureIgnoreCase))
+            if (Aircraft.IsCargo)
+            {
+                return gsxDoor switch
+                {
+                    GsxDoor.PaxDoor1 => AircraftDoor.L1,
+                    GsxDoor.ServiceDoor1 => AircraftDoor.R1,
+                    GsxDoor.CargoDoor1 => AircraftDoor.CargoFront,
+                    GsxDoor.CargoDoor2 => AircraftDoor.CargoRear,
+                    GsxDoor.CargoDoor3Main => AircraftDoor.CargoMain,
+                    _ => AircraftDoor.None,
+                };
+            }
+            else if (Aircraft.AircraftString.Contains("300", StringComparison.InvariantCultureIgnoreCase))
             {
                 return gsxDoor switch
                 {
@@ -93,7 +105,7 @@ namespace Pmdg777Interface
                     GsxDoor.CargoDoor1 => AircraftDoor.CargoFront,
                     GsxDoor.CargoDoor2 => AircraftDoor.CargoRear,
                     GsxDoor.CargoDoor3Main => AircraftDoor.CargoBulk,
-                    _ => AircraftDoor.L1,
+                    _ => AircraftDoor.None,
                 };
             }
             else

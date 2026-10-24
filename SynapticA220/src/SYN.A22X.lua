@@ -10,10 +10,6 @@ UseVar("PAYLOAD STATION WEIGHT:3", "Kilograms") --FWD Pax
 UseVar("PAYLOAD STATION WEIGHT:4", "Kilograms") --FWD Cargo
 UseVar("PAYLOAD STATION WEIGHT:5", "Kilograms") --AFT Pax
 UseVar("PAYLOAD STATION WEIGHT:6", "Kilograms") --AFT Cargo
-local aircraft = GetAircraftPlugin()
-aircraft.InteractivePointAdd(0)                 --L1
-aircraft.InteractivePointAdd(4)                 --AFT Cargo
-aircraft.InteractivePointAdd(5)                 --FWD Cargo
 
 for i = 0, 7 do
     UseVar("COVER ON:" .. tostring(i), "Bool")
@@ -22,13 +18,20 @@ end
 SubVar("L:A22X RDC Powered", "MonitorRDCPower", "Number")
 SubVar("L:A22X External Power In Use", "MonitorExtPower", "Number")
 
+local aircraft = GetAircraftPlugin()
 local gsxController = GetGsxController()
 local RDCPowered = ReadVar("L:A22X RDC Powered") == 1
 local fuelCorrected = true
 local fuelToCorrectAmountKg = 0
 local safeToRemoveExtPower = true
+local pendingRemoval = false
+local lastDisconnectTime = 0
 local flightplanRequested = false
 local subbedToFlightplanCommBusEvent = false
+
+aircraft.InteractivePointAdd(0) --L1
+aircraft.InteractivePointAdd(4) --AFT Cargo
+aircraft.InteractivePointAdd(5) --FWD Cargo
 
 function RemoveCovers()
     if not (GetPluginSetting("Covers.RemoveStartup") and gsxController.IsMsfs2024) then
@@ -67,20 +70,33 @@ function MonitorRDCPower(RDCState)
 end
 
 function CheckExtPowerSafe()
+    if os.time() - lastDisconnectTime < 6.9 then
+        return
+    end
+
     if not aircraft.PowerConnected then
         safeToRemoveExtPower = true
+
+        if pendingRemoval then
+            Log("Removing external power")
+            pendingRemoval = false
+            SetEquipmentPower(false, true)
+        end
     end
 end
 
 function MonitorExtPower(extPwrState)
     if not GetPluginSetting("ExtPwr.FaultProtection") then
+        safeToRemoveExtPower = true
         return
     end
 
     if extPwrState == 1 then
         safeToRemoveExtPower = false
+        pendingRemoval = false
     else
-        Log("Blocking External Power removal for 7 seconds")
+        safeToRemoveExtPower = false
+        lastDisconnectTime = os.time()
         RunAfter(7000, "CheckExtPowerSafe()")
     end
 end
@@ -104,7 +120,7 @@ end
 function OnFlightplanRequest(evt, data)
     -- Log("Received CommBus Event: " .. evt .. " with data: " .. data)
     if string.find(data, "UplinkFlightPlan", 1, true) then
-        Log("Flightplan Uplink requested")
+        Log("Flightplan Uplink detected")
         flightplanRequested = true
         UnsubFromFlightplanCommBusEvent()
     end
@@ -117,6 +133,9 @@ function OnAutomationStateChange(state)
     elseif state == 2 or state == 3 then --Departure/Pushback phase
         UnsubFromFlightplanCommBusEvent()
     elseif state == 7 then               --Arrival phase
+        safeToRemoveExtPower = true
+        pendingRemoval = false
+        lastDisconnectTime = 0
         flightplanRequested = false
         SubToFlightplanCommBusEvent()
     end
@@ -146,6 +165,14 @@ function GetApuBleedOn()
     return GetApuRunning() and ReadVar("L:A22X APU Bleed Off") == 0
 end
 
+function GetExternalPowerAvailable()
+    if pendingRemoval then
+        return false
+    end
+
+    return ReadVar("L:INI_GPU_AVAIL") > 0
+end
+
 function GetHasFobSaveRestore()
     return true
 end
@@ -172,9 +199,14 @@ end
 
 function SetEquipmentPower(state, force)
     if state then
+        pendingRemoval = false
         WriteVar("L:INI_GPU_AVAIL", 1)
     elseif safeToRemoveExtPower or force then
+        pendingRemoval = false
         WriteVar("L:INI_GPU_AVAIL", 0)
+    else
+        Log("Blocking external power removal for 7 seconds")
+        pendingRemoval = true
     end
 end
 
@@ -214,16 +246,20 @@ end
 
 function SetDoorCustom(aircraftDoor, target)
     local index = -1
-    if aircraftDoor == 1 then      --L1
+    local door = nil
+    if aircraftDoor == 1 then --L1
+        door = "L1"
         index = 0
     elseif aircraftDoor == 17 then --FWD Cargo
+        door = "FWD Cargo"
         index = 5
     elseif aircraftDoor == 18 then --AFT Cargo
+        door = "AFT Cargo"
         index = 4
     end
 
     if index >= 0 then
-        Log("Setting " .. aircraftDoor .. " door to " .. (target and "Open" or "Closed"))
+        Info((target and "Opening " or "Closing ") .. door .. " door")
         aircraft.SetInteractivePoint(index, target)
     end
 end

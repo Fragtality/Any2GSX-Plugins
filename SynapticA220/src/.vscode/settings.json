@@ -29,6 +29,7 @@
         "SubBus",
         "UnsubBus",
         "AircraftDoor",
-        "GsxDoor"
+        "GsxDoor",
+        "Info"
     ]
 }

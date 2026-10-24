@@ -187,56 +187,56 @@
 			}
 		],
 		"AudioMappings": [
-            {
-                "Channel": "CPT.PA",
-                "Device": "",
-                "Binary": "Pegasus",
-                "UseLatch": true,
-                "OnlyActive": true
-            },
-            {
-                "Channel": "CPT.SVC",
-                "Device": "",
-                "Binary": "Couatl64_MSFS2024",
-                "UseLatch": true,
-                "OnlyActive": true
-            },
-                    {
-                "Channel": "CPT.SVC",
-                "Device": "",
-                "Binary": "Couatl64_MSFS",
-                "UseLatch": true,
-                "OnlyActive": true
-            },
-            {
-                "Channel": "CPT.VHF1",
-                "Device": "",
-                "Binary": "vPilot",
-                "UseLatch": true,
-                "OnlyActive": true
-            },
-            {
-                "Channel": "CPT.VHF1",
-                "Device": "",
-                "Binary": "BeyondATC",
-                "UseLatch": true,
-                "OnlyActive": true
-            }
-        ],
-        "AudioStartupVolumes": {
-            "CPT.VHF1": 100,
-            "CPT.SVC": 60,
-            "CPT.PA": 50
-        },
-        "AudioStartupUnmute": {
-            "CPT.VHF1": true,
-            "CPT.SVC": true,
-            "CPT.PA": true
-        },
-        "RunAutomationService": true,
-        "RunAudioService": true,
-        "PluginSettings": {
-            "Generic.Var.ParkBrake.ToggleStart": false
-        }
+			{
+				"Channel": "CPT.PA",
+				"Device": "",
+				"Binary": "Pegasus",
+				"UseLatch": true,
+				"OnlyActive": true
+			},
+			{
+				"Channel": "CPT.SVC",
+				"Device": "",
+				"Binary": "Couatl64_MSFS2024",
+				"UseLatch": true,
+				"OnlyActive": true
+			},
+			{
+				"Channel": "CPT.SVC",
+				"Device": "",
+				"Binary": "Couatl64_MSFS",
+				"UseLatch": true,
+				"OnlyActive": true
+			},
+			{
+				"Channel": "CPT.VHF1",
+				"Device": "",
+				"Binary": "vPilot",
+				"UseLatch": true,
+				"OnlyActive": true
+			},
+			{
+				"Channel": "CPT.VHF1",
+				"Device": "",
+				"Binary": "BeyondATC",
+				"UseLatch": true,
+				"OnlyActive": true
+			}
+		],
+		"AudioStartupVolumes": {
+			"CPT.VHF1": 100,
+			"CPT.SVC": 60,
+			"CPT.PA": 50
+		},
+		"AudioStartupUnmute": {
+			"CPT.VHF1": true,
+			"CPT.SVC": true,
+			"CPT.PA": true
+		},
+		"RunAutomationService": true,
+		"RunAudioService": true,
+		"PluginSettings": {
+			"Generic.Var.ParkBrake.ToggleStart": false
+		}
 	}
 }

@@ -19,8 +19,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CFIT.AppFramework" Version="2026.285.19.53" />
-    <PackageReference Include="CFIT.SimConnectLib" Version="2026.285.19.13" />
+    <PackageReference Include="CFIT.AppFramework" Version="2026.287.12.2724" />
+    <PackageReference Include="CFIT.SimConnectLib" Version="2026.287.12.2708" />
   </ItemGroup>
 
   <ItemGroup>

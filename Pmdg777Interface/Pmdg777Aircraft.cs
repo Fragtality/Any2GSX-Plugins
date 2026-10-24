@@ -13,7 +13,7 @@ namespace Pmdg777Interface
     {
         public const int EventBase = 69632;
         public const int EvtLeftSingle = 0x20000000;
-        public override bool IsConnected => ReceivedDataValid && EfbManager?.IsConnected == true;
+        public virtual bool IsConnected => ReceivedDataValid && EfbManager?.IsConnected == true;
         public virtual bool ReceivedDataValid => Module?.ReceivedDataValid == true;
         public virtual Pmdg777Plugin Plugin => AppPlugin.Instance as Pmdg777Plugin;
         public virtual Pmdg777Module Module => Plugin?.SimConnectModule as Pmdg777Module;
@@ -27,6 +27,7 @@ namespace Pmdg777Interface
         protected virtual bool MicIntSwitchTriggered { get; set; } = false;
         protected virtual bool FirstRun { get; set; } = true;
         protected virtual bool LastModuleState { get; set; } = false;
+        protected virtual bool IsWalkaround => GsxController.IsWalkaround || !GsxController.IsSessionReady;
         protected virtual bool LastWalkaround { get; set; } = true;
         protected virtual DateTime TimeNextDataToggle { get; set; } = DateTime.MaxValue;
 
@@ -138,11 +139,17 @@ namespace Pmdg777Interface
             }
         }
 
+        public override Task<bool> GetIsConnected()
+        {
+            return Task.FromResult(IsConnected);
+        }
+
         public override async Task CheckConnection()
         {
-            if (!GsxController.IsWalkaround && LastWalkaround)
+            if (!IsWalkaround && LastWalkaround)
                 TimeNextDataToggle = GetTime();
-            LastWalkaround = GsxController.IsWalkaround;
+            LastWalkaround = IsWalkaround;
+
             if (LastWalkaround && ISettingProfile.GetSetting(PmdgSettings.FixChocks) == true)
                 await CheckFixChocks();
 
@@ -152,7 +159,7 @@ namespace Pmdg777Interface
 
             if (ReceivedDataValid && !EfbManager.IsConnected)
                 await EfbManager.CheckConnection();
-            else if (!ReceivedDataValid && Module != null && !GsxController.IsWalkaround && TimeNextDataToggle < DateTime.Now && (AutomationState < AutomationState.TaxiOut || AutomationState > AutomationState.TaxiIn))
+            else if (!ReceivedDataValid && Module != null && !GsxController.IsWalkaround && GsxController.IsSessionReady && TimeNextDataToggle < DateTime.Now && (AutomationState < AutomationState.TaxiOut || AutomationState > AutomationState.TaxiIn))
             {
                 Logger.Debug("Toggle Light Test to trigger ClientData Update");
                 await SimStore[PmdgConstants.EvtToggleLightTest].WriteValue(0x00004000);
@@ -166,7 +173,7 @@ namespace Pmdg777Interface
         {
             try
             {
-                if (!IsAvionicsPowered() && GsxController.IsWalkaround && SimStore[PmdgConstants.VarEquipChocks]?.GetNumber() == 0)
+                if (!IsAvionicsPowered() && IsWalkaround && SimStore[PmdgConstants.VarEquipChocks]?.GetNumber() == 0)
                 {
                     Logger.Information($"Fix PMDG Chocks in Walkaround");
                     await SimStore[PmdgConstants.VarEquipChocks]?.WriteValue(1);
@@ -282,7 +289,7 @@ namespace Pmdg777Interface
 
         public override Task PushOperationChange(int status)
         {
-            if (status >= 1 && status <= 4)
+            if (GsxController.GetService(GsxServiceType.Pushback).State == GsxServiceState.Active && status >= 1 && status <= 4)
                 return DoorArmAll();
             else
                 return Task.CompletedTask;
@@ -369,9 +376,8 @@ namespace Pmdg777Interface
             return Task.FromResult(DoorManager.GetDoor(AircraftDoor.CargoBulk).IsOpen);
         }
 
-        public override async Task DoorsAllClose()
+        public override async Task CloseAllCustomDoors()
         {
-            await base.DoorsAllClose();
             await Task.Delay(500, Token);
             await DoorManager.DoorsAllClose();
         }

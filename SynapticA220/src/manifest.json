@@ -67,16 +67,6 @@
       "DefaultValue": "Bool"
     },
     {
-      "Key": "Generic.Var.ExtAvail.Name",
-      "Type": 4,
-      "DefaultValue": "L:INI_GPU_AVAIL"
-    },
-    {
-      "Key": "Generic.Var.ExtAvail.Unit",
-      "Type": 4,
-      "DefaultValue": "Number"
-    },
-    {
       "Key": "Generic.Var.ExtConn.Name",
       "Type": 4,
       "DefaultValue": "L:A22X External Power In Use"
@@ -161,7 +151,7 @@
     "Generic.Option.Aircraft.GsxGpu",
     "Generic.Option.Aircraft.GsxProgFuel"
   ],
-  "InstallUsageNotes": "- Request a Flightplan Uplink in the FMS to start departure services\r\n- The SmartButton is mapped to the MECH CALL on the OVHD\r\n- The aircraft cannot be fueled when cold & dark, so fuel will not be set until the aircraft has some power\r\n- Set default fuel rate to 10 kg/s to better match real world values",
+  "InstallUsageNotes": "- Request a Flightplan Uplink in the FMS to trigger departure services\r\n- The SmartButton is mapped to the MECH CALL button on the Overhead Panel\r\n- The aircraft cannot be fueled when cold & dark, so fuel will not be set until the aircraft has some power",
   "PluginDefaultProfile": {
     "PluginId": "SYN.A22X",
     "ChannelFileId": "SYN.A22X",

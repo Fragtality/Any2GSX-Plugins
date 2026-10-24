@@ -1,13 +1,14 @@
-UseVar("L:switch_752_73X", "Number")
-UseVar("L:switch_868_73X", "Number")
+UseVar("L:switch_752_73X", "Number") --ACP CPT RT IC Switch
+UseVar("L:switch_868_73X", "Number") --ACP FO RT IC Switch
 UseVar("L:NGXWheelChocks", "Number")
 UseVar("L:7X7X_AirCond_Door", "Number")
 UseVar("L:7X7X_Refuel_Door", "Number")
 UseVar("L:7X7X_Lav_Door", "Number")
 UseVar("L:7X7X_Water_Door", "Number")
 UseVar("L:AirStairs", "Number")
-UseEvent("#70384")
-UseEvent("#70500")
+UseEvent("#70384") --EVT_ACP_CAPT_RT_IC_SWITCH
+UseEvent("#70500") --EVT_ACP_FO_RT_IC_SWITCH
+UseEvent("#83649") --EVT_DOOR_AIRSTAIR
 SubBus("PlaneToTablet", BroadcastFlag.JS, "OnPlaneToTablet")
 SubBus("TabletToPlane", BroadcastFlag.WASM, "OnTabletToPlane")
 
@@ -88,7 +89,7 @@ end
 
 function GetEquipmentPca()
     if pcaRequested == nil then
-        return ReadVar("L:7X7X_AirCond_Door") ~=0
+        return ReadVar("L:7X7X_AirCond_Door") ~= 0
     else
         return pcaRequested
     end
@@ -102,11 +103,11 @@ function SetEquipmentPca(state, force)
 
     pcaRequested = state
     SendRequest("air_cond_unit", "ground_conn")
-    QueryState()
+    RunAfter(500, "QueryState()")
 end
 
 function GetEquipmentChocks()
-    return ReadVar("L:NGXWheelChocks") ~=0
+    return ReadVar("L:NGXWheelChocks") ~= 0
 end
 
 function SetEquipmentChocks(state, force)
@@ -134,22 +135,24 @@ function SetEquipmentPower(state, force)
     if (aircraft.PowerAvail and not state) or (not aircraft.PowerAvail and state) or force then
         powerRequested = state
         SendRequest("ground_power", "ground_conn")
-        QueryState()
+        RunAfter(500, "QueryState()")
     end
 end
 
 function CheckConnected(str)
-    return string.find(str, "RELEASE", 1, true)
+    return string.find(str, "RELEASE", 1, true) ~= nil
 end
 
 function MonitorEquipment()
-    if pcaRequested ~= nil and HasReceivedData then
-        if pcaRequested == CheckConnected(EfbData.ground_conn.air_conditioning_unit) then
+    if pcaRequested ~= nil then
+        local physicalPca = ReadVar("L:7X7X_AirCond_Door") ~= 0
+        if physicalPca == pcaRequested then
             pcaRequested = nil
         end
     end
-    if powerRequested ~= nil and HasReceivedData then
-        if powerRequested == CheckConnected(EfbData.ground_conn.ground_power_state) then
+
+    if powerRequested ~= nil then
+        if aircraft.PowerAvail == powerRequested then
             powerRequested = nil
         end
     end
@@ -160,7 +163,7 @@ function GetReadyDepartureServices()
 end
 
 function GetSmartButtonRequest()
-   return aircraft.AvionicPowered and (ReadVar("L:switch_752_73X") ~= 0 or ReadVar("L:switch_868_73X") ~= 0)
+    return aircraft.AvionicPowered and (ReadVar("L:switch_752_73X") ~= 0 or ReadVar("L:switch_868_73X") ~= 0)
 end
 
 function ResetSmartButton()
@@ -216,9 +219,9 @@ function OnPlaneToTablet(evt, data)
                 Log("Received EFB Data")
                 lastQueryTime = math.maxinteger
             end
+
             HasReceivedData = true
             EfbData = node
-            -- UpdateDoors()
         end
     end
 end
@@ -296,11 +299,11 @@ function SetPanelWater(target)
 end
 
 function CreateDoor(aircraftDoor, event, variable, isCargo)
-    return  {
+    return {
         aircraftDoor = aircraftDoor,
         event = event,
         variable = variable,
-        variableArm = variable .. "FLAG",
+        variableArm = variable .. "Flag",
         targetState = false,
         lastChange = 0,
         isCargo = isCargo
@@ -328,10 +331,10 @@ function GetAircraftDefaultDoor(gsxDoor)
 end
 
 function InitDoors()
-    Doors[AircraftDoor.L1] = CreateDoor(AircraftDoor.L1, 14005, "L:FWDLEFTCABINDOOR", false)
-    Doors[AircraftDoor.R1] = CreateDoor(AircraftDoor.R1, 14006, "L:FWDRIGHTCABINDOOR", false)
-    Doors[AircraftDoor.L2] = CreateDoor(AircraftDoor.L2, 14007, "L:AFTLEFTCABINDOOR", false)
-    Doors[AircraftDoor.R2] = CreateDoor(AircraftDoor.R2, 14008, "L:AFTRIGHTCABINDOOR", false)
+    Doors[AircraftDoor.L1] = CreateDoor(AircraftDoor.L1, 14005, "L:FwdLeftCabinDoor", false)
+    Doors[AircraftDoor.R1] = CreateDoor(AircraftDoor.R1, 14006, "L:FwdRightCabinDoor", false)
+    Doors[AircraftDoor.L2] = CreateDoor(AircraftDoor.L2, 14007, "L:AftLeftCabinDoor", false)
+    Doors[AircraftDoor.R2] = CreateDoor(AircraftDoor.R2, 14008, "L:AftRightCabinDoor", false)
     Doors[AircraftDoor.CargoFront] = CreateDoor(AircraftDoor.CargoFront, 14013, "L:FwdLwrCargoDoor", true)
     Doors[AircraftDoor.CargoRear] = CreateDoor(AircraftDoor.CargoRear, 14014, "L:AftLwrCargoDoor", true)
 
@@ -354,7 +357,8 @@ function MonitorDoors()
             local notMatching = ((IsPmdgDoorOpen(pmdgDoor) and not pmdgDoor.targetState) or (IsPmdgDoorClosed(pmdgDoor) and pmdgDoor.targetState))
             local diff = timeNow - pmdgDoor.lastChange
             if notMatching and not IsPmdgDoorMoving(pmdgDoor) and diff >= 10 then
-                Info(string.format("Toogle Door %s - not at expected Target State", tostring(AircraftDoor[pmdgDoor.aircraftDoor])))
+                Info(string.format("Toogle Door %s - not at expected Target State",
+                    tostring(AircraftDoor[pmdgDoor.aircraftDoor])))
                 SetPmdgDoor(pmdgDoor, pmdgDoor.targetState)
             elseif not IsPmdgDoorMoving(pmdgDoor) and diff >= 10 then
                 pmdgDoor.lastChange = 0
@@ -420,7 +424,7 @@ function GetDoorCustom(aircraftDoor)
         Log(string.format("Door %s is not mapped", tostring(AircraftDoor[aircraftDoor])))
         result = false
     else
-         result = IsPmdgDoorOpen(door)
+        result = IsPmdgDoorOpen(door)
     end
 
     return result
@@ -455,7 +459,7 @@ function DoorArmAll()
 end
 
 function DoorDisarmAll()
-    if not DoorArmTarget or HasArmedDoors() then
+    if DoorArmTarget or HasArmedDoors() then
         Log("Disarm Doors")
         DoorArmTarget = false
         return SendRequest("disarm_all", "doors")
@@ -475,15 +479,18 @@ function GetAirStairForward()
     return ReadVar("L:AirStairs") ~= 0
 end
 
-function SetHasAirStairForward(target)
+function SetAirStairForward(target)
     local airstairs = GetAirStairForward()
     if (target and airstairs) or (not target and not airstairs) then
         return
     end
 
-    WritePmdgEvent(14017)
-    Sleep(150)
-    SetDoorCustom(AircraftDoor.L1, target)
+    WritePmdgEvent(14017) --EVT_DOOR_AIRSTAIR
+    if target then
+        RunAfter(11000, "SetDoorCustom(AircraftDoor.L1, true)")
+    else
+        SetDoorCustom(AircraftDoor.L1, false)
+    end
 end
 
 function PushStateChange(state)
@@ -551,8 +558,8 @@ function CheckVehicles()
         local vehicles = EfbData.vehicles
         local changed = false
         for _, key in pairs(PmdgVehicleKeys) do
-            local verhicleState = string.format("%s_state", key)
-            if vehicles[verhicleState] ~= nil and string.find(vehicles[verhicleState], "RELEASE", 1, true) then
+            local vehicleState = string.format("%s_state", key)
+            if vehicles[vehicleState] ~= nil and string.find(vehicles[vehicleState], "RELEASE", 1, true) then
                 SendRequest(key, "ground_vehicles")
                 changed = true
             end
@@ -580,7 +587,7 @@ function SendToPlane(json, noSleep)
         Sleep(100)
     end
 
-    Log("Sent: " .. json)
+    -- Log("Sent: " .. json)
 end
 
 InitDoors()

@@ -1,5 +1,35 @@
 # Changelog
 
+### FNX.A320
+- Changed the initial Payload call to also reset the EFB Boarding State to 'notStarted' (preventing false-positive Skips of the Departure Phase)
+- Changed EFB Settings for GSX to only be check & set when the Automation was enabled for the A2G Profile
+- Updated for Fenix V3
+  - Removed Payload-Sync - handled by the Plane
+  - Removed Fuel-Sync - handled by the Plane and (Rate via EFB)
+  - Removed Option for Refuel via Panel - every Refuel is now operating the Panel
+  - Plugin will still on assist in certain Cases, like
+	- Setting planned Fuel or Payload when it doesn't match (i.e. GSX is restarted or Service aborted)
+	- Setting planned Fuel - 1000kg when a Defuel is needed
+  - Removed Door-Sync on Loaders for Cargo Doors - handled by the Plane, Open/Close on State changed still available
+  - Removed Door-Sync for Pax Door on Jetway (for Stairs still handled)
+- Changed SmartButton Trigger: Only the INT Position triggers now (with Avionics Powered)
+- Improved / Changed Syncing between App and EFB Flightplan Weights
+- Updated for Plugin Interface Changes
+  - Moved Custom Stair Logic to App
+- Updated .NET Packages
+
+### PMDG.B777
+- Fixed Arming of Doors when the Tug attaches during Boarding
+- Updated for Plugin Interface Changes
+- Updated .NET Packages
+
+### SYN.A220
+- Updated to latest plugin interface
+- Improved external power handling
+
+### PMDG.B737
+- Initial Release of the B737 Plugin - with Fuel-, Payload-, Equip- and Door-Sync!
+
 ## [38a8367] - 2026-10-13
 
 ### FNX.A320

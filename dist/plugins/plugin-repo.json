@@ -602,14 +602,14 @@
     "Aircraft": "PMDG B777 (All Variants)",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.5.0",
-    "VersionApp": "0.5.0",
+    "VersionPlugin": "0.5.1",
+    "VersionApp": "0.5.1",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
       "CanSetPayload": true,
       "PayloadSync": 8,
-      "DoorHandling": 12,
+      "DoorHandling": 8,
       "DoorsSynced": 62,
       "GroundEquipmentHandling": 38,
       "HasSmartButton": true,
@@ -997,28 +997,22 @@
     "Aircraft": "Fenix A320 Family",
     "Author": "Fragtality",
     "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
-    "VersionPlugin": "0.5.0",
-    "VersionApp": "0.5.0",
+    "VersionPlugin": "0.5.1",
+    "VersionApp": "0.5.1",
     "Capabilities": {
       "HasFobSaveRestore": true,
-      "FuelSync": 8,
+      "FuelSync": 2,
       "CanSetPayload": true,
-      "PayloadSync": 8,
-      "DoorHandling": 12,
-      "DoorsSynced": 23,
+      "PayloadSync": 2,
+      "DoorHandling": 10,
+      "DoorsSynced": 52,
+      "HasCustomStairs": true,
       "GroundEquipmentHandling": 38,
       "HasSmartButton": true,
       "VolumeControl": true,
       "CockpitNotifications": 15
     },
     "Settings": [
-      {
-        "Key": "FNX.A320.Option.UseRefuelPanel",
-        "Type": 1,
-        "DefaultValue": false,
-        "Description": "Use Refuel Panel",
-        "Tooltip": "Use the simulated Panel to refuel the Plane.\nThe Rate is set by the EFB, the Rate Settings in the App are ignored by this Mode.\nNOTE: Does not support Defuel! Disable this Option to let the Plugin sync the Fuel."
-      },
       {
         "Key": "FNX.A320.Option.SuppressDeboardDialog",
         "Type": 1,
@@ -1086,20 +1080,6 @@
         "Description": "EFB Check Interval",
         "DescUnit": "ms",
         "Tooltip": "The Interval in ms at which the EFB is checked for Changes (i.e. OFP, Equip, Payload).\nOnly applied on Ground - during Flight the Interval is set to 15s."
-      },
-      {
-        "Key": "FNX.A320.Option.CargoDistMain",
-        "Type": 3,
-        "DefaultValue": 0.423728813559322,
-        "Description": "Cargo Distribution Main",
-        "Tooltip": "The Factor/Scalar used for distgributing Cargo in the Forward and Aft Holds (applied per Hold).\nBulk and 2x Main should add up to ~1.0."
-      },
-      {
-        "Key": "FNX.A320.Option.CargoDistBulk",
-        "Type": 3,
-        "DefaultValue": 0.15254237288135594,
-        "Description": "Cargo Distribution Bulk",
-        "Tooltip": "The Factor/Scalar used for distgributing Cargo Bulk Hold.\nBulk and 2x Main should add up to ~1.0."
       },
       {
         "Key": "Generic.Var.Engine1.Name",
@@ -1322,8 +1302,8 @@
     "Aircraft": "Synaptic A220",
     "Author": "bork",
     "Url": "",
-    "VersionPlugin": "1.1.3",
-    "VersionApp": "0.5.0",
+    "VersionPlugin": "1.1.4",
+    "VersionApp": "0.5.1",
     "Capabilities": {
       "HasFobSaveRestore": true,
       "FuelSync": 8,
@@ -1377,16 +1357,6 @@
         "Key": "Generic.Var.Engine2.Unit",
         "Type": 4,
         "DefaultValue": "Bool"
-      },
-      {
-        "Key": "Generic.Var.ExtAvail.Name",
-        "Type": 4,
-        "DefaultValue": "L:INI_GPU_AVAIL"
-      },
-      {
-        "Key": "Generic.Var.ExtAvail.Unit",
-        "Type": 4,
-        "DefaultValue": "Number"
       },
       {
         "Key": "Generic.Var.ExtConn.Name",
@@ -1473,7 +1443,7 @@
       "Generic.Option.Aircraft.GsxGpu",
       "Generic.Option.Aircraft.GsxProgFuel"
     ],
-    "InstallUsageNotes": "- Request a Flightplan Uplink in the FMS to start departure services\r\n- The SmartButton is mapped to the MECH CALL on the OVHD\r\n- The aircraft cannot be fueled when cold & dark, so fuel will not be set until the aircraft has some power\r\n- Set default fuel rate to 10 kg/s to better match real world values",
+    "InstallUsageNotes": "- Request a Flightplan Uplink in the FMS to trigger departure services\r\n- The SmartButton is mapped to the MECH CALL button on the Overhead Panel\r\n- The aircraft cannot be fueled when cold & dark, so fuel will not be set until the aircraft has some power",
     "PluginDefaultProfile": {
       "PluginId": "SYN.A22X",
       "ChannelFileId": "SYN.A22X",
@@ -1487,6 +1457,248 @@
       "RunAutomationService": true,
       "RunAudioService": true,
       "RefuelRateKgSec": 10
+    }
+  },
+  "PMDG.B737.zip": {
+    "Id": "PMDG.B737",
+    "SettingId": "PMDG.737",
+    "Type": 1,
+    "Filename": "PMDG.B737.lua",
+    "ChannelFile": "PMDG.737.json",
+    "Aircraft": "PMDG B737 (All Variants)",
+    "Author": "Fragtality / bork / FatGingerHead",
+    "Url": "https://github.com/Fragtality/Any2GSX-Plugins",
+    "VersionPlugin": "0.1.0",
+    "VersionApp": "0.5.1",
+    "Capabilities": {
+      "HasFobSaveRestore": true,
+      "FuelSync": 8,
+      "CanSetPayload": true,
+      "PayloadSync": 8,
+      "DoorHandling": 8,
+      "DoorsSynced": 62,
+      "HasAirStairs": true,
+      "GroundEquipmentHandling": 38,
+      "HasSmartButton": true,
+      "VolumeControl": true,
+      "CockpitNotifications": 0
+    },
+    "AircraftProfileEntries": [],
+    "Settings": [
+      {
+        "Key": "PMDG.737.Option.ClearVehicles",
+        "Type": 1,
+        "DefaultValue": true,
+        "Description": "Clear PMDG Vehicles",
+        "Tooltip": "Automatically remove all PMDG Vehicles as they appear."
+      },
+      {
+        "Key": "PMDG.737.Option.FixChocks",
+        "Type": 1,
+        "DefaultValue": true,
+        "Description": "Fix Chocks in Walkaround",
+        "Tooltip": "The Plugin will set the PMDG Chocks via L-Var in Walkaround before the Plugin Connection is established.\nThis should prevent the GSX Menu not opening/getting Ready without Brakes or Chocks."
+      },
+      {
+        "Key": "Generic.Var.Engine1.Name",
+        "Type": 4,
+        "DefaultValue": "ENG COMBUSTION:1"
+      },
+      {
+        "Key": "Generic.Var.Engine1.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.Engine2.Name",
+        "Type": 4,
+        "DefaultValue": "ENG COMBUSTION:2"
+      },
+      {
+        "Key": "Generic.Var.Engine2.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.PowerAvionic.Name",
+        "Type": 4,
+        "DefaultValue": "L:BatteryFreq"
+      },
+      {
+        "Key": "Generic.Var.PowerAvionic.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.ExtAvail.Name",
+        "Type": 4,
+        "DefaultValue": "L:7X7X_Power_Door"
+      },
+      {
+        "Key": "Generic.Var.ExtAvail.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.ExtConn.Name",
+        "Type": 4,
+        "DefaultValue": "L:7X7X_Ground_Power_Light_Connected"
+      },
+      {
+        "Key": "Generic.Var.ExtConn.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.ApuRunning.Name",
+        "Type": 4,
+        "DefaultValue": "L:APU"
+      },
+      {
+        "Key": "Generic.Var.ApuRunning.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.ApuBleedOn.Name",
+        "Type": 4,
+        "DefaultValue": "L:APUBleed_InUse"
+      },
+      {
+        "Key": "Generic.Var.ApuBleedOn.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.LightNav.Name",
+        "Type": 4,
+        "DefaultValue": "LIGHT NAV"
+      },
+      {
+        "Key": "Generic.Var.LightNav.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.LightBeacon.Name",
+        "Type": 4,
+        "DefaultValue": "LIGHT BEACON"
+      },
+      {
+        "Key": "Generic.Var.LightBeacon.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Var.ParkBrake.Name",
+        "Type": 4,
+        "DefaultValue": "BRAKE PARKING POSITION"
+      },
+      {
+        "Key": "Generic.Var.ParkBrake.Unit",
+        "Type": 4,
+        "DefaultValue": "Bool"
+      },
+      {
+        "Key": "Generic.Option.Aircraft.InitDelay",
+        "Type": 2,
+        "DefaultValue": 2000
+      },
+      {
+        "Key": "Generic.Option.Aircraft.GsxProgFuel",
+        "Type": 1,
+        "DefaultValue": false
+      }
+    ],
+    "HideGenericSettings": [
+      "Generic.Option.Aircraft.IsCargo",
+      "Generic.Option.Aircraft.GsxGpu",
+      "Generic.Var.PowerAvionic.Name",
+      "Generic.Var.PowerAvionic.Unit",
+      "Generic.Var.ExtAvail.Name",
+      "Generic.Var.ExtAvail.Unit",
+      "Generic.Var.ExtConn.Name",
+      "Generic.Var.ExtConn.Unit",
+      "Generic.Var.ApuRunning.Name",
+      "Generic.Var.ApuRunning.Unit",
+      "Generic.Var.ApuBleedOn.Name",
+      "Generic.Var.ApuBleedOn.Unit",
+      "Generic.Var.LightNav.Name",
+      "Generic.Var.LightNav.Unit",
+      "Generic.Var.LightBeacon.Name",
+      "Generic.Var.LightBeacon.Unit",
+      "Generic.Var.ParkBrake.Name",
+      "Generic.Var.ParkBrake.Unit",
+      "Generic.Var.DepartTrigger.Name",
+      "Generic.Var.DepartTrigger.Unit",
+      "Generic.Var.DepartTrigger.Comp",
+      "Generic.Var.DepartTrigger.Value",
+      "Generic.Option.Aircraft.InitDelay",
+      "Generic.Option.Aircraft.GsxProgFuel"
+    ],
+    "InstallUsageNotes": "RECOMMENDED: Use the internal/GSX provided Aircraft Profiles.\r\n\r\nNOTAMs:\r\n• The Departure Services will start when the Flightplan is imported in the UFT (and Aircraft powered and Nav Lights)\r\n• The SmartButton is mapped to the R/T I/C switch on the Radio Panel",
+    "PluginDefaultProfile": {
+      "PluginId": "PMDG.B737",
+      "ChannelFileId": "PMDG.737",
+      "ProfileMatches": [
+        {
+          "MatchData": 4,
+          "MatchOperation": 3,
+          "MatchString": "PMDG 737"
+        }
+      ],
+      "AudioMappings": [
+        {
+          "Channel": "CPT.PA",
+          "Device": "",
+          "Binary": "Pegasus",
+          "UseLatch": true,
+          "OnlyActive": true
+        },
+        {
+          "Channel": "CPT.SVC",
+          "Device": "",
+          "Binary": "Couatl64_MSFS2024",
+          "UseLatch": true,
+          "OnlyActive": true
+        },
+        {
+          "Channel": "CPT.SVC",
+          "Device": "",
+          "Binary": "Couatl64_MSFS",
+          "UseLatch": true,
+          "OnlyActive": true
+        },
+        {
+          "Channel": "CPT.VHF1",
+          "Device": "",
+          "Binary": "vPilot",
+          "UseLatch": true,
+          "OnlyActive": true
+        },
+        {
+          "Channel": "CPT.VHF1",
+          "Device": "",
+          "Binary": "BeyondATC",
+          "UseLatch": true,
+          "OnlyActive": true
+        }
+      ],
+      "AudioStartupVolumes": {
+        "CPT.VHF1": 100,
+        "CPT.SVC": 60,
+        "CPT.PA": 50
+      },
+      "AudioStartupUnmute": {
+        "CPT.VHF1": true,
+        "CPT.SVC": true,
+        "CPT.PA": true
+      },
+      "RunAutomationService": true,
+      "RunAudioService": true,
+      "PluginSettings": {
+        "Generic.Var.ParkBrake.ToggleStart": false
+      }
     }
   }
 }
