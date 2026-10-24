@@ -1,5 +1,7 @@
 # Changelog
 
+## [27421ae] - 2026-10-24
+
 ### FNX.A320
 - Changed the initial Payload call to also reset the EFB Boarding State to 'notStarted' (preventing false-positive Skips of the Departure Phase)
 - Changed EFB Settings for GSX to only be check & set when the Automation was enabled for the A2G Profile
@@ -29,6 +31,8 @@
 
 ### PMDG.B737
 - Initial Release of the B737 Plugin - with Fuel-, Payload-, Equip- and Door-Sync!
+
+<br/><br/>
 
 ## [38a8367] - 2026-10-13
 
