@@ -21,6 +21,7 @@
 	- Setting planned Fuel - 1000kg when a Defuel is needed
   - Removed Door-Sync on Loaders for Cargo Doors - handled by the Plane, Open/Close on State changed still available
   - Removed Door-Sync for Pax Door on Jetway (for Stairs still handled)
+  - Removed Final LS Generation (the Final in the Plane and the Final Event in the App are now two different Things, like on all other Planes)
 - Changed SmartButton Trigger: Only the INT Position triggers now (with Avionics Powered)
 - Improved / Changed Syncing between App and EFB Flightplan Weights
 - Updated for Plugin Interface Changes
