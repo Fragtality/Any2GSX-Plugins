@@ -1,7 +1,11 @@
 # Changelog
 
+## [8a3dc8f] - 2026-10-25
+
 ### FNX.A320
 - Fixed Issue with EFB <-> App Sync to overwrite Bag Difference on first Sync
+
+<br/><br/>
 
 ## [27421ae] - 2026-10-24
 
