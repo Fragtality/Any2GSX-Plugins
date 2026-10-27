@@ -1,5 +1,12 @@
 # Changelog
 
+### FNX.A320
+- Updated .NET Packages
+
+### PMDG.B777
+- Updated .NET Packages
+
+
 ## [8a3dc8f] - 2026-10-25
 
 ### FNX.A320
