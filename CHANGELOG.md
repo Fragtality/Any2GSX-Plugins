@@ -1,5 +1,10 @@
 # Changelog
 
+## FNX.A320
+- Fixed continous updating of Cargo Target due to quantization errors
+- Fixed Cabin Call not answered in consecutive Sim Sessions (reload of Plugin)
+- Fixed Cabin Call Answer triggered through Light Test
+
 ## [c171251] - 2026-10-27
 
 ### FNX.A320
